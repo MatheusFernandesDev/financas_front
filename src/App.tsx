@@ -1,15 +1,17 @@
-import { Container, Header, FormContainer, Footer, Title } from "./App.styles";
+import React, { Suspense } from "react";
+import { BrowserRouter } from "react-router-dom";
+
+import Routes from "./routes";
+import GlobalStyles from "./styles/global";
 
 const App = () => {
   return (
-    <Container>
-      <Header>
-        <Title>SISTEMA FINANCEIRO</Title>
-      </Header>
-      <FormContainer>...</FormContainer>
-      <Footer />
-      ...
-    </Container>
+    <BrowserRouter>
+      <GlobalStyles/>
+      {/* <Suspense fallback={<Load />}> */}
+        <Routes />
+			{/* </Suspense> */}
+    </BrowserRouter>
   );
 };
 
