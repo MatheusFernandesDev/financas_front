@@ -1,40 +1,98 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../service/api";
+
 import {
   Container,
-  Componente,
-  Label,
   Text,
   Form,
   Card,
   Button,
   Link,
+  Select,
+  ButtonArea,
 } from "./styles";
 
-import TextInput from "../../components/FormContent/TextInput";
-
-const Login = () => {
+const Login: React.FC = () => {
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
-  const [states, setStates] = useState([]);
+  
+  //LOGIN
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  //CREATE
+  const [newUser, setNewUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState(-1);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  //DATA
+  const [statesOption, setStatesOption] = useState([]);
 
-  async function loadStates() {
-    const { data: response } = await api.get("/states");
-    if (response.length > 0) {
-      setStates(response);
-    }
+  function clearHandler() {
+    setUser("");
+    setPassword("");
+    //CREATE
+    setNewUser("");
+    setEmail("");
+    setState(-1);
+    setNewPassword("");
+    setConfirmPassword("");
   }
 
   function SignIn() {
+    clearHandler();
     setLogin(!login);
     setNewLogin(!newLogin);
   }
 
-  useEffect(() => {
-    loadStates();
-  }, []);
+  async function loadHandler() {
+    try {
+      const { data: response } = await api.get("/states");
+      setStatesOption(response);
+    } catch {
+      return console.log("Erro ao carregar dados!")
+    }
+  }
+  async function createUser() {
+    if(newPassword != confirmPassword) {
+      throw new Error("As senhas nao coincidem!")
+    }
+    try{
+      await api.post(`/signup`, {
+        name: newUser,
+        email: email && email.toLowerCase(),
+        password: newPassword,
+        state: state
+      });
 
+      clearHandler();
+      setLogin(true);
+      setNewLogin(false);
+    } catch {
+      return console.log("Erro ao fazer cadastro!");
+    }
+  }
+  async function loginHandler() {
+    await api.post(`/signin`, {
+      email: email && email.toLowerCase(),
+      password: password,
+    })
+    .then(() => {
+      clearHandler();
+      setLogin(true);
+      setNewLogin(false);
+    })
+    .catch(() => {
+      return console.log("Erro ao fazer login!");
+    });
+  }
+
+
+  useEffect(() => {
+    loadHandler();
+  }, []);
+  
   return (
     <Container>
       {login && (
@@ -42,19 +100,13 @@ const Login = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
-            <Componente>
-              <Label>Nome de Usuario</Label>
-              <Text></Text>
-            </Componente>
-            <Componente>
-              <Label>Senha</Label>
-              <Text></Text>
-            </Componente>
-            <Link href="">Esqueceu a senha?</Link>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Button onClick={SignIn}>Cadastrar-se</Button>
-              <Button>LOGIN</Button>
-            </div>
+              <Text name_field="Nome de Usuario" value={user} onChange={event => setUser(event.target.value)} />
+              <Text name_field="Senha" value={password} onChange={event => setPassword(event.target.value)} />
+              <Link href="">Esqueceu a senha?</Link>
+              <ButtonArea>
+                <Button onClick={SignIn}>Cadastrar-se</Button>
+                <Button onClick={loginHandler}>Entrar</Button>
+              </ButtonArea>
           </Form>
         </Card>
       )}
@@ -62,36 +114,15 @@ const Login = () => {
         <Card>
           <h2>Cadastrar-se</h2>
           <Form>
-            <Componente>
-              <Label>Nome de Usuario</Label>
-              <Text></Text>
-            </Componente>
-            <Componente>
-              <Label>E-mail</Label>
-              <Text></Text>
-            </Componente>
-            <Componente>
-              <Label>Estado</Label>
-              <select>
-                {/* {states.map((state, index) => (
-                  <option key={index} value={state.id}>
-                    {state.name}
-                  </option>
-                ))} */}
-              </select>
-            </Componente>
-            <Componente>
-              <Label>Senha</Label>
-              <Text></Text>
-            </Componente>
-            <Componente>
-              <Label>Confirmar Senha</Label>
-              <Text></Text>
-            </Componente>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Button onClick={SignIn}>Login</Button>
-              <Button>Criar</Button>
-            </div>
+            <Text name_field="Usuário" value={newUser} onChange={event => setNewUser(event.target.value)} />
+            <Text name_field="E-mail" value={email} onChange={event => setEmail(event.target.value)} />
+            <Select name_field="Estados" value={state} options={statesOption} onChange={event => setState(parseInt(event.target.value))} />
+            <Text name_field="Senha" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
+            <Text name_field="Confirmar Senha" value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} />
+            <ButtonArea>
+              <Button onClick={SignIn}>Voltar</Button>
+              <Button onClick={createUser}>Criar</Button>
+            </ButtonArea>
           </Form>
         </Card>
       )}

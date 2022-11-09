@@ -1,4 +1,6 @@
 import styled, { keyframes } from "styled-components";
+import TextInput from "../../components/TextInput";
+import SelectOption from "../../components/SelectOption";
 
 const pan = keyframes`
     from {
@@ -23,17 +25,6 @@ export const Container = styled.div`
     /* animation: ${pan} 6s infinite alternate linear;  */
 `;
 
-export const Componente = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-`;
-
-export const Label = styled.div`
-    font-size: 15px;
-
-`;
-
 export const Link = styled.a`
     color: #3a89ff;
     cursor: pointer;
@@ -50,6 +41,7 @@ export const Card = styled.div`
     padding: 70px 30px 44px;
     border-radius: 24px;
     background: #fff;
+    position: relative;
     text-align: center;
 
     & > h2 {
@@ -67,25 +59,42 @@ export const Card = styled.div`
 
 export const Button = styled.button`
     width: 100%;
-    height: 56px;
+    height: 40px;
     padding: 0 16px;
     border: 0;
     border-radius: 8px;
-    background: #3a89ff;
+    background: #272C30/*#3a89ff*/;
     color: #f9f9f9;
     font-weight: 600;
     cursor: pointer;
+
+    &:hover {
+        background: rgba(39, 44, 48, 0.9);
+    }
 `;
 
-export const Text = styled.input.attrs({
-    type:'text'
-})`
+export const ButtonArea = styled.div`
+    display: flex; 
+    gap: 10px;
+`;
+
+export const Text = styled(TextInput)`
     height: 28px;
     width: 100%;
 	border-radius: 5px;
 	border-width: 1px;
-	border-color: #e9e9e9;
+    border-color: #e5e5e5;
     padding: 0 5px;
+    background-color: white;
 	margin-bottom: 5px;
 	padding-left: 10px;
+`;
+export const Select = styled(SelectOption)`
+    height: 28px;
+    width: 100%;
+    padding: 0 5px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: #e5e5e5;
+    background-color: white;
 `;

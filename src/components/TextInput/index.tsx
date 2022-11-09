@@ -1,35 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { InputHTMLAttributes } from "react";
 
-import { Container, Input, Label } from "./styles";
+import { Container } from "./styles";
 
-const TextInput = ({
-    // name_field,
-    // errors,
-    // required,
-    // value,
-    // param,
-}) => {
-	// name_field = name_field || "";
-    // useEffect(() => {
-	// 	if (errors) {
-	// 		setError(errors.find((err) => err.param === param));
-	// 	}
-	// }, [errors, param]);
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    name_field?: string;
+    name_placeholder?: string;
+    value?: string;
+}
+
+const TextInput: React.FC<InputProps> = (props) => {
 
     return (
         <Container>
-            <Label 
-                // errors={errors}
-            >
-                {/* { name_field } */}
-            </Label>
-            <Input 
-				// errors={errors}
-				// autoComplete="new-password"
-				// onFocus={() => setError(null)}
-				// required={required}
-                // value={value}
-            />
+            <label>{props.name_field}</label>
+            <input placeholder={props.name_placeholder} {...props} />
         </Container>
     )
 }

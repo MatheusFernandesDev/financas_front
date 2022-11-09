@@ -8,4 +8,4 @@ export const Container = styled.div`
 	& > label {
 		font-size: 15px;
 	}
-`
+`;

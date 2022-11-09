@@ -61,9 +61,10 @@ li{
 // scrollbar
 /* width */
 ::-webkit-scrollbar {
-	width: 50px;
+	width: 5px;
 	max-width: 7px;
 	max-height: 7px;
+  background: #272C30;
 }
 
 /* Track */
