@@ -16,7 +16,7 @@ import {
 const Login: React.FC = () => {
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
-  
+
   //LOGIN
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -51,19 +51,19 @@ const Login: React.FC = () => {
       const { data: response } = await api.get("/states");
       setStatesOption(response);
     } catch {
-      return console.log("Erro ao carregar dados!")
+      return console.log("Erro ao carregar dados!");
     }
   }
   async function createUser() {
-    if(newPassword != confirmPassword) {
-      throw new Error("As senhas nao coincidem!")
+    if (newPassword != confirmPassword) {
+      throw new Error("As senhas nao coincidem!");
     }
-    try{
+    try {
       await api.post(`/signup`, {
         name: newUser,
         email: email && email.toLowerCase(),
         password: newPassword,
-        state: state
+        state: state,
       });
 
       clearHandler();
@@ -74,25 +74,28 @@ const Login: React.FC = () => {
     }
   }
   async function loginHandler() {
-    await api.post(`/signin`, {
-      email: email && email.toLowerCase(),
-      password: password,
-    })
-    .then(() => {
-      clearHandler();
-      setLogin(true);
-      setNewLogin(false);
-    })
-    .catch(() => {
-      return console.log("Erro ao fazer login!");
-    });
+    await api
+      .post(`/signin`, {
+        email: email && email.toLowerCase(),
+        password: password,
+      })
+      .then(() => {
+        clearHandler();
+        setLogin(true);
+        setNewLogin(false);
+      })
+      .catch(() => {
+        return console.log("Erro ao fazer login!");
+      })
+      .finally(() => {
+        window.location.href = "/dashboard";
+      });
   }
-
 
   useEffect(() => {
     loadHandler();
   }, []);
-  
+
   return (
     <Container>
       {login && (
@@ -100,13 +103,21 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
-              <Text name_field="Nome de Usuario" value={user} onChange={event => setUser(event.target.value)} />
-              <Text name_field="Senha" value={password} onChange={event => setPassword(event.target.value)} />
-              <Link href="">Esqueceu a senha?</Link>
-              <ButtonArea>
-                <Button onClick={SignIn}>Cadastrar-se</Button>
-                <Button onClick={loginHandler}>Entrar</Button>
-              </ButtonArea>
+            <Text
+              name_field="Nome de Usuario"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <Text
+              name_field="Senha"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <Link href="">Esqueceu a senha?</Link>
+            <ButtonArea>
+              <Button onClick={SignIn}>Cadastrar-se</Button>
+              <Button onClick={loginHandler}>Entrar</Button>
+            </ButtonArea>
           </Form>
         </Card>
       )}
@@ -114,11 +125,32 @@ const Login: React.FC = () => {
         <Card>
           <h2>Cadastrar-se</h2>
           <Form>
-            <Text name_field="Usuário" value={newUser} onChange={event => setNewUser(event.target.value)} />
-            <Text name_field="E-mail" value={email} onChange={event => setEmail(event.target.value)} />
-            <Select name_field="Estados" value={state} options={statesOption} onChange={event => setState(parseInt(event.target.value))} />
-            <Text name_field="Senha" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
-            <Text name_field="Confirmar Senha" value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} />
+            <Text
+              name_field="Usuário"
+              value={newUser}
+              onChange={(event) => setNewUser(event.target.value)}
+            />
+            <Text
+              name_field="E-mail"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <Select
+              name_field="Estados"
+              value={state}
+              options={statesOption}
+              onChange={(event) => setState(parseInt(event.target.value))}
+            />
+            <Text
+              name_field="Senha"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+            />
+            <Text
+              name_field="Confirmar Senha"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
             <ButtonArea>
               <Button onClick={SignIn}>Voltar</Button>
               <Button onClick={createUser}>Criar</Button>
