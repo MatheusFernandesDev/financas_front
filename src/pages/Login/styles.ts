@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import TextInput from "../../components/TextInput";
+import PasswordInput from "../../components/PasswordInput";
 import SelectOption from "../../components/SelectOption";
 
 const pan = keyframes`
@@ -89,6 +90,19 @@ export const Text = styled(TextInput)`
   margin-bottom: 5px;
   padding-left: 10px;
 `;
+
+export const Password = styled(PasswordInput)`
+  height: 28px;
+  width: 100%;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: #e5e5e5;
+  padding: 0 5px;
+  background-color: white;
+  margin-bottom: 5px;
+  padding-left: 10px;
+`;
+
 export const Select = styled(SelectOption)`
   height: 28px;
   width: 100%;
