@@ -25,7 +25,7 @@ export const Container = styled.div`
   /* animation: ${pan} 6s infinite alternate linear;  */
 `;
 
-export const Link = styled.a`
+export const Linkfy = styled.a`
   color: #3a89ff;
   cursor: pointer;
 `;
