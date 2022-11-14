@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 import Routes from "./routes";
 import GlobalStyles from "./styles/global";
@@ -7,10 +8,10 @@ import GlobalStyles from "./styles/global";
 const App = () => {
   return (
     <BrowserRouter>
-      <GlobalStyles/>
+      <GlobalStyles />
       {/* <Suspense fallback={<Load />}> */}
-        <Routes />
-			{/* </Suspense> */}
+      <Routes />
+      {/* </Suspense> */}
     </BrowserRouter>
   );
 };
