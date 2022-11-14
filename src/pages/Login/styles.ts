@@ -32,6 +32,11 @@ export const Container = styled.div`
 export const Linkfy = styled.a`
   color: #3a89ff;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    background: rgba(58, 137, 255, 0.7);
+  }
 `;
 
 export const Form = styled.div`
@@ -74,6 +79,10 @@ export const Button = styled.button`
 
   &:hover {
     background: rgba(39, 44, 48, 0.9);
+  }
+  &:disabled {
+    cursor: default;
+    background: rgba(39, 44, 48, 0.7);
   }
 `;
 

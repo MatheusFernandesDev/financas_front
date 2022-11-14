@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     value?: string;
 }
 
-const TextInput: React.FC<InputProps> = (props) => {
+const PasswordInput: React.FC<InputProps> = (props) => {
     const [showPass, setShowPass] = useState(false)
 
     const iconStyle = {
@@ -29,7 +29,7 @@ const TextInput: React.FC<InputProps> = (props) => {
         <Container>
             <label>{props.name_field}</label>
             <input type={showPass ? "text" : "password"} placeholder={props.name_placeholder} {...props} />
-            {showPass
+            {/* {showPass
                 ? 
                 <button title="Esconder Senha" style={btnStyle} onClick={() => setShowPass(false)} >
                     <AiOutlineEye style={iconStyle}/>
@@ -38,9 +38,9 @@ const TextInput: React.FC<InputProps> = (props) => {
                 <button title="Mostrar Senha" style={btnStyle} onClick={() => setShowPass(true)} >
                     <AiOutlineEyeInvisible style={iconStyle}/>
                 </button>
-            }
+            } */}
         </Container>
     )
 }
 
-export default TextInput;
+export default PasswordInput;
