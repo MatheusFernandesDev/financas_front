@@ -10,6 +10,7 @@ import {
   Button,
   Link,
   Select,
+  Password,
   ButtonArea,
 } from "./styles";
 
@@ -106,12 +107,12 @@ const Login: React.FC = () => {
             <Text
               name_field="Nome de Usuario"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
-            <Text
+            <Password
               name_field="Senha"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
             />
             <Link href="">Esqueceu a senha?</Link>
             <ButtonArea>
@@ -128,28 +129,28 @@ const Login: React.FC = () => {
             <Text
               name_field="Usuário"
               value={newUser}
-              onChange={(event) => setNewUser(event.target.value)}
+              onChange={event => setNewUser(event.target.value)}
             />
             <Text
               name_field="E-mail"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
             <Select
               name_field="Estados"
               value={state}
               options={statesOption}
-              onChange={(event) => setState(parseInt(event.target.value))}
+              onChange={event => setState(parseInt(event.target.value))}
             />
             <Text
               name_field="Senha"
               value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
+              onChange={event => setNewPassword(event.target.value)}
             />
             <Text
               name_field="Confirmar Senha"
               value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
+              onChange={event => setConfirmPassword(event.target.value)}
             />
             <ButtonArea>
               <Button onClick={SignIn}>Voltar</Button>
