@@ -21,12 +21,15 @@ export const Container = styled.div`
   padding: 0 24px;
   background-image: url("https://acegif.com/wp-content/uploads/gifs/raining-money-26.gif");
   background-position: bottom;
-  /* background-repeat: no-repeat;  */
   background-size: cover;
+	border: 1px solid transparent;
+	border-radius: 18px;
+  overflow-y: hidden;
+  overflow-x: hidden;
   /* animation: ${pan} 6s infinite alternate linear;  */
 `;
 
-export const Link = styled.a`
+export const Linkfy = styled.a`
   color: #3a89ff;
   cursor: pointer;
 `;

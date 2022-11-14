@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../service/api";
+import { Link } from "react-router-dom";
+import { isLogged } from "../../helpers/AuthHandler";
 
 import {
   Container,
@@ -8,13 +10,15 @@ import {
   Form,
   Card,
   Button,
-  Link,
+  Linkfy,
   Select,
   Password,
   ButtonArea,
 } from "./styles";
 
 const Login: React.FC = () => {
+  let logged = isLogged();
+
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
 
@@ -87,9 +91,6 @@ const Login: React.FC = () => {
       })
       .catch(() => {
         return console.log("Erro ao fazer login!");
-      })
-      .finally(() => {
-        window.location.href = "/dashboard";
       });
   }
 
@@ -99,65 +100,71 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      {login && (
-        <Card>
-          <h2>Login</h2>
-          <h3>Enter your credentials</h3>
-          <Form>
-            <Text
-              name_field="Nome de Usuario"
-              value={email}
-              onChange={event => setEmail(event.target.value)}
-            />
-            <Password
-              name_field="Senha"
-              value={password}
-              onChange={event => setPassword(event.target.value)}
-            />
-            <Link href="">Esqueceu a senha?</Link>
-            <ButtonArea>
-              <Button onClick={SignIn}>Cadastrar-se</Button>
-              <Button onClick={loginHandler}>Entrar</Button>
-            </ButtonArea>
-          </Form>
-        </Card>
-      )}
-      {newLogin && (
-        <Card>
-          <h2>Cadastrar-se</h2>
-          <Form>
-            <Text
-              name_field="Usuário"
-              value={newUser}
-              onChange={event => setNewUser(event.target.value)}
-            />
-            <Text
-              name_field="E-mail"
-              value={email}
-              onChange={event => setEmail(event.target.value)}
-            />
-            <Select
-              name_field="Estados"
-              value={state}
-              options={statesOption}
-              onChange={event => setState(parseInt(event.target.value))}
-            />
-            <Text
-              name_field="Senha"
-              value={newPassword}
-              onChange={event => setNewPassword(event.target.value)}
-            />
-            <Text
-              name_field="Confirmar Senha"
-              value={confirmPassword}
-              onChange={event => setConfirmPassword(event.target.value)}
-            />
-            <ButtonArea>
-              <Button onClick={SignIn}>Voltar</Button>
-              <Button onClick={createUser}>Criar</Button>
-            </ButtonArea>
-          </Form>
-        </Card>
+      {!logged ? (
+        <>
+          {login && (
+            <Card>
+              <h2>Login</h2>
+              <h3>Enter your credentials</h3>
+              <Form>
+                <Text
+                  name_field="Email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+                <Password
+                  name_field="Senha"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <Linkfy href="">Esqueceu a senha?</Linkfy>
+                <ButtonArea>
+                  <Button onClick={SignIn}>Cadastrar-se</Button>
+                  <Button onClick={loginHandler}>Entrar</Button>
+                </ButtonArea>
+              </Form>
+            </Card>
+          )}
+          {newLogin && (
+            <Card>
+              <h2>Cadastrar-se</h2>
+              <Form>
+                <Text
+                  name_field="Usuário"
+                  value={newUser}
+                  onChange={(event) => setNewUser(event.target.value)}
+                />
+                <Text
+                  name_field="Email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+                <Select
+                  name_field="Estados"
+                  value={state}
+                  options={statesOption}
+                  onChange={(event) => setState(parseInt(event.target.value))}
+                />
+                <Text
+                  name_field="Senha"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                />
+                <Text
+                  name_field="Confirmar Senha"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                />
+                <ButtonArea>
+                  <Button onClick={SignIn}>Voltar</Button>
+                  <Button onClick={createUser}>Criar</Button>
+                </ButtonArea>
+              </Form>
+            </Card>
+          )}
+        </>
+      ) : (
+        <Link to={"/dashboard"} />
       )}
     </Container>
   );
