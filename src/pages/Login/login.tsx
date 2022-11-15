@@ -1,9 +1,12 @@
+import { keyboardKey } from "@testing-library/user-event";
 import React, { useState, useEffect } from "react";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
+import CheckboxInput from "../../components/CheckboxInput";
 
 import {
   Container,
@@ -17,12 +20,12 @@ import {
   ButtonArea,
   ErrorMessage,
 } from "./styles";
-import { keyboardKey } from "@testing-library/user-event";
 
 const Login: React.FC = () => {
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [progressPending, setProgressPending] = useState(false);
 
   //LOGIN
   const [user, setUser] = useState("");
@@ -59,10 +62,12 @@ const Login: React.FC = () => {
       const { data: response } = await api.get("/states");
       setStatesOption(response);
     } catch {
-      return console.log("Erro ao carregar dados!");
+      return toast.error("Erro ao carregar dados!");
     }
   }
+
   async function createUser() {
+    setProgressPending(true);
     if (newPassword != confirmPassword) {
       throw new Error("As senhas nao coincidem!");
     }
@@ -81,7 +86,9 @@ const Login: React.FC = () => {
     } catch {
       return toast.error("Erro ao fazer cadastro!");
     }
+    setProgressPending(false);
   }
+
   async function loginHandler() {
     await api
       .post(`/signin`, {
@@ -137,13 +144,27 @@ const Login: React.FC = () => {
             <Password
               name_field="Senha"
               value={password}
-              onKeyPress={(e) => EnterHandler(e)}
+              onKeyPress={(enter) => EnterHandler(enter)}
               onChange={(event) => setPassword(event.target.value)}
             />
-            <Linkfy href="">Esqueceu a senha?</Linkfy>
+            <CheckboxInput
+              name_field="Lembrar Senha"
+              is_checked={rememberPassword}
+              onChange={(event) => setRememberPassword(event.target.checked)}
+            />
+            <Linkfy
+              href=""
+              // disabled={progressPending}
+            >
+              Esqueceu a senha?
+            </Linkfy>
             <ButtonArea>
-              <Button onClick={SignIn}>Cadastrar-se</Button>
-              <Button onClick={loginHandler}>Entrar</Button>
+              <Button onClick={SignIn} disabled={progressPending}>
+                Cadastrar-se
+              </Button>
+              <Button onClick={loginHandler} disabled={progressPending}>
+                Entrar
+              </Button>
             </ButtonArea>
           </Form>
         </Card>
@@ -179,8 +200,12 @@ const Login: React.FC = () => {
               onChange={(event) => setConfirmPassword(event.target.value)}
             />
             <ButtonArea>
-              <Button onClick={SignIn}>Voltar</Button>
-              <Button onClick={createUser}>Criar</Button>
+              <Button onClick={SignIn} disabled={progressPending}>
+                Voltar
+              </Button>
+              <Button onClick={createUser} disabled={progressPending}>
+                Criar
+              </Button>
             </ButtonArea>
           </Form>
         </Card>

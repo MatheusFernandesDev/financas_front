@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
     name_placeholder?: string;
 }
 
-const TextInput: React.FC<InputProps> = (props) => {
+const SelectOption: React.FC<InputProps> = (props) => {
     const options = props.options;
 
 
@@ -40,4 +40,4 @@ const TextInput: React.FC<InputProps> = (props) => {
     )
 }
 
-export default TextInput;
+export default SelectOption;
