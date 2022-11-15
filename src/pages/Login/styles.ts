@@ -112,3 +112,10 @@ export const Select = styled(SelectOption)`
   border-color: #e5e5e5;
   background-color: white;
 `;
+export const ErrorMessage = styled.div`
+  margin: 10px 0px;
+  background-color: #ffcaca;
+  color: #000;
+  border: 2px solid #ff0000;
+  padding: 10px;
+`;

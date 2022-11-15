@@ -1,6 +1,6 @@
 import Roboto from "../assets/fonts/Roboto/Roboto-Regular.ttf";
 import RobotoBold from "../assets/fonts/Roboto/Roboto-Bold.ttf";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
@@ -87,4 +87,11 @@ li{
 ::-webkit-scrollbar-thumb:active {
 	background: rgb(72,72,72); 
 }
+`;
+
+export const ErrorMessage = styled.div`
+  margin: 10px;
+  background-color: #ffcaca;
+  color: #000;
+  border: 2px solid #ff0000;
 `;

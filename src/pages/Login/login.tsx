@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../service/api";
-import { Link } from "react-router-dom";
+import { doLogin } from "../../helpers/AuthHandler";
+import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import {
@@ -14,16 +15,19 @@ import {
   Select,
   Password,
   ButtonArea,
+  ErrorMessage,
 } from "./styles";
 import { keyboardKey } from "@testing-library/user-event";
 
 const Login: React.FC = () => {
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   //LOGIN
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberPassword, setRememberPassword] = useState(false);
   //CREATE
   const [newUser, setNewUser] = useState("");
   const [email, setEmail] = useState("");
@@ -73,8 +77,9 @@ const Login: React.FC = () => {
       clearHandler();
       setLogin(true);
       setNewLogin(false);
+      toast.success("Cadastro realizado com sucesso!");
     } catch {
-      return console.log("Erro ao fazer cadastro!");
+      return toast.error("Erro ao fazer cadastro!");
     }
   }
   async function loginHandler() {
@@ -83,20 +88,26 @@ const Login: React.FC = () => {
         email: email && email.toLowerCase(),
         password: password,
       })
-      .then(() => {
+
+      .then((response) => {
+        doLogin(response.data.token, rememberPassword);
         clearHandler();
         setLogin(true);
         setNewLogin(false);
+        window.location.href = "/dashboard";
         toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          const responseErrors = err?.response?.data?.error;
+          setErrors(responseErrors);
+        }
+
         return toast.error("Erro ao fazer login!");
       });
   }
 
   function EnterHandler(e: keyboardKey) {
-    // console.log(e);
     if (e.key === "Enter") {
       // e.preventDefault()
       loginHandler();
@@ -114,11 +125,14 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
+            {/* {errors && <ErrorMessage>{errors}</ErrorMessage>} */}
             <Text
-              name_field="Nome de Usuario"
+              name_field="Email"
               value={email}
               onKeyPress={(e) => EnterHandler(e)}
               onChange={(event) => setEmail(event.target.value)}
+              param={"email"}
+              errors={errors}
             />
             <Password
               name_field="Senha"
@@ -171,7 +185,7 @@ const Login: React.FC = () => {
           </Form>
         </Card>
       )}
-      <ToastContainer />
+      <ToastContainer theme="dark" />
     </Container>
   );
 };
