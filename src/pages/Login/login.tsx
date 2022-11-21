@@ -107,6 +107,7 @@ const Login: React.FC = () => {
       .catch((err) => {
         if (err.response) {
           const responseErrors = err?.response?.data?.error;
+          console.log(responseErrors);
           setErrors(responseErrors);
         }
 

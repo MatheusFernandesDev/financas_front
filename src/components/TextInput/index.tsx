@@ -2,23 +2,23 @@ import React, { InputHTMLAttributes, useState, useEffect } from "react";
 
 import { Container, ErrorMessage } from "./styles";
 
-interface Types {
+type ErrorsProps = {
   msg: string;
   param: string;
   value: string;
   error: object;
-}
+};
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name_field?: string;
   name_placeholder?: string;
   value?: string;
   param?: string;
-  errors?: Array<Types>;
+  errors?: Array<ErrorsProps>;
 }
 
 const TextInput: React.FC<InputProps> = (props) => {
-  const [error, setError] = useState<Types>();
+  const [error, setError] = useState<ErrorsProps>();
 
   const mensagem = props.errors;
 
