@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name_placeholder?: string;
   value?: string;
   param?: string;
-  errors?: Array<ErrorsProps>;
+  errors: Array<ErrorsProps>;
 }
 
 const TextInput: React.FC<InputProps> = (props) => {

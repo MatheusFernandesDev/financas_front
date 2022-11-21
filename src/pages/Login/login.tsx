@@ -21,10 +21,15 @@ import {
   ErrorMessage,
 } from "./styles";
 
+type Error = {
+  msg: string;
+};
+
 const Login: React.FC = () => {
   const [login, setLogin] = useState(true);
   const [newLogin, setNewLogin] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [errorsLogin, setErrorsLogin] = useState<Error>();
   const [progressPending, setProgressPending] = useState(false);
 
   //LOGIN
@@ -106,9 +111,9 @@ const Login: React.FC = () => {
       })
       .catch((err) => {
         if (err.response) {
-          const responseErrors = err?.response?.data?.error;
-          console.log(responseErrors);
-          setErrors(responseErrors);
+          const responseErrors = err?.response?.data;
+          console.log(err?.response?.data.error);
+          setErrorsLogin(responseErrors);
         }
 
         return toast.error("Erro ao fazer login!");
@@ -133,7 +138,9 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
-            {/* {errors && <ErrorMessage>{errors}</ErrorMessage>} */}
+            {errorsLogin && (
+              <ErrorMessage>{errorsLogin ? errorsLogin.msg : ""}</ErrorMessage>
+            )}
             <Text
               name_field="Email"
               value={email}
@@ -178,11 +185,13 @@ const Login: React.FC = () => {
               name_field="Usuário"
               value={newUser}
               onChange={(event) => setNewUser(event.target.value)}
+              errors={errors}
             />
             <Text
               name_field="E-mail"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              errors={errors}
             />
             <Select
               name_field="Estados"
@@ -194,11 +203,13 @@ const Login: React.FC = () => {
               name_field="Senha"
               value={newPassword}
               onChange={(event) => setNewPassword(event.target.value)}
+              errors={errors}
             />
             <Text
               name_field="Confirmar Senha"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
+              errors={errors}
             />
             <ButtonArea>
               <Button onClick={SignIn} disabled={progressPending}>
