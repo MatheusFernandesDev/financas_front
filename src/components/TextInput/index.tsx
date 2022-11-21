@@ -1,39 +1,58 @@
-import React, { InputHTMLAttributes, useState, useEffect } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 
-import { Container, ErrorMessage } from "./styles";
+import { Container, ErrorMessage, Input } from "./styles";
 
 type ErrorsProps = {
-  msg: string;
+  msg: string | undefined;
   param: string;
   value: string;
-  error: object;
+  email: string;
 };
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextyInputProps {
   name_field?: string;
   name_placeholder?: string;
   value?: string;
   param?: string;
   errors: Array<ErrorsProps>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
+  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
-const TextInput: React.FC<InputProps> = (props) => {
-  const [error, setError] = useState<ErrorsProps>();
+const TextInput: FunctionComponent<TextyInputProps> = ({
+  name_field,
+  name_placeholder,
+  value,
+  param,
+  errors,
+  onChange,
+  onKeyPress,
+}) => {
+  const [error, setError] = useState<ErrorsProps[]>([]);
+  console.log(error);
 
-  const mensagem = props.errors;
-
-  console.log(mensagem);
-
-  // useEffect(() => {
-  //   if (props.errors) {
-  //     setError(props.errors.find((err) => err.param === props.param));
-  //   }
-  // }, [props.errors, props.param]);
+  useEffect(() => {
+    if (errors) {
+      console.log(
+        errors.find((err) => {
+          if (err.param === param) {
+            setError(err.msg);
+          }
+        })
+      );
+      // setError(errors.find(err => err.param === param));
+    }
+  }, [errors, param]);
 
   return (
     <Container>
-      <label>{props.name_field}</label>
-      <input placeholder={props.name_placeholder} {...props} />
+      <label>{name_field}</label>
+      <Input
+        value={value}
+        placeholder={name_placeholder}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />
       {/* <ErrorMessage>{error ? error.msg : ""}</ErrorMessage> */}
     </Container>
   );

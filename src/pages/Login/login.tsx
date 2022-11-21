@@ -111,9 +111,10 @@ const Login: React.FC = () => {
       })
       .catch((err) => {
         if (err.response) {
-          const responseErrors = err?.response?.data;
-          console.log(err?.response?.data.error);
-          setErrorsLogin(responseErrors);
+          const responseErrorsLogin = err?.response?.data;
+          const responseErrors = err?.response?.data?.errors;
+          setErrors(responseErrors);
+          setErrorsLogin(responseErrorsLogin);
         }
 
         return toast.error("Erro ao fazer login!");
