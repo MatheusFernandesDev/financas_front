@@ -1,33 +1,39 @@
-import React, { useState, useEffect, InputHTMLAttributes } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 
-import { Container } from "./styles";
+import { Container, Select } from "./styles";
 
 interface Option {
     id: number;
     name: string;
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
+interface InputProps {
     name_field?: string;
     value?: number;
     options: Array<Option>;
     name_placeholder?: string;
+    onChange: React.ChangeEventHandler<HTMLSelectElement> | undefined
 }
 
-const SelectOption: React.FC<InputProps> = (props) => {
-    const options = props.options;
+const SelectOption: FunctionComponent<InputProps> = ({
+    name_field,
+    value,
+    options,
+    name_placeholder,
+    onChange
+}) => {
 
 
     return (
         <Container>
-            <label>{props.name_field}</label>
-            <select {...props} >
+            <label>{name_field}</label>
+            <Select value={value} onChange={onChange} >
 				{
 					<option
 						key={-1}
 						value={-1}
 					>
-						{props.name_placeholder}
+						{name_placeholder}
 					</option>
 				}
 				{options.map((opcao) => (
@@ -35,7 +41,7 @@ const SelectOption: React.FC<InputProps> = (props) => {
 						{opcao.name}
 					</option>
 				))}
-            </select>
+            </Select>
         </Container>
     )
 }

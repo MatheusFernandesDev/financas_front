@@ -1,7 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import TextInput from "../../components/TextInput";
-import PasswordInput from "../../components/PasswordInput";
-import SelectOption from "../../components/SelectOption";
+import { device } from "../../styles/devices";
 
 const pan = keyframes`
     from {
@@ -64,6 +62,13 @@ export const Card = styled.div`
     font-size: 16px;
     color: rgba(0, 0, 0, 0.38);
   }
+
+  @media ${device.tablet} {
+    width: 50%;
+  }
+  @media ${device.mobile} {
+    width: 100%;
+  }
 `;
 
 export const Button = styled.button`
@@ -91,39 +96,6 @@ export const ButtonArea = styled.div`
   gap: 10px;
 `;
 
-export const Text = styled(TextInput)`
-  height: 28px;
-  width: 100%;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: #e5e5e5;
-  padding: 0 5px;
-  background-color: white;
-  margin-bottom: 5px;
-  padding-left: 10px;
-`;
-
-export const Password = styled(PasswordInput)`
-  height: 28px;
-  width: 100%;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: #e5e5e5;
-  padding: 0 5px;
-  background-color: white;
-  margin-bottom: 5px;
-  padding-left: 10px;
-`;
-
-export const Select = styled(SelectOption)`
-  height: 28px;
-  width: 100%;
-  padding: 0 5px;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: #e5e5e5;
-  background-color: white;
-`;
 export const ErrorMessage = styled.div`
   margin: 10px 0px;
   background-color: #ffcaca;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FunctionComponent } from "react";
 
-import { Container, ErrorMessage, Input } from "./styles";
+import { Container, Input, ErrorMessage } from "./styles";
 
 type ErrorsProps = {
   msg: string | undefined;
@@ -28,6 +28,22 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
   onChange,
   onKeyPress,
 }) => {
+  const [error, setError] = useState<ErrorsProps[]>([]);
+  console.log(error);
+
+  useEffect(() => {
+    if (errors) {
+      console.log(
+        errors.find((err) => {
+          if (err.param === param) {
+            // setError(err);
+          }
+        })
+      );
+      // setError(errors.find(err => err.param === param));
+    }
+  }, [errors, param]);
+
   return (
     <Container>
       <label>{name_field}</label>
@@ -37,7 +53,7 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
-      {/* <ErrorMessage>{error ? error.msg : ""}</ErrorMessage> */}
+      {/* <ErrorMessage>{error}</ErrorMessage> */}
     </Container>
   );
 };

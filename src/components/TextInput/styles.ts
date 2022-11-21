@@ -15,9 +15,8 @@ export const Input = styled.input.attrs({
 })`
   height: 28px;
   width: 100%;
+  border: 1px solid gray;
   border-radius: 5px;
-  border-width: 1px;
-  border-color: #e5e5e5;
   padding: 0 5px;
   background-color: white;
   margin-bottom: 5px;
