@@ -10,6 +10,19 @@ export const Container = styled.div`
   }
 `;
 
+export const Input = styled.input.attrs({
+  type:'text'
+})`
+  height: 28px;
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0 5px;
+  background-color: white;
+  margin-bottom: 5px;
+  padding-left: 10px;
+`;
+
 export const ErrorMessage = styled.p`
   position: absolute;
   top: 90%;

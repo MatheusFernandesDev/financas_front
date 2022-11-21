@@ -1,49 +1,54 @@
 import { keyboardKey } from "@testing-library/user-event";
+import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
-import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 
+import TextInput from "../../components/TextInput";
+import SelectOption from "../../components/SelectOption";
+import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
 
 import {
   Container,
-  Text,
   Form,
   Card,
   Button,
   Linkfy,
-  Select,
-  Password,
   ButtonArea,
   ErrorMessage,
 } from "./styles";
 
-type Error = {
+interface Error {
   msg: string;
+};
+interface States {
+  id: number;
+  name: string;
 };
 
 const Login: React.FC = () => {
-  const [login, setLogin] = useState(true);
-  const [newLogin, setNewLogin] = useState(false);
+  const [login, setLogin] = useState<boolean>(true);
+  const [newLogin, setNewLogin] = useState<boolean>(false);
   const [errors, setErrors] = useState([]);
+  const [errors2, setErrors2] = useState<Error>();
   const [errorsLogin, setErrorsLogin] = useState<Error>();
-  const [progressPending, setProgressPending] = useState(false);
+  const [progressPending, setProgressPending] = useState<boolean>(false);
 
   //LOGIN
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberPassword, setRememberPassword] = useState(false);
+  const [user, setUser] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberPassword, setRememberPassword] = useState<boolean>(false);
   //CREATE
-  const [newUser, setNewUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [state, setState] = useState(-1);
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newUser, setNewUser] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [state, setState] = useState<number>(-1);
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   //DATA
-  const [statesOption, setStatesOption] = useState([]);
+  const [statesOption, setStatesOption] = useState<States[]>([]);
 
   function clearHandler() {
     setUser("");
@@ -110,10 +115,12 @@ const Login: React.FC = () => {
         toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
-        if (err.response) {
+        if (err.response?.data?.error) {
           const responseErrors = err?.response?.data;
           console.log(err?.response?.data.error);
           setErrorsLogin(responseErrors);
+          setErrors(err.response?.data?.error);
+          setErrors2(err.response?.data?.error.email);
         }
 
         return toast.error("Erro ao fazer login!");
@@ -141,7 +148,7 @@ const Login: React.FC = () => {
             {errorsLogin && (
               <ErrorMessage>{errorsLogin ? errorsLogin.msg : ""}</ErrorMessage>
             )}
-            <Text
+            <TextInput
               name_field="Email"
               value={email}
               onKeyPress={(e) => EnterHandler(e)}
@@ -149,7 +156,7 @@ const Login: React.FC = () => {
               param={"email"}
               errors={errors}
             />
-            <Password
+            <PasswordInput
               name_field="Senha"
               value={password}
               onKeyPress={(enter) => EnterHandler(enter)}
@@ -181,35 +188,35 @@ const Login: React.FC = () => {
         <Card>
           <h2>Cadastrar-se</h2>
           <Form>
-            <Text
+            <TextInput
               name_field="Usuário"
               value={newUser}
               onChange={(event) => setNewUser(event.target.value)}
               errors={errors}
             />
-            <Text
+            <TextInput
               name_field="E-mail"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               errors={errors}
             />
-            <Select
+            <SelectOption
               name_field="Estados"
               value={state}
               options={statesOption}
               onChange={(event) => setState(parseInt(event.target.value))}
             />
-            <Text
+            <PasswordInput
               name_field="Senha"
               value={newPassword}
               onChange={(event) => setNewPassword(event.target.value)}
-              errors={errors}
+              // errors={errors}
             />
-            <Text
+            <PasswordInput
               name_field="Confirmar Senha"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
-              errors={errors}
+              // errors={errors}
             />
             <ButtonArea>
               <Button onClick={SignIn} disabled={progressPending}>

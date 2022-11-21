@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes, useState, useEffect } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 
-import { Container, ErrorMessage } from "./styles";
+import { Container, Input, ErrorMessage } from "./styles";
 
 type ErrorsProps = {
   msg: string;
@@ -9,31 +9,37 @@ type ErrorsProps = {
   error: object;
 };
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextyInputProps {
   name_field?: string;
   name_placeholder?: string;
   value?: string;
   param?: string;
   errors: Array<ErrorsProps>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
+  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
-const TextInput: React.FC<InputProps> = (props) => {
-  const [error, setError] = useState<ErrorsProps>();
-
-  const mensagem = props.errors;
-
-  console.log(mensagem);
-
+const TextInput: FunctionComponent<TextyInputProps> = ({
+  name_field,
+  name_placeholder,
+  value,
+  param,
+  errors,
+  onChange,
+  onKeyPress
+}) => {
+  const array = errors;
+  
   // useEffect(() => {
-  //   if (props.errors) {
-  //     setError(props.errors.find((err) => err.param === props.param));
+  //   if (Object.keys(array).length > 0) {
+      
   //   }
-  // }, [props.errors, props.param]);
+  // }, [array]);
 
   return (
     <Container>
-      <label>{props.name_field}</label>
-      <input placeholder={props.name_placeholder} {...props} />
+      <label>{name_field}</label>
+      <Input value={value} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} />
       {/* <ErrorMessage>{error ? error.msg : ""}</ErrorMessage> */}
     </Container>
   );

@@ -1,22 +1,34 @@
-import React, { InputHTMLAttributes, useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import React, { FunctionComponent, useState } from "react";
 
-import { Container } from "./styles";
+import { Container, Input, Password, PasswordArea, IconOpen, IconClose } from "./styles";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps {
     name_field?: string;
     name_placeholder?: string;
     value?: string;
+    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    onKeyPress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
 }
 
-const PasswordInput: React.FC<InputProps> = (props) => {
+const PasswordInput: FunctionComponent<InputProps> = ({
+    name_field, 
+    name_placeholder,
+    value,
+    onChange,
+    onKeyPress
+}) => {
     const [showPass, setShowPass] = useState(false)
 
     const iconStyle = {
-        width: "20px",
+        position: "absolute",
+        top: "0",
+        right: "0",
+        width: "30px",
         height: "20px",
-        color: "black",
-        marginRight: "15px",
+        // width: "20px",
+        // height: "20px",
+        // color: "black",
+        // marginRight: "15px",
     };
     const btnStyle = {
         marginRight: "15px",
@@ -27,18 +39,23 @@ const PasswordInput: React.FC<InputProps> = (props) => {
 
     return (
         <Container>
-            <label>{props.name_field}</label>
-            <input type={showPass ? "text" : "password"} placeholder={props.name_placeholder} {...props} />
-            {/* {showPass
-                ? 
-                <button title="Esconder Senha" style={btnStyle} onClick={() => setShowPass(false)} >
-                    <AiOutlineEye style={iconStyle}/>
-                </button>
-                : 
-                <button title="Mostrar Senha" style={btnStyle} onClick={() => setShowPass(true)} >
-                    <AiOutlineEyeInvisible style={iconStyle}/>
-                </button>
-            } */}
+            <label>{name_field}</label>
+            <PasswordArea>
+                {showPass 
+                    ? <Input placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} />
+                    : <Password placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} />
+                }
+                {showPass
+                    ? 
+                    <button title="Esconder Senha" style={btnStyle} onClick={() => setShowPass(false)} >
+                        <IconClose/>
+                    </button>
+                    : 
+                    <button title="Mostrar Senha" style={btnStyle} onClick={() => setShowPass(true)} >
+                        <IconOpen/>
+                    </button>
+                }
+            </PasswordArea>
         </Container>
     )
 }
