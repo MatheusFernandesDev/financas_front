@@ -25,6 +25,7 @@ export const Input = styled.input.attrs({
 
 export const ErrorMessage = styled.p`
   position: absolute;
+  margin: auto;
   top: 90%;
   color: darkred;
   ${(props) => {
