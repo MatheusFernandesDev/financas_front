@@ -28,22 +28,6 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
   onChange,
   onKeyPress,
 }) => {
-  const [error, setError] = useState<ErrorsProps[]>([]);
-  console.log(error);
-
-  useEffect(() => {
-    if (errors) {
-      console.log(
-        errors.find((err) => {
-          if (err.param === param) {
-            setError(err.msg);
-          }
-        })
-      );
-      // setError(errors.find(err => err.param === param));
-    }
-  }, [errors, param]);
-
   return (
     <Container>
       <label>{name_field}</label>
