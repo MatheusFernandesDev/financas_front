@@ -115,20 +115,11 @@ const Login: React.FC = () => {
         toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
-<<<<<<< HEAD
         if (err.response) {
           const responseErrorsLogin = err?.response?.data;
           const responseErrors = err?.response?.data?.errors;
           setErrors(responseErrors);
           setErrorsLogin(responseErrorsLogin);
-=======
-        if (err.response?.data?.error) {
-          const responseErrors = err?.response?.data;
-          console.log(err?.response?.data.error);
-          setErrorsLogin(responseErrors);
-          setErrors(err.response?.data?.error);
-          setErrors2(err.response?.data?.error.email);
->>>>>>> 53154116e312c94db0881917b5c7487262d13471
         }
 
         return toast.error("Erro ao fazer login!");
