@@ -20,8 +20,8 @@ export const Container = styled.div`
   background-image: url("https://acegif.com/wp-content/uploads/gifs/raining-money-26.gif");
   background-position: bottom;
   background-size: cover;
-	border: 1px solid transparent;
-	border-radius: 18px;
+  border: 1px solid transparent;
+  border-radius: 18px;
   overflow-y: hidden;
   overflow-x: hidden;
   /* animation: ${pan} 6s infinite alternate linear;  */
@@ -94,4 +94,11 @@ export const Button = styled.button`
 export const ButtonArea = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+export const ErrorMessage = styled.div`
+  margin: 10px;
+  background-color: #ffcaca;
+  color: #000;
+  border: 2px solid #ff0000;
 `;

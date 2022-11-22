@@ -18,6 +18,7 @@ import {
   Button,
   Linkfy,
   ButtonArea,
+  ErrorMessage,
 } from "./styles";
 
 interface Error {
@@ -32,6 +33,8 @@ const Login: React.FC = () => {
   const [login, setLogin] = useState<boolean>(true);
   const [newLogin, setNewLogin] = useState<boolean>(false);
   const [errors, setErrors] = useState([]);
+  const [loginErrors, setLoginErrors] = useState<Error>();
+  const [erroVerific, setErroVerific] = useState(false);
   const [progressPending, setProgressPending] = useState<boolean>(false);
 
   //LOGIN
@@ -78,29 +81,30 @@ const Login: React.FC = () => {
 
   async function createUser() {
     setProgressPending(true);
-    await api.post(`/signup`, {
-      name: newUser,
-      email: email && email.toLowerCase(),
-      password: newPassword,
-      confirmPassword: confirmPassword,
-      state: state,
-    })
-    .then(() => {
-      clearHandler();
-      setLogin(true);
-      setNewLogin(false);
-      return toast.success("Cadastro realizado com sucesso!");
-    })
-    .catch((err) => {
-      if (err.response) {
-        const responseErrors = err?.response?.data?.errors;
-        setErrors(responseErrors);
-      }
-      return toast.error("Erro ao fazer cadastro!");
-    })
-    .finally(() => {
-      setProgressPending(false);
-    })
+    await api
+      .post(`/signup`, {
+        name: newUser,
+        email: email && email.toLowerCase(),
+        password: newPassword,
+        confirmPassword: confirmPassword,
+        state: state,
+      })
+      .then(() => {
+        clearHandler();
+        setLogin(true);
+        setNewLogin(false);
+        return toast.success("Cadastro realizado com sucesso!");
+      })
+      .catch((err) => {
+        if (err.response) {
+          const responseErrors = err?.response?.data?.errors;
+          setErrors(responseErrors);
+        }
+        return toast.error("Erro ao fazer cadastro!");
+      })
+      .finally(() => {
+        setProgressPending(false);
+      });
   }
 
   async function loginHandler() {
@@ -119,18 +123,24 @@ const Login: React.FC = () => {
         toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
+        if (err?.response?.data.msg === "E-mail e/ou senha errados!") {
+          const responseLoginErrors = err?.response?.data;
+          setErroVerific(true);
+          console.log(responseLoginErrors);
+          setLoginErrors(responseLoginErrors);
+          return toast.error("Erro de Verificação");
+        }
         if (err.response) {
           const responseErrors = err?.response?.data?.errors;
+          setErroVerific(false);
           setErrors(responseErrors);
+          return toast.error("Erro ao fazer login!");
         }
-
-        return toast.error("Erro ao fazer login!");
       });
   }
 
   function EnterHandler(e: keyboardKey) {
     if (e.key === "Enter") {
-      // e.preventDefault()
       loginHandler();
     }
   }
@@ -146,6 +156,9 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
+            {erroVerific && (
+              <ErrorMessage>{loginErrors ? loginErrors.msg : ""} </ErrorMessage>
+            )}
             <TextInput
               name_field="Email"
               value={email}
