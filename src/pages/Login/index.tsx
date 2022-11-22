@@ -1,7 +1,6 @@
 import { keyboardKey } from "@testing-library/user-event";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
@@ -22,12 +21,12 @@ import {
   ErrorMessage,
 } from "./styles";
 
-interface Error {
-  msg: string;
-}
 interface States {
   id: number;
   name: string;
+}
+interface Error {
+  msg: string;
 }
 
 const Login: React.FC = () => {
@@ -124,7 +123,7 @@ const Login: React.FC = () => {
         setLogin(true);
         setNewLogin(false);
         window.location.href = "/dashboard";
-        toast.success("Login realizado com sucesso!");
+        return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
         if (err?.response?.data.msg === "E-mail e/ou senha errados!") {

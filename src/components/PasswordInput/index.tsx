@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
+import ReactTooltip from "react-tooltip";
 
-import { Container, Label, Input, Password, PasswordArea, IconOpen, IconClose, ErrorMessage } from "./styles";
+import { Container, Label, Input, Password, PasswordArea, Button, IconOpen, IconClose, ErrorMessage } from "./styles";
 
 interface ErroAll {
     msg: string;
@@ -55,13 +56,19 @@ const PasswordInput: FunctionComponent<InputProps> = ({
                 }
                 {showPass
                     ? 
-                    <button title="Esconder Senha" style={btnStyle} onClick={() => setShowPass(false)} >
-                        <IconClose/>
-                    </button>
+                    <>
+                        <ReactTooltip effect="solid" place="right" delayShow={500}/>
+                        <Button data-tip="Esconder senha" style={btnStyle} onClick={() => setShowPass(false)} >
+                            <IconClose />
+                        </Button>
+                    </>
                     : 
-                    <button title="Mostrar Senha" style={btnStyle} onClick={() => setShowPass(true)} >
-                        <IconOpen/>
-                    </button>
+                    <>
+                        <ReactTooltip effect="solid" place="right" delayShow={500}/>
+                        <Button data-tip="Mostrar senha" style={btnStyle} onClick={() => setShowPass(true)} >
+                            <IconOpen />
+                        </Button>
+                    </>
                 }
             </PasswordArea>
             <ErrorMessage>{error}</ErrorMessage>
