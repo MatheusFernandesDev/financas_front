@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 
 import { Container } from "./styles";
 import { isLogged, doLogout } from "../../helpers/AuthHandler";
+import Loading from "../../components/Loading";
 
 const DashBoard: React.FC = () => {
+  const [removeLoading, setremoveLoading] = useState(false);
   let Logged = isLogged();
   async function handleLogout() {
     doLogout();
@@ -20,6 +22,7 @@ const DashBoard: React.FC = () => {
           </button>
         </>
       )}
+      <Loading />
     </Container>
   );
 };

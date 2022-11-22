@@ -10,6 +10,7 @@ import TextInput from "../../components/TextInput";
 import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
+import Loading from "../../components/Loading";
 
 import {
   Container,
@@ -41,6 +42,8 @@ const Login: React.FC = () => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberPassword, setRememberPassword] = useState<boolean>(false);
+  const [removeLoading, setRemoveLoading] = useState<boolean>(false);
+
   //CREATE
   const [newUser, setNewUser] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -116,6 +119,7 @@ const Login: React.FC = () => {
 
       .then((response) => {
         doLogin(response.data.token, rememberPassword);
+        setRemoveLoading(true);
         clearHandler();
         setLogin(true);
         setNewLogin(false);
@@ -159,6 +163,7 @@ const Login: React.FC = () => {
             {erroVerific && (
               <ErrorMessage>{loginErrors ? loginErrors.msg : ""} </ErrorMessage>
             )}
+
             <TextInput
               name_field="Email"
               value={email}
