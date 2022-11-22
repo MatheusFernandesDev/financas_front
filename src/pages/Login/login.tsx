@@ -1,7 +1,6 @@
 import { keyboardKey } from "@testing-library/user-event";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
@@ -20,9 +19,6 @@ import {
   ButtonArea,
 } from "./styles";
 
-interface Error {
-  msg: string;
-}
 interface States {
   id: number;
   name: string;
@@ -116,7 +112,7 @@ const Login: React.FC = () => {
         setLogin(true);
         setNewLogin(false);
         window.location.href = "/dashboard";
-        toast.success("Login realizado com sucesso!");
+        return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
         if (err.response) {

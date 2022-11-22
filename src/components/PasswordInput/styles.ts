@@ -52,22 +52,21 @@ export const Password = styled.input.attrs({
   padding-left: 10px;
 `;
 
-export const IconOpen = styled(AiOutlineEyeInvisible)`
+export const Button = styled.button`
   position: absolute;
   top: 0;
   right: 0;
-  width: 30px;
-  height: 25px;
   margin-top: 1px;
 `;
 
-export const IconClose = styled(AiOutlineEye)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
+export const IconOpen = styled(AiOutlineEyeInvisible)`
+  width: 25px;
   height: 25px;
-  margin-top: 1px;
+`;
+
+export const IconClose = styled(AiOutlineEye)`
+  width: 25px;
+  height: 25px;
 `
 export const ErrorMessage = styled.p`
   /* margin-left: -20px; */
