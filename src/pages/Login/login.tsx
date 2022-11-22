@@ -23,11 +23,11 @@ import {
 
 interface Error {
   msg: string;
-};
+}
 interface States {
   id: number;
   name: string;
-};
+}
 
 const Login: React.FC = () => {
   const [login, setLogin] = useState<boolean>(true);

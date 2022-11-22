@@ -2,21 +2,18 @@ import React, { useState, useEffect, FunctionComponent } from "react";
 
 import { Container, Input, ErrorMessage } from "./styles";
 
-type ErrorsProps = {
-  msg: string | undefined;
-  param: string;
-  value: string;
-  email: string;
-};
-
 interface TextyInputProps {
   name_field?: string;
   name_placeholder?: string;
   value?: string;
   param?: string;
-  errors: Array<ErrorsProps>;
+  errors: Array<ErroAll>;
   onKeyPress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+}
+interface ErroAll {
+  msg: string;
+  param: string;
 }
 
 const TextInput: FunctionComponent<TextyInputProps> = ({
@@ -28,19 +25,16 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
   onChange,
   onKeyPress,
 }) => {
-  const [error, setError] = useState<ErrorsProps[]>([]);
-  console.log(error);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (errors) {
-      console.log(
-        errors.find((err) => {
-          if (err.param === param) {
-            // setError(err);
-          }
-        })
-      );
-      // setError(errors.find(err => err.param === param));
+      errors.find((err) => {
+        if (err.param === param) {
+          console.log(err.msg);
+          setError(err.msg);
+        }
+      });
     }
   }, [errors, param]);
 
@@ -53,7 +47,7 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
-      {/* <ErrorMessage>{error}</ErrorMessage> */}
+      <ErrorMessage>{error}</ErrorMessage>
     </Container>
   );
 };
