@@ -17,14 +17,12 @@ export const Container = styled.div`
   height: 100%;
   margin: 0;
   padding: 0 24px;
-  background-image: url("https://acegif.com/wp-content/uploads/gifs/raining-money-26.gif");
+  background-image: url("https://j.gifs.com/y0LB09.gif");
   background-position: bottom;
   background-size: cover;
   border: 1px solid transparent;
-  border-radius: 18px;
   overflow-y: hidden;
   overflow-x: hidden;
-  /* animation: ${pan} 6s infinite alternate linear;  */
 `;
 
 export const Linkfy = styled.a`
