@@ -95,11 +95,3 @@ export const ButtonArea = styled.div`
   display: flex;
   gap: 10px;
 `;
-
-export const ErrorMessage = styled.div`
-  margin: 10px 0px;
-  background-color: #ffcaca;
-  color: #000;
-  border: 2px solid #ff0000;
-  padding: 10px;
-`;

@@ -18,7 +18,6 @@ import {
   Button,
   Linkfy,
   ButtonArea,
-  ErrorMessage,
 } from "./styles";
 
 interface Error {
@@ -33,8 +32,6 @@ const Login: React.FC = () => {
   const [login, setLogin] = useState<boolean>(true);
   const [newLogin, setNewLogin] = useState<boolean>(false);
   const [errors, setErrors] = useState([]);
-  const [errors2, setErrors2] = useState<Error>();
-  const [errorsLogin, setErrorsLogin] = useState<Error>();
   const [progressPending, setProgressPending] = useState<boolean>(false);
 
   //LOGIN
@@ -51,6 +48,7 @@ const Login: React.FC = () => {
   const [statesOption, setStatesOption] = useState<States[]>([]);
 
   function clearHandler() {
+    //LOGIN
     setUser("");
     setPassword("");
     //CREATE
@@ -59,6 +57,8 @@ const Login: React.FC = () => {
     setState(-1);
     setNewPassword("");
     setConfirmPassword("");
+    //
+    setErrors([]);
   }
 
   function SignIn() {
@@ -78,25 +78,29 @@ const Login: React.FC = () => {
 
   async function createUser() {
     setProgressPending(true);
-    if (newPassword != confirmPassword) {
-      throw new Error("As senhas nao coincidem!");
-    }
-    try {
-      await api.post(`/signup`, {
-        name: newUser,
-        email: email && email.toLowerCase(),
-        password: newPassword,
-        state: state,
-      });
-
+    await api.post(`/signup`, {
+      name: newUser,
+      email: email && email.toLowerCase(),
+      password: newPassword,
+      confirmPassword: confirmPassword,
+      state: state,
+    })
+    .then(() => {
       clearHandler();
       setLogin(true);
       setNewLogin(false);
-      toast.success("Cadastro realizado com sucesso!");
-    } catch {
+      return toast.success("Cadastro realizado com sucesso!");
+    })
+    .catch((err) => {
+      if (err.response) {
+        const responseErrors = err?.response?.data?.errors;
+        setErrors(responseErrors);
+      }
       return toast.error("Erro ao fazer cadastro!");
-    }
-    setProgressPending(false);
+    })
+    .finally(() => {
+      setProgressPending(false);
+    })
   }
 
   async function loginHandler() {
@@ -116,10 +120,8 @@ const Login: React.FC = () => {
       })
       .catch((err) => {
         if (err.response) {
-          const responseErrorsLogin = err?.response?.data;
           const responseErrors = err?.response?.data?.errors;
           setErrors(responseErrors);
-          setErrorsLogin(responseErrorsLogin);
         }
 
         return toast.error("Erro ao fazer login!");
@@ -144,15 +146,12 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <h3>Enter your credentials</h3>
           <Form>
-            {errorsLogin && (
-              <ErrorMessage>{errorsLogin ? errorsLogin.msg : ""}</ErrorMessage>
-            )}
             <TextInput
               name_field="Email"
               value={email}
               onKeyPress={(e) => EnterHandler(e)}
               onChange={(event) => setEmail(event.target.value)}
-              param={"email"}
+              param="email"
               errors={errors}
             />
             <PasswordInput
@@ -160,6 +159,8 @@ const Login: React.FC = () => {
               value={password}
               onKeyPress={(enter) => EnterHandler(enter)}
               onChange={(event) => setPassword(event.target.value)}
+              param="password"
+              errors={errors}
             />
             <CheckboxInput
               name_field="Lembrar Senha"
@@ -191,12 +192,14 @@ const Login: React.FC = () => {
               name_field="Usuário"
               value={newUser}
               onChange={(event) => setNewUser(event.target.value)}
+              param="name"
               errors={errors}
             />
             <TextInput
               name_field="E-mail"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              param="email"
               errors={errors}
             />
             <SelectOption
@@ -204,18 +207,22 @@ const Login: React.FC = () => {
               value={state}
               options={statesOption}
               onChange={(event) => setState(parseInt(event.target.value))}
+              param="state"
+              errors={errors}
             />
             <PasswordInput
               name_field="Senha"
               value={newPassword}
               onChange={(event) => setNewPassword(event.target.value)}
-              // errors={errors}
+              param="password"
+              errors={errors}
             />
             <PasswordInput
               name_field="Confirmar Senha"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
-              // errors={errors}
+              param="confirmPassword"
+              errors={errors}
             />
             <ButtonArea>
               <Button onClick={SignIn} disabled={progressPending}>

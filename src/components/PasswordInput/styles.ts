@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
+interface ErrorProps {
+  errors: string;
+}
+
 export const Container = styled.div`
 	display: flex;
     flex-direction: column;
@@ -18,12 +22,16 @@ export const PasswordArea = styled.div`
   border: 1px solid transparent;
 `;
 
+export const Label = styled.label<ErrorProps>`
+	color: ${props => props.errors != "" ? 'darkred' : 'black'};
+`;
+
 export const Input = styled.input.attrs({
   type:'text'
-})`
+})<ErrorProps>`
   height: 28px;
   width: 100%;
-  border: 1px solid gray;
+  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid gray'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;
@@ -33,10 +41,10 @@ export const Input = styled.input.attrs({
 
 export const Password = styled.input.attrs({
 	type: "password"
-  })`
+  })<ErrorProps>`
   height: 28px;
   width: 100%;
-  border: 1px solid gray;
+  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid gray'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;
@@ -61,3 +69,14 @@ export const IconClose = styled(AiOutlineEye)`
   height: 25px;
   margin-top: 1px;
 `
+export const ErrorMessage = styled.p`
+  /* margin-left: -20px; */
+  color: darkred;
+  ${(props) => {
+    if (props.children) {
+      return "color: darkred; margin-left: 5px";
+    } else {
+      return "display: none";
+    }
+  }}
+`;

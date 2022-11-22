@@ -1,49 +1,57 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 
-import { Container, Input, Password, PasswordArea, IconOpen, IconClose } from "./styles";
+import { Container, Label, Input, Password, PasswordArea, IconOpen, IconClose, ErrorMessage } from "./styles";
 
+interface ErroAll {
+    msg: string;
+    param: string;
+}
 interface InputProps {
     name_field?: string;
     name_placeholder?: string;
     value?: string;
-    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    param?: string;
+    errors?: Array<ErroAll>;
     onKeyPress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
+    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
 const PasswordInput: FunctionComponent<InputProps> = ({
     name_field, 
     name_placeholder,
     value,
+    errors,
+    param,
     onChange,
     onKeyPress
 }) => {
+    const [error, setError] = useState("");
     const [showPass, setShowPass] = useState(false)
 
-    const iconStyle = {
-        position: "absolute",
-        top: "0",
-        right: "0",
-        width: "30px",
-        height: "20px",
-        // width: "20px",
-        // height: "20px",
-        // color: "black",
-        // marginRight: "15px",
-    };
     const btnStyle = {
         marginRight: "15px",
         background: "none",
         border: "none",
         cursor: "pointer",
     };
+  
+    useEffect(() => {
+      if (errors) {
+        errors.find((err) => {
+          if (err.param === param) {
+            setError(err.msg);
+          }
+        });
+      }
+    }, [errors, param]);
 
     return (
         <Container>
-            <label>{name_field}</label>
+            <Label errors={error}>{name_field}</Label>
             <PasswordArea>
                 {showPass 
-                    ? <Input placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} />
-                    : <Password placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} />
+                    ? <Input errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
+                    : <Password errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
                 }
                 {showPass
                     ? 
@@ -56,6 +64,7 @@ const PasswordInput: FunctionComponent<InputProps> = ({
                     </button>
                 }
             </PasswordArea>
+            <ErrorMessage>{error}</ErrorMessage>
         </Container>
     )
 }

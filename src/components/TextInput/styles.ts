@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface ErrorProps {
+  errors: string;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,12 +14,16 @@ export const Container = styled.div`
   }
 `;
 
+export const Label = styled.label<ErrorProps>`
+	color: ${props => props.errors != "" ? 'darkred' : 'black'};
+`;
+
 export const Input = styled.input.attrs({
-  type: "text",
-})`
+  type: "text"
+})<ErrorProps>`
   height: 28px;
   width: 100%;
-  border: 1px solid gray;
+  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid gray'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;
@@ -24,9 +32,7 @@ export const Input = styled.input.attrs({
 `;
 
 export const ErrorMessage = styled.p`
-  position: absolute;
-  margin: auto;
-  top: 90%;
+  /* margin-left: -20px; */
   color: darkred;
   ${(props) => {
     if (props.children) {
