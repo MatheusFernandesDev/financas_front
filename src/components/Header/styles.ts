@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { IoLogOutOutline, IoPersonCircleOutline } from "react-icons/io5";
+import { Utils } from "../../config/Utils";
 import { BsGear } from "react-icons/bs";
+import { IoLogOutOutline, IoPersonCircleOutline } from "react-icons/io5";
 
 export const Container = styled.div`
     display: flex;
@@ -24,22 +25,34 @@ export const PerfilIcon = styled(IoPersonCircleOutline)`
     width: 70px;
     height: 30px;
     background: none;
-    color: #e5e5e5;
+    color: ${Utils.COLORS.PRIMARY};
     cursor: pointer;
+
+    &:hover {
+        color: ${Utils.COLORS.DARK_PRIMARY};
+    }
 `;
 
 export const ConfigIcon = styled(BsGear)`
     width: 70px;
     height: 30px;
     background: none;
-    color: #e5e5e5;
+    color: ${Utils.COLORS.PRIMARY};
     cursor: pointer;
+
+    &:hover {
+        color: ${Utils.COLORS.DARK_PRIMARY};
+    }
 `;
 
 export const LogoutIcon = styled(IoLogOutOutline)`
     width: 70px;
     height: 30px;
     background: none;
-    color: #e5e5e5;
+    color: ${Utils.COLORS.PRIMARY};
     cursor: pointer;
+
+    &:hover {
+        color: ${Utils.COLORS.DARK_PRIMARY};
+    }
 `;

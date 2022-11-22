@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Utils } from "../../config/Utils";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface ErrorProps {
@@ -37,6 +38,11 @@ export const Input = styled.input.attrs({
   background-color: white;
   margin-bottom: 5px;
   padding-left: 10px;
+
+  
+  &:focus {
+		border-color: ${Utils.COLORS.SECONDARY};
+	}
 `;
 
 export const Password = styled.input.attrs({
@@ -50,6 +56,11 @@ export const Password = styled.input.attrs({
   background-color: white;
   margin-bottom: 5px;
   padding-left: 10px;
+
+  
+  &:focus {
+		border-color: ${Utils.COLORS.SECONDARY};
+	}
 `;
 
 export const Button = styled.button`

@@ -157,7 +157,7 @@ const Login: React.FC = () => {
       {login && (
         <Card>
           <h2>Login</h2>
-          <h3>Enter your credentials</h3>
+          <h3>Entre com suas credenciais</h3>
           <Form>
             {erroVerific && (
               <ErrorMessage>{loginErrors ? loginErrors.msg : ""} </ErrorMessage>

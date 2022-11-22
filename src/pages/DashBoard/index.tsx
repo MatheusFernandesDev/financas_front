@@ -5,6 +5,8 @@ import { isLogged } from "../../helpers/AuthHandler";
 
 import Header from "../../components/Header";
 
+import Loading from "../../components/Loading";
+
 import { Container } from "./styles";
 
 const DashBoard: React.FC = () => {

@@ -23,9 +23,9 @@ export const Container = styled.div<Temp>`
   height: 100%;
   background: #1a1a1a;
 
-  .loaded {
+  /* .loaded {
     animation: ${LoaderOut} 0.3s both;
-  }
+  } */
 `;
 
 export const Rotation = keyframes`
@@ -43,35 +43,27 @@ export const RotationBack = keyframes`
 export const Loader = styled.span<Temp>`
   width: 50px;
   height: 50px;
-  /* border-radius: 50%; */
+  border-radius: 50%;
   display: inline-block;
   position: relative;
   border: 3px solid;
   border-color: #f9f9f9 #f9f9f9 transparent transparent;
   scale: 1.5;
-  /* animation: ${Rotation} 1.5s linear infinite; */
+  animation: ${Rotation} 1.5s linear infinite;
 
-  /* ::before {
-    width: 32px;
-    height: 32px;
-    border-color: #f9f9f9 #f9f9f9 transparent transparent;
-    animation: ${Rotation} 1.5s linear infinite;
-  } */
-
-  &::after,
   &::before {
     content: "";
     position: absolute;
-    left: 0;
+    left: 4px;
     right: 0;
-    top: 0;
+    top: 4px;
     bottom: 0;
     border: 3px solid;
     border-color: transparent transparent #8f44fd #8f44fd;
     width: 30px;
     height: 30px;
-    /* border-radius: 50%; */
+    border-radius: 50%;
     transform-origin: center center;
-    /* animation: ${RotationBack} 0.5s linear infinite; */
+    animation: ${RotationBack} 0.5s linear infinite;
   }
 `;

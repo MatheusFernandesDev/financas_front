@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Utils } from "../../config/Utils";
 
 interface ErrorProps {
   errors: string;
@@ -21,7 +22,11 @@ export const Select = styled.select<ErrorProps>`
   padding: 0 5px;
   border: ${props => props.errors != "" ? "1px solid darkred" : "1px solid gray"};
   border-radius: 5px;
-  background-color: white;
+  background-color: white; 
+  
+  &:focus {
+		border-color: ${Utils.COLORS.SECONDARY};
+	}
 `;
 
 export const ErrorMessage = styled.p`

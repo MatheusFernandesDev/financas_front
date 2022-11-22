@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Utils } from "../../config/Utils";
 
 interface ErrorProps {
   errors: string;
@@ -29,6 +30,10 @@ export const Input = styled.input.attrs({
   background-color: white;
   margin-bottom: 5px;
   padding-left: 10px;
+
+  &:focus {
+		border-color: ${Utils.COLORS.SECONDARY};
+	}
 `;
 
 export const ErrorMessage = styled.p`

@@ -57,14 +57,14 @@ const PasswordInput: FunctionComponent<InputProps> = ({
                 {showPass
                     ? 
                     <>
-                        <ReactTooltip effect="solid" place="right" delayShow={500}/>
+                        <ReactTooltip effect="solid" place="bottom" delayShow={500}/>
                         <Button data-tip="Esconder senha" style={btnStyle} onClick={() => setShowPass(false)} >
                             <IconClose />
                         </Button>
                     </>
                     : 
                     <>
-                        <ReactTooltip effect="solid" place="right" delayShow={500}/>
+                        <ReactTooltip effect="solid" place="bottom" delayShow={500}/>
                         <Button data-tip="Mostrar senha" style={btnStyle} onClick={() => setShowPass(true)} >
                             <IconOpen />
                         </Button>
