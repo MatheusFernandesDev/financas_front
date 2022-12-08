@@ -21,8 +21,7 @@ export const Container = styled.div`
   background-position: bottom;
   background-size: cover;
   border: 1px solid transparent;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 export const Linkfy = styled.a`
@@ -43,6 +42,7 @@ export const Form = styled.div`
 `;
 export const Card = styled.div`
   width: 25%;
+  margin: auto;
   padding: 70px 30px 44px;
   border-radius: 24px;
   background: #fff;
