@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import api from "../../service/api";
 import { isLogged } from "../../helpers/AuthHandler";
 
 import Header from "../../components/Header";
-
 import Loading from "../../components/Loading";
+import FormContent from "../../components/FormContent";
 import DataTableContent from "../../components/DataTableContent";
 
 import { Container } from "./styles";
-import api from "../../service/api";
 
 const DashBoard: React.FC = () => {
   let Logged = isLogged();
@@ -45,8 +45,10 @@ const DashBoard: React.FC = () => {
   return (
     <Container>
       <Header />
-      <DataTableContent data={users} title="Usuários" columns={columns} />
+      <FormContent>
+        <DataTableContent data={users} title="Usuários" columns={columns} />
 
+      </FormContent>
       <NavLink ref={link_ref} to="/" />
     </Container>
   );

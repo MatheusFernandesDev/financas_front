@@ -1,14 +1,16 @@
 import React from "react";
 
 import Header from "../../components/Header";
-import { PerfilIcon } from "../../components/Header/styles"
+import { Container, PerfilIcon } from "./styles";
 
 
 const MyProfile: React.FC = () => {
   return (
     <>
       <Header/>
-      <PerfilIcon/>
+      <Container>
+        <PerfilIcon/>
+      </Container>
     </>
   );
 };

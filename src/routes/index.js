@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Login from "../pages/Login";
+import Login from "../pages/login";
 import NotFound from "../pages/NotFound/NotFound";
-import DashBoard from "../pages/DashBoard";
+import DashBoard from "../pages/dashBoard";
 import MyProfile from "../pages/myprofile";
 
 export default () => {

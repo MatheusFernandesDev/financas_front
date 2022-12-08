@@ -5,17 +5,19 @@ import React, { useState, useEffect } from "react";
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
 
+import Loading from "../../components/Loading";
+import Refresh from "../../components/Refresh";
 import TextInput from "../../components/TextInput";
 import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
-import Loading from "../../components/Loading";
+import Button from "../../components/Button";
 
 import {
   Container,
   Form,
   Card,
-  Button,
+  // Button,
   Linkfy,
   ButtonArea,
   ErrorMessage,
@@ -101,8 +103,8 @@ const Login: React.FC = () => {
   }
 
   async function loadHandler() {
+    setLoading(true);
     try {
-      setLoading(true);
       const { data: responseStates } = await api.get("/states");
       const { data: responseUsersTypes } = await api.get("/user-types");
 
@@ -115,13 +117,15 @@ const Login: React.FC = () => {
 
       setStatesOption(responseStates);
       setUserOptions(reformattedArray);
-      setLoading(false);
     } catch {
       return toast.error("Erro ao carregar dados!");
+    } finally {
+      setLoading(false);
     }
   }
 
   async function createUser() {
+    setProgressPending(true);
     await api
       .post(`/signup`, {
         user_type: user_type,
@@ -149,17 +153,19 @@ const Login: React.FC = () => {
           setErrors(responseErrors);
         }
         return toast.error("Erro ao fazer cadastro!");
+      })
+      .finally(() => {
+        setProgressPending(false);
       });
   }
 
   async function loginHandler() {
-    setLoading(true);
+    setProgressPending(true);
     await api
       .post(`/signin`, {
         email: email && email.toLowerCase(),
         password: password,
       })
-
       .then((response) => {
         doLogin(response.data.token, rememberPassword);
         setRemoveLoading(true);
@@ -170,7 +176,6 @@ const Login: React.FC = () => {
         return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
-        setLoading(false);
         if (err?.response?.data.msg === "E-mail e/ou senha errados!") {
           const responseLoginErrors = err?.response?.data;
           setErroVerific(true);
@@ -178,13 +183,15 @@ const Login: React.FC = () => {
           return toast.error("Erro de Verificação");
         }
         if (err.response) {
-          setLoading(false);
           const responseErrors = err?.response?.data?.errors;
           setErroVerific(false);
           setErrors(responseErrors);
           return toast.error("Erro ao fazer login!");
         }
-      });
+      })
+      .finally(() => {
+        setProgressPending(false);
+      })
   }
 
   function EnterHandler(e: keyboardKey) {
@@ -237,18 +244,18 @@ const Login: React.FC = () => {
                     setRememberPassword(event.target.checked)
                   }
                 />
-                <Linkfy
+                {/* <Linkfy
                   href=""
                   // disabled={progressPending}
                 >
                   Esqueceu a senha?
-                </Linkfy>
+                </Linkfy> */}
                 <ButtonArea>
-                  <Button onClick={SignIn} disabled={progressPending}>
-                    Cadastrar-se
+                  <Button click={SignIn} disabled={progressPending}>
+                    {progressPending ? <Refresh/> : "Cadastrar-se"}
                   </Button>
-                  <Button onClick={loginHandler} disabled={progressPending}>
-                    Entrar
+                  <Button click={loginHandler} disabled={progressPending}>
+                    {progressPending ? <Refresh/> : "Entrar"}
                   </Button>
                 </ButtonArea>
               </Form>
@@ -359,11 +366,11 @@ const Login: React.FC = () => {
                   errors={errors}
                 />
                 <ButtonArea>
-                  <Button onClick={SignIn} disabled={progressPending}>
-                    Voltar
+                  <Button click={SignIn} disabled={progressPending}>
+                    {progressPending ? <Refresh/> : "Voltar"}
                   </Button>
-                  <Button onClick={createUser} disabled={progressPending}>
-                    Criar
+                  <Button click={createUser} disabled={progressPending}>
+                    {progressPending ? <Refresh/> : "Criar"}
                   </Button>
                 </ButtonArea>
               </Form>
