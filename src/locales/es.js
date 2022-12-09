@@ -1,0 +1,37 @@
+const translate = {
+	translation:{
+		"RESOURCES": "Recursos",
+		"January":"Enero",
+		"February":"Febrero",
+		"March":"Marzo",
+		"April":"Abril",
+		"May":"Mayo",
+		"June":"Junio",
+		"July":"Julio",
+		"August":"Agosto",
+		"September":"Septiembre",
+		"October":"Octubre",
+		"November":"Noviembre",
+		"December":"Diciembre",
+		"NEW":"Nuevo",
+		"REFRESH": "Recarregar",
+		"EXIT": "Salir",
+		"MYPROFILE": "Mi perfil",
+		"PAYMENTS": "Pagos",
+		"INVESTMENTS": "Inversiones",
+		"RESULTS": "Resultados",
+		"CONTACT": "Soporte",
+		"VALUE": "Valor",
+		"ACTIONS": "Acciones",
+		"SUBJECT": "Tema",
+		"MESSAGE": "Mensaje",
+		"SUBMIT": "Enviar",
+		"ROWSPERPAGE": "Filas por página:",
+		"SEPARATOR": "de",
+		"ALL": "Todo",
+		"NODATA": "No se han encontrado registros.",
+		"FILTERBYVALUE": "Filtrar por valor",
+	}
+}
+
+export default translate;

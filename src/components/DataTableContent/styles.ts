@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { Utils } from "../../config/Utils";
 import { device } from "../../styles/devices";
 
+interface Props {
+	grid_height?: number;
+	grid_width?: number;
+}
+
 export const Container = styled.div`
 	padding: 20px;
 `;
@@ -11,7 +16,8 @@ export const MainContainer = styled.div`
 	overflow-y: auto;
 	margin-bottom: 20px;
 `;
-export const TitleTable = styled.div`
+
+export const TitleTable = styled.div<Props>`
 	font-size: 18px;
 	color: black;
 	font-family: Roboto Bold;
@@ -49,7 +55,7 @@ export const SubTitle = styled.span`
 	position: absolute;
 	left: 18px;
 	font-size: 12px;
-	color: ${Utils.COLORS.OTHER};
+	color: ${Utils.COLORS.PRIMARY};
 
 	@media ${device.tablet} {
 		visibility: hidden;

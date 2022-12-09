@@ -33,7 +33,7 @@ const Index: FunctionComponent<Props> = ({
 	return (
 		<Container>
 			{!hideNew && (
-				<Button title={t("NEW")} action={newHandler}>
+				<Button title="Novo" action={newHandler}>
 					<IoAddCircleOutline size={25}/>
 				</Button>
 			)}
@@ -45,7 +45,7 @@ const Index: FunctionComponent<Props> = ({
 				</Linkfy>
 			)}
 			{!hideReload && (
-				<Button title={t("REFRESH")} action={reloadHandler}>
+				<Button title="Recarregar" action={reloadHandler}>
 					<SlReload size={22}/>
 				</Button>
 			)}

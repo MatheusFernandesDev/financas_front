@@ -1,11 +1,12 @@
 import React, { useEffect, FunctionComponent } from "react";
 import DataTable from "react-data-table-component";
-
-import { Container, MainContainer, TitleTable } from "./styles";
-import FilterComponent from "./FilterComponent";
+import { useTranslation } from 'react-i18next';
 
 import RefreshComponent from "../Refresh";
-import { useTranslation } from "react-i18next";
+
+import FilterComponent from "./FilterComponent";
+
+import { Container, MainContainer, TitleTable } from "./styles";
 
 interface DataTableContentProps {
   noSearch?: any;
@@ -64,7 +65,7 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
   defaultSortField,
   defaultSortAsc,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [filterText, setFilterText] = React.useState("");
   const [filterColumn, setFilterColumn] = React.useState("");
   const [resetPaginationToggle, setResetPaginationToggle] =
@@ -136,7 +137,7 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
           // name={name}
           // defaultSortField={defaultSortField}
           defaultSortAsc={defaultSortAsc}
-          // progressComponent={<RefreshComponent />}
+          progressComponent={<RefreshComponent />}
           columns={columns}
           data={filteredItems}
           pagination
@@ -154,13 +155,13 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
           ]}
           fixedHeader
           paginationComponentOptions={{
-            rowsPerPageText: t("ROWSPERPAGE"),
-            rangeSeparatorText: t("SEPARATOR"),
+            rowsPerPageText: "Linhas por página:",
+            rangeSeparatorText: "de",
             noRowsPerPage: false,
             selectAllRowsItem: false,
-            selectAllRowsItemText: t("ALL"),
+            selectAllRowsItemText: "Todos",
           }}
-          noDataComponent={t("NODATA")}
+          noDataComponent="Nenhum registro encontrado."
           customStyles={{
             table: {
               style: {
