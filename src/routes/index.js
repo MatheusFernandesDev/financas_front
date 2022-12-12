@@ -6,6 +6,7 @@ import Login from "../pages/login";
 import NotFound from "../pages/NotFound/NotFound";
 import DashBoard from "../pages/dashBoard";
 import MyProfile from "../pages/myprofile";
+import Users from "../pages/users";
 
 export default () => {
   return (
@@ -22,6 +23,7 @@ export default () => {
         exact
         element={<Private Component={MyProfile} />}
       />
+      <Route path="/users" exact element={<Private Component={Users} />} />
     </Routes>
   );
 };
