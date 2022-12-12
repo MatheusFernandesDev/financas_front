@@ -7,40 +7,49 @@ import { Container, MainContainer, ContentFormContainer } from "./styles";
 interface FormContentProps {
   children?: React.ReactNode;
   saveHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  editHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   newHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   reloadHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  returnHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   hideNew?: boolean | false;
   hideReload?: boolean | false;
   hideSave?: boolean | false;
+  showReturn?: boolean | false;
   hideAll?: boolean | false;
-  customSaveTxt?: string;
   newLink?: string;
+  edit?: boolean | false;
 }
 
 const FormContent: FunctionComponent<FormContentProps> = ({
   children,
   saveHandler,
+  editHandler,
   newHandler,
   reloadHandler,
+  returnHandler,
   hideNew,
   hideReload,
   hideSave,
-  customSaveTxt,
+  showReturn,
   newLink,
   hideAll,
+  edit,
 }) => {
   return (
     <Container>
       <MainContainer>
         <MainContainerHeader
+          edit={edit}
           newLink={newLink}
-          saveHandler={saveHandler}
-          customSaveTxt={customSaveTxt}
           hideSave={hideSave || hideAll}
           hideNew={hideNew || hideAll}
           hideReload={hideReload || hideAll}
+          showReturn={showReturn || hideAll}
+          saveHandler={saveHandler}
+          editHandler={editHandler}
           newHandler={newHandler}
           reloadHandler={reloadHandler}
+          returnHandler={returnHandler}
         />
       </MainContainer>
       <ContentFormContainer>{children}</ContentFormContainer>

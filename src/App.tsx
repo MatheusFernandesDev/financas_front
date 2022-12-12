@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "./components/Loading";
 
@@ -13,6 +14,7 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <Routes />
       </Suspense>
+      <ToastContainer theme="dark" />
     </BrowserRouter>
   );
 };

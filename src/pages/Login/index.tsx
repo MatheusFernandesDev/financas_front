@@ -1,24 +1,23 @@
 import { keyboardKey } from "@testing-library/user-event";
-import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
+import { cellphoneMask, cnpjMask, cpfMask, residentphoneMask } from "../../helpers/masks";
 
+import Button from "../../components/Button";
 import Loading from "../../components/Loading";
 import Refresh from "../../components/Refresh";
 import TextInput from "../../components/TextInput";
 import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
-import Button from "../../components/Button";
 
 import {
   Container,
   Form,
   Card,
-  // Button,
-  Linkfy,
   ButtonArea,
   ErrorMessage,
 } from "./styles";
@@ -64,8 +63,8 @@ const Login: React.FC = () => {
   const [userOptions, setUserOptions] = useState<States[]>([]);
 
   const phoneOptions = [
-    { id: 1, name: "Residencial" },
-    { id: 2, name: "Celular" },
+    { id: 1, name: "Celular" },
+    { id: 2, name: "Residencial" },
   ];
 
   const personOptions = [
@@ -124,19 +123,26 @@ const Login: React.FC = () => {
 
   async function createUser() {
     setProgressPending(true);
+    let newPhone;
+    if(phone_type == 1) {
+      newPhone = cellphoneMask(phone);
+    } else if(phone_type == 2) {
+      newPhone = residentphoneMask(phone);
+    }
+
     await api
       .post(`/signup`, {
         user_type: user_type,
         name: newUser,
         last_name: last_name,
-        email: email && email.toLowerCase(),
+        email: email && email.toLowerCase().replace(/ /g, ""),
         state: state,
-        password: newPassword,
-        confirmPassword: confirmPassword,
-        cpf: cpf ? cpf : null,
-        cnpj: cnpj ? cnpj : null,
+        password: newPassword.replace(/ /g, ""),
+        confirmPassword: confirmPassword.replace(/ /g, ""),
+        cpf: cpf ? cpfMask(cpf) : null,
+        cnpj: cnpj ? cnpjMask(cnpj) : null,
         phone_type: phone_type,
-        phone: phone,
+        phone: phone_type ? newPhone : phone,
         person_type: personType,
       })
       .then(() => {
@@ -161,8 +167,8 @@ const Login: React.FC = () => {
     setProgressPending(true);
     await api
       .post(`/signin`, {
-        email: email && email.toLowerCase(),
-        password: password,
+        email: email && email.toLowerCase().replace(/ /g, ""),
+        password: password.replace(/ /g, ""),
       })
       .then((response) => {
         doLogin(response.data.token, rememberPassword);
@@ -330,7 +336,7 @@ const Login: React.FC = () => {
                 {personType == 1 && (
                   <TextInput
                     name_field="CPF"
-                    value={cpf}
+                    value={cpf?.replace(/\D/g,"")}
                     onChange={(event) => setCpf(event.target.value)}
                     param="cpf"
                     errors={errors}
@@ -339,7 +345,7 @@ const Login: React.FC = () => {
                 {personType == 2 && (
                   <TextInput
                     name_field="CNPJ"
-                    value={cnpj}
+                    value={cnpj?.replace(/\D/g,"")}
                     onChange={(event) => setCnpj(event.target.value)}
                     param="cnpj"
                     errors={errors}
@@ -358,7 +364,7 @@ const Login: React.FC = () => {
                 />
                 <TextInput
                   name_field="Telefone"
-                  value={phone}
+                  value={phone?.replace(/\D/g,"")}
                   onChange={(event) => setPhone(event.target.value)}
                   param="phone"
                   errors={errors}
@@ -376,7 +382,6 @@ const Login: React.FC = () => {
           )}
         </>
       )}
-      <ToastContainer theme="dark" />
     </Container>
   );
 };

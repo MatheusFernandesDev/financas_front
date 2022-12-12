@@ -51,7 +51,7 @@ const SelectOption: FunctionComponent<InputProps> = ({
               key={-1}
               value={-1}
             >
-              {name_placeholder}
+              {name_placeholder || `Selecione ${name_field?.toLowerCase()}`}
             </option>
           }
           {options.map((opcao) => (
