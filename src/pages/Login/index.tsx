@@ -22,8 +22,6 @@ import {
   ButtonArea,
   ErrorMessage,
 } from "./styles";
-import { Console } from "console";
-import { Input } from "../../components/TextInput/styles";
 
 interface States {
   id: number;
@@ -191,7 +189,7 @@ const Login: React.FC = () => {
       })
       .finally(() => {
         setProgressPending(false);
-      })
+      });
   }
 
   function EnterHandler(e: keyboardKey) {
@@ -252,10 +250,10 @@ const Login: React.FC = () => {
                 </Linkfy> */}
                 <ButtonArea>
                   <Button click={SignIn} disabled={progressPending}>
-                    {progressPending ? <Refresh/> : "Cadastrar-se"}
+                    {progressPending ? <Refresh /> : "Cadastrar-se"}
                   </Button>
                   <Button click={loginHandler} disabled={progressPending}>
-                    {progressPending ? <Refresh/> : "Entrar"}
+                    {progressPending ? <Refresh /> : "Entrar"}
                   </Button>
                 </ButtonArea>
               </Form>
@@ -367,10 +365,10 @@ const Login: React.FC = () => {
                 />
                 <ButtonArea>
                   <Button click={SignIn} disabled={progressPending}>
-                    {progressPending ? <Refresh/> : "Voltar"}
+                    {progressPending ? <Refresh /> : "Voltar"}
                   </Button>
                   <Button click={createUser} disabled={progressPending}>
-                    {progressPending ? <Refresh/> : "Criar"}
+                    {progressPending ? <Refresh /> : "Criar"}
                   </Button>
                 </ButtonArea>
               </Form>

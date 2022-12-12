@@ -33,18 +33,14 @@ const DashBoard: React.FC = () => {
       cell: () => {
         return (
           <>
-            <ButtonActions
-              children={<MdDelete size={20} color="black"/>}
-            />
+            <ButtonActions children={<MdDelete size={20} color="black" />} />
           </>
-        )
+        );
       },
     },
   ];
 
-  const filtro = [
-    { name: "Nome", id: "name" }
-  ]
+  const filtro = [{ name: "Nome", id: "name" }];
 
   async function loadUsers() {
     const { data: response } = await api.get("/users", {
@@ -69,11 +65,11 @@ const DashBoard: React.FC = () => {
     <Container>
       <Header />
       <FormContent>
-        <DataTableContent 
-          title="Usuários" 
+        <DataTableContent
+          title="Usuários"
           data={users}
           filterColumns={filtro}
-          columns={columns} 
+          columns={columns}
         />
       </FormContent>
       <NavLink ref={link_ref} to="/" />
