@@ -24,30 +24,28 @@ const Header: FunctionComponent<HeaderProps> = ({
   function handleConfig() {
     window.location.href = "/config";
   }
-    return (
-      <Container>
-        <div style={{color: "white"}}>LOGO</div>
-        <IconsArea>
-            {!hideProfile 
-              ? <>
-                  <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
-                  <PerfilIcon data-tip="Perfil" onClick={handleProfile}/> 
-                </>
-              : <></>
-            }
-            {!hideConfig 
-              ? <> 
-                  <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
-                  <ConfigIcon data-tip="Configuração" onClick={handleConfig}/> 
-                </>
-              : <></>
-            }
-            <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
-            <LogoutIcon data-tip="Sair" onClick={handleLogout} />
-        </IconsArea>
-      </Container>
-    );
-  };
+  return (
+    <Container>
+      <div style={{color: "white"}}>LOGO</div>
+      <IconsArea>
+          {!hideProfile &&
+            <>
+              <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
+              <PerfilIcon data-tip="Perfil" onClick={handleProfile}/> 
+            </>
+          }
+          {!hideConfig &&
+            <> 
+              <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
+              <ConfigIcon data-tip="Configuração" onClick={handleConfig}/> 
+            </>
+          }
+          <ReactTooltip effect="solid" place="bottom" multiline={true} delayShow={500}/>
+          <LogoutIcon data-tip="Sair" onClick={handleLogout} />
+      </IconsArea>
+    </Container>
+  );
+};
   
   export default Header;
   
