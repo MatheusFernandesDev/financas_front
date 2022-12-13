@@ -12,6 +12,7 @@ import {
 interface CascadeButtonProps {
     children?: React.ReactNode;
     Icon?: any;
+    menu?: boolean;
     title?: string;
 }
 
@@ -19,12 +20,13 @@ const CascadeButton: React.FC<CascadeButtonProps> = ({
     children,
     Icon,
     title,
+    menu,
 }) => {
     return (
         <Container>
             <MainContainer>
                 <Icon style={{ height: "25px", width: "25px" }}/>
-                <Title>{title}</Title>
+                <Title menu={menu}>{title}</Title>
             </MainContainer>
             <SubContainer>
                 <ItemsLine/>

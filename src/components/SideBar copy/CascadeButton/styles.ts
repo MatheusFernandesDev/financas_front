@@ -25,6 +25,7 @@ export const MainContainer = styled.div<MainProps>`
     align-items: center;
     height: 50px;
     width: 100%;
+    cursor: pointer;
 
     &:hover {
         color: ${Utils.COLORS.SECONDARY};
@@ -72,7 +73,8 @@ export const ItemsLine = styled.div`
 
 export const Title = styled.span<TextProps>`
   margin-left: 10px;
+  color: ${Utils.COLORS.PRIMARY};
   display: ${props => props.menu ? 'block' : 'none'};
-  font-size: ${props => props.subCascade ? '16px' : '12px'};
+  font-size: ${props => props.subCascade ? '12px' : '16px'};
   user-select: none;
 `;

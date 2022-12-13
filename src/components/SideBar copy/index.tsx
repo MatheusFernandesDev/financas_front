@@ -13,12 +13,14 @@ import {
   ButtonLink, 
   Text,
   Button,
+  LogoutButton,
   LogoArea,
   LogoIcon,
   ArrowLeft,
   ArrowRight,
 } from "./styles";
 import CascadeButton from "./CascadeButton";
+import { doLogout } from "../../helpers/AuthHandler";
 
 const SideBar: React.FC = () => {
   const [sidebar, setSidebar] = useState<boolean>(false);
@@ -27,6 +29,15 @@ const SideBar: React.FC = () => {
 		width: "25px",
 		height: "25px",
 	};
+  
+  function handleLogout() {
+    doLogout();
+    window.location.href = "/";
+  }
+  
+  function handleDashboard() {
+    window.location.href = "/dashboard";
+  }
 
   return (
     <Container sidebar={sidebar}>
@@ -37,25 +48,44 @@ const SideBar: React.FC = () => {
         }
       </Button>
       <br/>
-      <LogoArea>
+      <LogoArea onClick={handleDashboard}>
         <LogoIcon src={userImg} />
-        <Text style={{fontWeight: "bold"}} sub={true} menuActived={false} /*menu*/>
+        <Text style={{fontWeight: "bold"}} sub={true} menu={sidebar} >
           My Finance
         </Text>
       </LogoArea>
       <br/>
-      <ButtonLink href="/">
+      <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={subIconStyle} />
-        <Text sub={true} menuActived={false} /*menu*/>
+        <Text sub={true} menu={sidebar} >
           Meu Perfil
+        </Text>
+      </ButtonLink>
+      <ButtonLink href="/expenseMovement">
+        <GiPayMoney style={subIconStyle} />
+        <Text sub={true} menu={sidebar} >
+          Movimentação de Despesa
+        </Text>
+      </ButtonLink>
+      <ButtonLink href="/revenueMovement">
+        <GiReceiveMoney style={subIconStyle} />
+        <Text sub={true} menu={sidebar} >
+          Movimentação de Receita
         </Text>
       </ButtonLink>
       <CascadeButton 
         title="Configuração"
         Icon={MdSettings}
+        menu={sidebar}
       >
         <></>
       </CascadeButton>
+      <LogoutButton onClick={handleLogout}>
+        <RiLogoutCircleRLine style={subIconStyle} />
+        <Text sub={true} menu={sidebar} >
+          Sair
+        </Text>
+      </LogoutButton>
     </Container>
   );
 }
