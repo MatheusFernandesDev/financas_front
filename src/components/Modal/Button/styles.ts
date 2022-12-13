@@ -11,7 +11,7 @@ export const Button = styled.button`
   min-width: 75px;
   height: 28px;
   border: 1px solid transparent;
-  background-color: ${Utils.COLORS.PRIMARY};
+  background-color: ${Utils.COLORS.LIGHT_BLACK};
   transition: 0.2s ease-out;
 
   @media ${device.mobile} {
@@ -25,7 +25,7 @@ export const Button = styled.button`
 
   &:hover {
     /* border: 1px solid #005edd; */
-    background-color: ${Utils.COLORS.LIGHTER_PRIMARY};
+    background-color: ${Utils.COLORS.BLACK};
   }
 
   &.success {
@@ -40,12 +40,12 @@ export const Button = styled.button`
   &.secondary {
     border: 1px solid ${Utils.COLORS.PRIMARY};
     color: ${Utils.COLORS.PRIMARY};
-    background-color: ${Utils.COLORS.SECONDARY};
+    background-color: ${Utils.COLORS.LIGHT_SECONDARY};
   }
   &.secondary:hover {
     border: 1px solid transparent;
     color: white;
-    background-color: ${Utils.COLORS.LIGHTER_PRIMARY};
+    background-color: ${Utils.COLORS.SECONDARY};
   }
 
   &.alert {

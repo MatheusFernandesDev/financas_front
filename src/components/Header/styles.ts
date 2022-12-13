@@ -29,7 +29,7 @@ export const PerfilIcon = styled(IoPersonCircleOutline)`
     cursor: pointer;
 
     &:hover {
-        color: ${Utils.COLORS.DARK_PRIMARY};
+        color: ${Utils.COLORS.LIGHT_PRIMARY};
     }
 `;
 
@@ -41,7 +41,7 @@ export const ConfigIcon = styled(BsGear)`
     cursor: pointer;
 
     &:hover {
-        color: ${Utils.COLORS.DARK_PRIMARY};
+        color: ${Utils.COLORS.LIGHT_PRIMARY};
     }
 `;
 
@@ -53,6 +53,6 @@ export const LogoutIcon = styled(IoLogOutOutline)`
     cursor: pointer;
 
     &:hover {
-        color: ${Utils.COLORS.DARK_PRIMARY};
+        color: ${Utils.COLORS.LIGHT_PRIMARY};
     }
 `;
