@@ -11,14 +11,15 @@ import {
 
 import { Container } from "../../App.styles";
 
+import Modal from "../../components/Modal";
 import Header from "../../components/Header";
+import SideBar from "../../components/SideBar";
 import TextInput from "../../components/TextInput";
 import FormContent from "../../components/FormContent";
 import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import DataTableContent from "../../components/DataTableContent";
 import ButtonActions from "../../components/DataTableContent/ButtonActions";
-import Modal from "../../components/Modal";
 
 import { ColumnTitle } from "../../components/DataTableContent/styles";
 
@@ -283,6 +284,7 @@ const Users: React.FC = () => {
 
   return (
     <Container>
+      <SideBar/>
       {!formEdit && (
         <FormContent
           reloadHandler={loadHandler}

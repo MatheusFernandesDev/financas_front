@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   margin: 0px;
   padding: 0px;
+  display: flex;
 `;
 export const Header = styled.div`
   margin: 0;

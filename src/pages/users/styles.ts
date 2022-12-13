@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { device } from "../../styles/devices";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+    display: flex;
+`;
 
 export const Title = styled.div`
     font-size: 25px;

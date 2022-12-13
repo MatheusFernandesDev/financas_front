@@ -1,12 +1,16 @@
 import React from "react";
 
-import Header from "../../components/Header";
-import { Container, PerfilIcon } from "./styles";
+import { Container } from "../../App.styles";
 
+import Header from "../../components/Header";
+import SideBar from "../../components/SideBar";
+
+import { PerfilIcon } from "./styles";
 
 const MyProfile: React.FC = () => {
   return (
     <Container>
+      <SideBar/>
       <PerfilIcon/>
     </Container>
   );
