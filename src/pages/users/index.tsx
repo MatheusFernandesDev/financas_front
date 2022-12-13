@@ -283,7 +283,6 @@ const Users: React.FC = () => {
 
   return (
     <Container>
-      <Header />
       {!formEdit && (
         <FormContent
           reloadHandler={loadHandler}

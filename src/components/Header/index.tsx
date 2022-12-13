@@ -1,6 +1,9 @@
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import { Link } from "react-router-dom";
+
+import financia_logo from "../../assets/MYFinance2.png";
+import financia_logo_mini from "../../assets/MYFinance3.png";
 
 import { doLogout } from "../../helpers/AuthHandler";
 
@@ -27,10 +30,9 @@ const Header: FunctionComponent<HeaderProps> = ({
   }
   return (
     <Container>
-      {/* <Link to="/dashboard">
-        <LogoImage src={windowWidth > 1023 ? financia_logo : financia_logo_mini} />
-      </Link> */}
-      <div style={{color: "white"}}>LOGO</div>
+      <Link to="/dashboard">
+        <LogoImage src={window.innerWidth > 1023 ? financia_logo : financia_logo_mini} />
+      </Link>
       <IconsArea>
           {!hideProfile &&
             <>

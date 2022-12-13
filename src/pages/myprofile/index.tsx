@@ -6,12 +6,9 @@ import { Container, PerfilIcon } from "./styles";
 
 const MyProfile: React.FC = () => {
   return (
-    <>
-      <Header/>
-      <Container>
-        <PerfilIcon/>
-      </Container>
-    </>
+    <Container>
+      <PerfilIcon/>
+    </Container>
   );
 };
 

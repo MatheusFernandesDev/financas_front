@@ -24,6 +24,14 @@ export const Container = styled.div`
   overflow-y: scroll;
 `;
 
+export const LogoImage = styled.img`
+  width: 60%;
+  margin-bottom: -25px;
+	@media ${device.tablet} {
+    width: 25%;
+	}
+`;
+
 export const Linkfy = styled.a`
   color: #3a89ff;
   cursor: pointer;
@@ -43,7 +51,7 @@ export const Form = styled.div`
 export const Card = styled.div`
   width: 25%;
   margin: auto;
-  padding: 70px 30px 44px;
+  padding: 20px 30px 44px;
   border-radius: 24px;
   background: #fff;
   position: relative;

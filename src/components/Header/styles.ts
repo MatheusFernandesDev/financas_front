@@ -14,15 +14,12 @@ export const Container = styled.div`
     padding: 5px;
     padding-left: 15px;
     border-radius: 10px;
-    background-color: #272c30;
+    background-color: #3c4144;
 `;
 
 export const LogoImage = styled.img`
-	height: 40px;
+	height: 70px;
 	display: block;
-	@media ${device.tablet} {
-		height: 40px;
-	}
 `;
 
 export const IconsArea = styled.div`

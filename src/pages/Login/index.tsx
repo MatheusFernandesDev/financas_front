@@ -11,6 +11,8 @@ import {
   residentphoneMask,
 } from "../../helpers/masks";
 
+import financia_logo from "../../assets/MYFinance2.png";
+
 import Button from "../../components/Button";
 import Loading from "../../components/Loading";
 import Refresh from "../../components/Refresh";
@@ -19,7 +21,7 @@ import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
 
-import { Container, Form, Card, ButtonArea, ErrorMessage } from "./styles";
+import { Container, LogoImage, Form, Card, ButtonArea, ErrorMessage } from "./styles";
 
 interface States {
   id: number;
@@ -215,6 +217,7 @@ const Login: React.FC = () => {
         <>
           {login && (
             <Card>
+              <LogoImage src={financia_logo} />
               <h2>Login</h2>
               <h3>Entre com suas credenciais</h3>
               <Form>
