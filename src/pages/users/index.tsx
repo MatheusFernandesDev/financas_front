@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import api from "../../service/api";
-import { cellphoneMask, cnpjMask, cpfMask, residentphoneMask } from "../../helpers/masks";
+import {
+  cellphoneMask,
+  cnpjMask,
+  cpfMask,
+  residentphoneMask,
+} from "../../helpers/masks";
 
 import { Container } from "../../App.styles";
 
@@ -13,6 +18,7 @@ import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import DataTableContent from "../../components/DataTableContent";
 import ButtonActions from "../../components/DataTableContent/ButtonActions";
+import Modal from "../../components/Modal";
 
 import { ColumnTitle } from "../../components/DataTableContent/styles";
 
@@ -20,12 +26,17 @@ import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 import { Form, Title } from "./styles";
+import { Button } from "../login/styles";
 
 const Users: React.FC = () => {
   const columns = [
     {
       name: <ColumnTitle> Nome </ColumnTitle>,
-      cell: (row: any) => `${row.name} ${row.last_name}`,
+      cell: (row: any) => {
+        return row.last_name == null
+          ? `${row.name}`
+          : `${row.name}  ${row.last_name}`;
+      },
       center: true,
     },
     {
@@ -57,20 +68,24 @@ const Users: React.FC = () => {
                 openEditUser(row, true);
               }}
             />
-            <ButtonActions children={<MdDelete size={20} color="black" />} />
+
+            <ButtonActions
+              click={() => deleteHandler(row, false)}
+              children={<MdDelete size={20} color="black" />}
+            />
           </>
         );
       },
     },
   ];
-  
+
   const filtro = [{ name: "Nome", id: "name" }];
 
   // DATA
   const personOptions = [
-    {id: 1, name: "Físico"},
-    {id: 2, name: "Jurídico"}
-  ]
+    { id: 1, name: "Físico" },
+    { id: 2, name: "Jurídico" },
+  ];
   const phoneOptions = [
     { id: 1, name: "Celular" },
     { id: 2, name: "Residencial" },
@@ -90,17 +105,19 @@ const Users: React.FC = () => {
   const [personType, setPersonType] = useState<number>(-1);
   const [cpf, setCPF] = useState<string>("");
   const [cnpj, setCNPJ] = useState<string>("");
-  const [phoneType, setPhoneType] = useState<number>(-1)
-  const [phone, setPhone] = useState<string>("")
+  const [phoneType, setPhoneType] = useState<number>(-1);
+  const [phone, setPhone] = useState<string>("");
   //
   const [progressPending, setProgressPending] = useState<boolean>(false);
   const [errors, setErrors] = useState([]);
   const [editando, setEditando] = useState<boolean>(false);
   const [formEdit, setFormEdit] = useState<boolean>(false);
+  const [modalDelete, setModalDelete] = useState<boolean>(false);
+  console.log(modalDelete);
 
   function clearHandler() {
     setId(-1);
-    setUserType(-1)
+    setUserType(-1);
     setName("");
     setLastName("");
     setEmail("");
@@ -117,7 +134,7 @@ const Users: React.FC = () => {
   function openEditUser(row: any, edit: boolean) {
     clearHandler();
     setFormEdit(true);
-    if(edit) {
+    if (edit) {
       setEditando(true);
       setId(row.id);
       setUserType(row.id_user_type);
@@ -128,19 +145,25 @@ const Users: React.FC = () => {
       setPersonType(row.person_type);
       setCPF(row.cpf);
       setCNPJ(row.cnpj);
-      setPhoneType(Number(row.phone_type))
-      setPhone(row.phone)
+      setPhoneType(Number(row.phone_type));
+      setPhone(row.phone);
     }
   }
 
   async function loadHandler() {
-    const { data: responseUser } = await api.get("/users", { validateStatus: (status) => status == 200 || status === 204});
-    const { data: responseStates } = await api.get("/states", { validateStatus: (status) => status == 200 || status === 204});
-    const { data: responseUserType } = await api.get("/user-types", { validateStatus: (status) => status == 200 || status === 204}); 
+    const { data: responseUser } = await api.get("/users", {
+      validateStatus: (status) => status == 200 || status === 204,
+    });
+    const { data: responseStates } = await api.get("/states", {
+      validateStatus: (status) => status == 200 || status === 204,
+    });
+    const { data: responseUserType } = await api.get("/user-types", {
+      validateStatus: (status) => status == 200 || status === 204,
+    });
 
     setUsers(responseUser);
     setStatesOption(responseStates);
-    if(responseUserType.length > 0) {
+    if (responseUserType.length > 0) {
       const formattedUserType = responseUserType.map(
         (el: { id: number; description: string }) => ({
           id: el.id,
@@ -154,216 +177,242 @@ const Users: React.FC = () => {
   async function saveHandler() {
     setProgressPending(true);
     let newPhone;
-    if(phoneType == 1) {
+    if (phoneType == 1) {
       newPhone = cellphoneMask(phone);
-    } else if(phoneType == 2) {
+    } else if (phoneType == 2) {
       newPhone = residentphoneMask(phone);
     }
 
-    api.post(`/user`, {
-      user_type: userType,
-      name: name,
-      last_name: lastName,
-      email: email.toLowerCase().replace(/ /g, ""),
-      state: state,
-      password: password.replace(/ /g, ""),
-      confirmPassword: confirmPassword.replace(/ /g, ""),
-      cpf: cpf && cpfMask(cpf),
-      cnpj: cnpj && cnpjMask(cnpj),
-      phone_type: phoneType,
-      phone: phoneType ? newPhone : phone,
-      person_type: personType,
-    })
-    .then(() => {
-      clearHandler();
-      loadHandler();
-      setFormEdit(false);
-      return toast.success("Usuário criado com sucesso!");
-    })
-    .catch(err => {
-      if (err.response) {
-        const responseErrors = err?.response?.data?.errors;
-        setErrors(responseErrors);
-      }
-      return toast.error("Erro ao criar usuário, verificar dados.")
-    })
-    .finally(() => {
-      setProgressPending(false);
-    });
+    api
+      .post(`/user`, {
+        id_user_type: userType,
+        name: name,
+        last_name: lastName,
+        email: email.toLowerCase().replace(/ /g, ""),
+        state: state,
+        password: password.replace(/ /g, ""),
+        confirmPassword: confirmPassword.replace(/ /g, ""),
+        cpf: cpf && cpfMask(cpf),
+        cnpj: cnpj && cnpjMask(cnpj),
+        phone_type: phoneType,
+        phone: phoneType ? newPhone : phone,
+        person_type: personType,
+      })
+      .then(() => {
+        clearHandler();
+        loadHandler();
+        setFormEdit(false);
+        return toast.success("Usuário criado com sucesso!");
+      })
+      .catch((err) => {
+        if (err.response) {
+          const responseErrors = err?.response?.data?.errors;
+          setErrors(responseErrors);
+        }
+        return toast.error("Erro ao criar usuário, verificar dados.");
+      })
+      .finally(() => {
+        setProgressPending(false);
+      });
   }
 
   async function editHandler() {
     let newPhone;
-    if(phoneType == 1) {
+    if (phoneType == 1) {
       newPhone = cellphoneMask(phone);
-    } else if(phoneType == 2) {
+    } else if (phoneType == 2) {
       newPhone = residentphoneMask(phone);
     }
-    
+
     setProgressPending(true);
-    api.put(`/user/${id}`, {
-      user_type: userType,
-      name: name,
-      last_name: lastName,
-      email: email && email.toLowerCase().replace(/ /g, ""),
-      state: state,
-      password: password,
-      // confirmPassword: confirmPassword,
-      cpf: cpf ? cpfMask(cpf) : null,
-      cnpj: cnpj ? cnpjMask(cnpj) : null,
-      phone_type: phoneType,
-      phone: phoneType ? newPhone : phone,
-      person_type: personType,
-    })
-    .then(() => {
-      clearHandler();
-      loadHandler();
-      setFormEdit(false);
-      return toast.success("Usuário editado com sucesso!");
-    })
-    .catch(() => {
-      return toast.error(`Erro ao editar usuário, verificar dados.`)
-    })
-    .finally(() => {
-      setProgressPending(false);
-    });
+    api
+      .put(`/user/${id}`, {
+        id_user_type: userType,
+        name: name,
+        last_name: lastName,
+        email: email && email.toLowerCase().replace(/ /g, ""),
+        state: state,
+        password: password,
+        // confirmPassword: confirmPassword,
+        cpf: cpf ? cpfMask(cpf) : null,
+        cnpj: cnpj ? cnpjMask(cnpj) : null,
+        phone_type: phoneType,
+        phone: phoneType ? newPhone : phone,
+        person_type: personType,
+      })
+      .then(() => {
+        clearHandler();
+        loadHandler();
+        setFormEdit(false);
+        return toast.success("Usuário editado com sucesso!");
+      })
+      .catch(() => {
+        return toast.error(`Erro ao editar usuário, verificar dados.`);
+      })
+      .finally(() => {
+        setProgressPending(false);
+      });
+  }
+
+  async function deleteHandler(row: any, edit: boolean) {
+    setId(row.id);
+    setFormEdit(false);
+    console.log(row.id);
+    setModalDelete(true);
   }
 
   useEffect(() => {
     loadHandler();
   }, []);
 
+  function removeHandler() {
+    api
+      .delete(`/bank/${id}`)
+      .then(() => {
+        clearHandler();
+
+        return toast.success("Banco excluida com sucesso!");
+      })
+      .catch(() => {
+        return toast.error("Erro ao excluir Banco.");
+      })
+      .finally(() => {
+        setModalDelete(false);
+      });
+  }
+
   return (
     <Container>
       <Header />
-        {!formEdit && (
-          <FormContent reloadHandler={loadHandler} newHandler={() => openEditUser(null, false)} hideSave>
-            <DataTableContent
-              title="Usuários"
-              data={users}
-              filterColumns={filtro}
-              columns={columns}
+      {!formEdit && (
+        <FormContent
+          reloadHandler={loadHandler}
+          newHandler={() => openEditUser(null, false)}
+          hideSave
+        >
+          <DataTableContent
+            title="Usuários"
+            data={users}
+            filterColumns={filtro}
+            columns={columns}
+          />
+        </FormContent>
+      )}
+      {formEdit && (
+        <FormContent
+          saveHandler={saveHandler}
+          editHandler={editHandler}
+          edit={editando}
+          hideNew
+          hideReload
+          showReturn
+          returnHandler={() => {
+            clearHandler();
+            setFormEdit(false);
+          }}
+        >
+          <Title>{editando ? "Editar" : "Criar"} Usuário</Title>
+          <Form>
+            <SelectOption
+              name_field="Tipo de Usuário"
+              value={userType}
+              options={userOption}
+              onChange={(event) => setUserType(parseInt(event.target.value))}
+              param="id_user_type"
+              errors={errors}
             />
-          </FormContent>
-        )}
-        {formEdit && 
-          <FormContent 
-            saveHandler={saveHandler} 
-            editHandler={editHandler}
-            edit={editando}
-            hideNew 
-            hideReload 
-            showReturn 
-            returnHandler={() => {
-              clearHandler();
-              setFormEdit(false);
-            }}
-          >
-            <Title>{editando ? "Editar" : "Criar"} Usuário</Title>
-            <Form>
-                <SelectOption
-                  name_field="Tipo de Usuário"
-                  value={userType}
-                  options={userOption}
-                  onChange={event => setUserType(parseInt(event.target.value))}
-                  param="user_type"
+            <TextInput
+              name_field="Nome"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              param="name"
+              errors={errors}
+            />
+            <TextInput
+              name_field="Sobrenome"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              param={"last_name"}
+              errors={errors}
+            />
+            <TextInput
+              name_field="E-mail"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              param="email"
+              errors={errors}
+            />
+            {!editando && (
+              <>
+                <PasswordInput
+                  name_field="Senha"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  param="password"
                   errors={errors}
                 />
-                <TextInput
-                  name_field="Nome"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  param="name"
+                <PasswordInput
+                  name_field="Confirmar Senha"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  param="confirmPassword"
                   errors={errors}
                 />
-                <TextInput
-                  name_field="Sobrenome"
-                  value={lastName}
-                  onChange={(event) => setLastName(event.target.value)}
-                  param={"last_name"}
-                  errors={errors}
-                />
-                <TextInput
-                  name_field="E-mail"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  param="email"
-                  errors={errors}
-                />
-                {!editando &&
-                  <>
-                    <PasswordInput
-                      name_field="Senha"
-                      value={password}
-                      onChange={event => setPassword(event.target.value)}
-                      param="password"
-                      errors={errors}
-                    />
-                    <PasswordInput
-                      name_field="Confirmar Senha"
-                      value={confirmPassword}
-                      onChange={event => setConfirmPassword(event.target.value)}
-                      param="confirmPassword"
-                      errors={errors}
-                    />
-                  </>
-                }
-                <SelectOption
-                  name_field="Estados"
-                  value={state}
-                  options={statesOption}
-                  onChange={(event) => setState(parseInt(event.target.value))}
-                  param="state"
-                  errors={errors}
-                />
-                <SelectOption
-                  name_field="Tipo de Pessoa"
-                  value={personType}
-                  options={personOptions}
-                  onChange={(event) =>
-                    setPersonType(parseInt(event.target.value))
-                  }
-                  param="person_type"
-                  errors={errors}
-                />
-                {personType == 1 && (
-                  <TextInput
-                    name_field="CPF"
-                    value={cpf}
-                    onChange={event => setCPF(event.target.value)}
-                    param="cpf"
-                    errors={errors}
-                  />
-                )}
-                {personType == 2 && (
-                  <TextInput
-                    name_field="CNPJ"
-                    value={cnpj}
-                    onChange={(event) => setCNPJ(event.target.value)}
-                    param="cnpj"
-                    errors={errors}
-                  />
-                )}
-                <SelectOption
-                  name_field="Tipo de Telefone"
-                  value={phoneType}
-                  options={phoneOptions}
-                  onChange={(event) =>
-                    setPhoneType(parseInt(event.target.value))
-                  }
-                  param="phone"
-                  errors={errors}
-                />
-                <TextInput
-                  name_field="Telefone"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                  param="phone"
-                  errors={errors}
-                />
-            </Form>
-          </FormContent>
-        }
+              </>
+            )}
+            <SelectOption
+              name_field="Estados"
+              value={state}
+              options={statesOption}
+              onChange={(event) => setState(parseInt(event.target.value))}
+              param="state"
+              errors={errors}
+            />
+            <SelectOption
+              name_field="Tipo de Pessoa"
+              value={personType}
+              options={personOptions}
+              onChange={(event) => setPersonType(parseInt(event.target.value))}
+              param="person_type"
+              errors={errors}
+            />
+            {personType == 1 && (
+              <TextInput
+                name_field="CPF"
+                value={cpf}
+                onChange={(event) => setCPF(event.target.value)}
+                param="cpf"
+                errors={errors}
+              />
+            )}
+            {personType == 2 && (
+              <TextInput
+                name_field="CNPJ"
+                value={cnpj}
+                onChange={(event) => setCNPJ(event.target.value)}
+                param="cnpj"
+                errors={errors}
+              />
+            )}
+            <SelectOption
+              name_field="Tipo de Telefone"
+              value={phoneType}
+              options={phoneOptions}
+              onChange={(event) => setPhoneType(parseInt(event.target.value))}
+              param="phone"
+              errors={errors}
+            />
+            <TextInput
+              name_field="Telefone"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              param="phone"
+              errors={errors}
+            />
+          </Form>
+          {modalDelete && <Modal />}
+        </FormContent>
+      )}
     </Container>
   );
 };
