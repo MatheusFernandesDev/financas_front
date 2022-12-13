@@ -51,8 +51,8 @@ const Users: React.FC = () => {
         return (
           (row.id_user_type == 1 && "Admin") ||
           (row.id_user_type == 2 && "Usuário") ||
-          (row.id_user_type == 3 && "Gerente") ||
-          (row.id_user_type == 4 && "Cliente")
+          (row.id_user_type == 3 && "Cliente") ||
+          (row.id_user_type == 4 && "Gerente")
         );
       },
     },
@@ -268,16 +268,17 @@ const Users: React.FC = () => {
   }, []);
 
   function removeHandler() {
-    api.delete(`/user/${id}`)
-    .then(() => {
-      clearHandler();
-      loadHandler();
-      setModalDelete(false);
-      return toast.success("Usuário excluido com sucesso!");
-    })
-    .catch(() => {
-      return toast.error("Erro ao excluir usuário.");
-    });
+    api
+      .delete(`/user/${id}`)
+      .then(() => {
+        clearHandler();
+        loadHandler();
+        setModalDelete(false);
+        return toast.success("Usuário excluido com sucesso!");
+      })
+      .catch(() => {
+        return toast.error("Erro ao excluir usuário.");
+      });
   }
 
   return (
@@ -411,15 +412,15 @@ const Users: React.FC = () => {
           </Form>
         </FormContent>
       )}
-      {modalDelete && 
-        <Modal 
+      {modalDelete && (
+        <Modal
           title="Excluir Usuário"
           message="Deseja realmente excluir usuário?"
-          saveText="Excluir" 
+          saveText="Excluir"
           saveHandler={removeHandler}
           changeShowedState={changeShowedState}
         />
-      }
+      )}
     </Container>
   );
 };
