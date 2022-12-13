@@ -1,31 +1,45 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, MouseEventHandler } from "react";
 
-import { Container, Box, Msg, Close, Header, Buttons, Title } from "./styles";
+import Button from "./Button";
+
+import { Container, Box, Msg, Close, Header, Button1, Buttons, Title } from "./styles";
 
 interface ModalProps {
   children?: React.ReactNode;
   title?: string;
-  content?: string | undefined;
-  showed?: boolean | false;
-  changeShowedState?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  message?: string;
+  closeText?: string;
+  saveText?: string;
+  hideSave?: boolean | false;
+  changeShowedState?: MouseEventHandler<HTMLButtonElement> | undefined;
+  saveHandler?: () => void;
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
   title,
-  content,
+  hideSave,
+  closeText,
+  saveText,
   children,
-  showed,
+  message,
   changeShowedState,
+  saveHandler,
 }) => {
   return (
     <Container>
       <Box>
         <Header>
           <Title>{title}</Title>
-          {/* <Close changeShowedState={changeShowedState} /> */}
+          <Button1 onClick={changeShowedState}>
+            <Close />
+          </Button1>
         </Header>
-        <Msg>{content}</Msg>
-        <Buttons>{children}</Buttons>
+        {children}
+        <Msg>{message}</Msg>
+        <Buttons>
+          <Button className="primary" click={changeShowedState}>{closeText || "Cancelar"}</Button>
+          {!hideSave && <Button className="secondary" click={saveHandler}>{saveText || "Salvar"}</Button>}
+        </Buttons>
       </Box>
     </Container>
   );

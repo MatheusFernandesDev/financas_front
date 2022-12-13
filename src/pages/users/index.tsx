@@ -46,6 +46,7 @@ const Users: React.FC = () => {
     },
     {
       name: <ColumnTitle> Tipo </ColumnTitle>,
+      center: true,
       cell: (row: any) => {
         return (
           (row.id_user_type == 1 && "Admin") ||
@@ -54,7 +55,6 @@ const Users: React.FC = () => {
           (row.id_user_type == 4 && "Cliente")
         );
       },
-      center: true,
     },
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
@@ -70,7 +70,7 @@ const Users: React.FC = () => {
             />
 
             <ButtonActions
-              click={() => deleteHandler(row, false)}
+              click={() => deleteHandler(row.id)}
               children={<MdDelete size={20} color="black" />}
             />
           </>
@@ -113,7 +113,6 @@ const Users: React.FC = () => {
   const [editando, setEditando] = useState<boolean>(false);
   const [formEdit, setFormEdit] = useState<boolean>(false);
   const [modalDelete, setModalDelete] = useState<boolean>(false);
-  console.log(modalDelete);
 
   function clearHandler() {
     setId(-1);
@@ -129,6 +128,11 @@ const Users: React.FC = () => {
     setPhone("");
     setErrors([]);
     setEditando(false);
+  }
+
+  function changeShowedState() {
+    clearHandler();
+    setModalDelete(false);
   }
 
   function openEditUser(row: any, edit: boolean) {
@@ -254,10 +258,8 @@ const Users: React.FC = () => {
       });
   }
 
-  async function deleteHandler(row: any, edit: boolean) {
-    setId(row.id);
-    setFormEdit(false);
-    console.log(row.id);
+  async function deleteHandler(id: number) {
+    setId(id);
     setModalDelete(true);
   }
 
@@ -266,19 +268,16 @@ const Users: React.FC = () => {
   }, []);
 
   function removeHandler() {
-    api
-      .delete(`/bank/${id}`)
-      .then(() => {
-        clearHandler();
-
-        return toast.success("Banco excluida com sucesso!");
-      })
-      .catch(() => {
-        return toast.error("Erro ao excluir Banco.");
-      })
-      .finally(() => {
-        setModalDelete(false);
-      });
+    api.delete(`/user/${id}`)
+    .then(() => {
+      clearHandler();
+      loadHandler();
+      setModalDelete(false);
+      return toast.success("Usuário excluido com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao excluir usuário.");
+    });
   }
 
   return (
@@ -410,9 +409,17 @@ const Users: React.FC = () => {
               errors={errors}
             />
           </Form>
-          {modalDelete && <Modal />}
         </FormContent>
       )}
+      {modalDelete && 
+        <Modal 
+          title="Excluir Usuário"
+          message="Deseja realmente excluir usuário?"
+          saveText="Excluir" 
+          saveHandler={removeHandler}
+          changeShowedState={changeShowedState}
+        />
+      }
     </Container>
   );
 };

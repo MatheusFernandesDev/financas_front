@@ -11,7 +11,7 @@ export const Container = styled.div`
   justify-content: center;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 1;
 `;
 
 export const Box = styled.div`
@@ -28,7 +28,6 @@ export const Box = styled.div`
 export const Msg = styled.div`
   grid-area: span 1 / span 2;
   padding: 10px;
-  border-top: 0.75px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const Buttons = styled.div`
@@ -38,45 +37,19 @@ export const Buttons = styled.div`
   justify-content: flex-end;
 `;
 
-export const Button = styled.button`
-  border-radius: 8px;
-  padding: 5px;
-  color: white;
-  margin-left: 8px;
-  cursor: pointer;
-
-  border: 1px solid #0e6efd;
-  background-color: #0e6efd;
-
-  &.success {
-    border: 1px solid #198754;
-    background-color: #198754;
-  }
-  &.secondary {
-    border: 1px solid #6d757d;
-    background-color: #6d757d;
-  }
-  &.alert {
-    border: 1px solid #dc3545;
-    background-color: #dc3545;
-  }
-  &.warn {
-    border: 1px solid #ffc108;
-    background-color: #ffc108;
-    color: #333;
-  }
-
-  &:last-child {
-    margin-right: 8px;
-  }
+export const Button1 = styled.button`
+  border: none;
+  background-color: transparent;
 `;
 
 export const Header = styled.div`
   grid-area: span 1 / span 2;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  justify-content: space-between;
+  padding: 10px;
   position: relative;
+  border-bottom: 0.75px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const Title = styled.div`
@@ -85,7 +58,7 @@ export const Title = styled.div`
 
 export const Close = styled(MdClose)`
   font-size: 18px;
-  position: absolute;
   right: 5px;
+  margin-top: 5px;
   cursor: pointer;
 `;

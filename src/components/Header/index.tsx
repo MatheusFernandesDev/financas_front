@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 import { doLogout } from "../../helpers/AuthHandler";
@@ -26,6 +27,9 @@ const Header: FunctionComponent<HeaderProps> = ({
   }
   return (
     <Container>
+      {/* <Link to="/dashboard">
+        <LogoImage src={windowWidth > 1023 ? financia_logo : financia_logo_mini} />
+      </Link> */}
       <div style={{color: "white"}}>LOGO</div>
       <IconsArea>
           {!hideProfile &&
