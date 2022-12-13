@@ -4,7 +4,7 @@ import ReactTooltip from "react-tooltip";
 
 import { doLogout } from "../../helpers/AuthHandler";
 
-import { Container, IconsArea, PerfilIcon, ConfigIcon, LogoutIcon } from "./styles";
+import { Container, LogoImage, IconsArea, PerfilIcon, ConfigIcon, LogoutIcon } from "./styles";
 
 interface HeaderProps {
   hideProfile?: boolean;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../styles/devices";
 import { Utils } from "../../config/Utils";
 import { BsGear } from "react-icons/bs";
 import { IoLogOutOutline, IoPersonCircleOutline } from "react-icons/io5";
@@ -14,6 +15,14 @@ export const Container = styled.div`
     padding-left: 15px;
     border-radius: 10px;
     background-color: #272c30;
+`;
+
+export const LogoImage = styled.img`
+	height: 40px;
+	display: block;
+	@media ${device.tablet} {
+		height: 40px;
+	}
 `;
 
 export const IconsArea = styled.div`
