@@ -16,6 +16,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { Container } from "./styles";
 
 const DashBoard: React.FC = () => {
+
   return (
     <Container>
       <FormContent>
