@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
-import { cellphoneMask, cnpjMask, cpfMask, residentphoneMask } from "../../helpers/masks";
+import {
+  cellphoneMask,
+  cnpjMask,
+  cpfMask,
+  residentphoneMask,
+} from "../../helpers/masks";
 
 import Button from "../../components/Button";
 import Loading from "../../components/Loading";
@@ -14,13 +19,7 @@ import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
 
-import {
-  Container,
-  Form,
-  Card,
-  ButtonArea,
-  ErrorMessage,
-} from "./styles";
+import { Container, Form, Card, ButtonArea, ErrorMessage } from "./styles";
 
 interface States {
   id: number;
@@ -124,15 +123,15 @@ const Login: React.FC = () => {
   async function createUser() {
     setProgressPending(true);
     let newPhone;
-    if(phone_type == 1) {
+    if (phone_type == 1) {
       newPhone = cellphoneMask(phone);
-    } else if(phone_type == 2) {
+    } else if (phone_type == 2) {
       newPhone = residentphoneMask(phone);
     }
 
     await api
       .post(`/signup`, {
-        user_type: user_type,
+        id_user_type: user_type,
         name: newUser,
         last_name: last_name,
         email: email && email.toLowerCase().replace(/ /g, ""),
@@ -336,7 +335,7 @@ const Login: React.FC = () => {
                 {personType == 1 && (
                   <TextInput
                     name_field="CPF"
-                    value={cpf?.replace(/\D/g,"")}
+                    value={cpf?.replace(/\D/g, "")}
                     onChange={(event) => setCpf(event.target.value)}
                     param="cpf"
                     errors={errors}
@@ -345,7 +344,7 @@ const Login: React.FC = () => {
                 {personType == 2 && (
                   <TextInput
                     name_field="CNPJ"
-                    value={cnpj?.replace(/\D/g,"")}
+                    value={cnpj?.replace(/\D/g, "")}
                     onChange={(event) => setCnpj(event.target.value)}
                     param="cnpj"
                     errors={errors}
@@ -364,7 +363,7 @@ const Login: React.FC = () => {
                 />
                 <TextInput
                   name_field="Telefone"
-                  value={phone?.replace(/\D/g,"")}
+                  value={phone?.replace(/\D/g, "")}
                   onChange={(event) => setPhone(event.target.value)}
                   param="phone"
                   errors={errors}
