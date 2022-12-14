@@ -16,12 +16,12 @@ export const doLogin = (token, rememberPassword, name, last_name) => {
       "last_name",
       last_name
     );
-
-    localStorage.setItem("name", name);
-    localStorage.setItem("last_name", last_name);
   } else {
     Cookies.set("token", token, "name", name, "last_name", last_name);
   }
+
+  localStorage.setItem("name", name);
+  localStorage.setItem("last_name", last_name);
 };
 
 export const doLogout = () => {

@@ -6,7 +6,7 @@ import { Container } from "../../App.styles";
 
 import Header from "../../components/Header";
 import Loading from "../../components/Loading";
-import SideBar from "../../components/SideBar copy";
+import SideBar from "../../components/Sidebar";
 import FormContent from "../../components/FormContent";
 // import DataTableContent from "../../components/DataTableContent";
 
@@ -22,13 +22,13 @@ const DashBoard: React.FC = () => {
   return (
     <Container>
       <SideBar/>
-      {/* <FormContent> */}
+      <FormContent>
         {/* <DataTableContent
           title="Balanço"
           data={}
           column={}
         /> */}
-      {/* </FormContent> */}
+      </FormContent>
     </Container>
   );
 };

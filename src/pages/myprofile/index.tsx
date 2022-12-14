@@ -3,7 +3,7 @@ import React from "react";
 import { Container } from "../../App.styles";
 
 import Header from "../../components/Header";
-import SideBar from "../../components/SideBar";
+import SideBar from "../../components/Sidebar";
 
 import { PerfilIcon } from "./styles";
 
