@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Routes, Route } from "react-router-dom";
 import Private from "./RouteWrapper";
 
@@ -9,17 +9,41 @@ import MyProfile from "../pages/myprofile";
 import Users from "../pages/users";
 import ExpenseMovement from "../pages/finances/expenseMovement";
 import RevenueMovement from "../pages/finances/revenueMovement";
+import Bank from "../pages/category";
+import Category from "../pages/category";
 
 export default () => {
   return (
     <Routes>
       <Route path="*" exact element={<NotFound />} />
       <Route path="/" exact element={<Login />} />
-      <Route path="/dashboard" exact element={<Private Component={DashBoard} />} />
-      <Route path="/expenseMovement" exact element={<Private Component={ExpenseMovement} />} />
-      <Route path="/revenueMovement" exact element={<Private Component={RevenueMovement} />} />
-      <Route path="/myprofile" exact element={<Private Component={MyProfile} />} />
+      <Route
+        path="/dashboard"
+        exact
+        element={<Private Component={DashBoard} />}
+      />
+      <Route
+        path="/expenseMovement"
+        exact
+        element={<Private Component={ExpenseMovement} />}
+      />
+      <Route
+        path="/revenueMovement"
+        exact
+        element={<Private Component={RevenueMovement} />}
+      />
+      <Route
+        path="/myprofile"
+        exact
+        element={<Private Component={MyProfile} />}
+      />
       <Route path="/users" exact element={<Private Component={Users} />} />
+      <Route path="/bank" exact element={<Private Component={Bank} />} />
+      <Route
+        path="/category"
+        exact
+        element={<Private Component={Category} />}
+      />
     </Routes>
   );
 };

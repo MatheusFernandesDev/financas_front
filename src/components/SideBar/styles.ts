@@ -17,7 +17,7 @@ export const Container = styled.div<ContainerProps>`
   height: 96vh;
   margin-top: 15px;
   padding: 8px;
-  width: ${props => props.sidebar ? "200px" : "70px"};
+  width: ${(props) => (props.sidebar ? "200px" : "70px")};
   background-color: ${Utils.COLORS.BLACK};
   border-radius: 0 18px 18px 0;
   
@@ -75,18 +75,17 @@ export const ButtonLink = styled.a`
   }
 `;
 
-
 export const Text = styled.span<TextProps>`
   margin-left: 10px;
   color: ${Utils.COLORS.PRIMARY};
-  display: ${props => props.menu ? 'block' : 'none'};
+  display: ${(props) => (props.menu ? "block" : "none")};
   font-size: 16px;
 
-  @media ${device.tablet}{
-    font-size: 16px;
+  @media ${device.tablet} {
+    display: none;
   }
 
-  @media ${device.mobile}{
+  @media ${device.mobile} {
     display: none;
   }
 `;
@@ -95,18 +94,10 @@ export const ArrowLeft = styled(BsArrowLeft)`
   height: 25px;
   width: 25px;
   color: ${Utils.COLORS.LIGHT_PRIMARY};
-  
-  @media ${device.mobile}{
-    display: none;
-  }
 `;
 
 export const ArrowRight = styled(BsArrowRight)`
   height: 25px;
   width: 25px;
   color: ${Utils.COLORS.LIGHT_PRIMARY};
-  
-  @media ${device.mobile}{
-    display: none;
-  }
 `;

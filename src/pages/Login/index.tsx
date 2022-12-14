@@ -15,7 +15,14 @@ import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
 
-import { Container, LogoImage, Form, Card, ButtonArea, ErrorMessage } from "./styles";
+import {
+  Container,
+  LogoImage,
+  Form,
+  Card,
+  ButtonArea,
+  ErrorMessage,
+} from "./styles";
 import EmptyInputMask from "../../components/EmptyMaskInput";
 
 interface States {
@@ -160,12 +167,20 @@ const Login: React.FC = () => {
         password: password.replace(/ /g, ""),
       })
       .then((response) => {
-        doLogin(response.data.token, rememberPassword);
+        console.log(response);
+        doLogin(
+          response.data.token,
+          rememberPassword,
+          response.data.name,
+          response.data.last_name
+        );
         setRemoveLoading(true);
         clearHandler();
         setLogin(true);
         setNewLogin(false);
         window.location.href = "/dashboard";
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("last_name", response.data.last_name);
         return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
@@ -352,7 +367,7 @@ const Login: React.FC = () => {
                   param="phone"
                   errors={errors}
                 />
-                {phone_type == 1 ?
+                {phone_type == 1 ? (
                   <EmptyInputMask
                     name_field="Telefone"
                     value={phone}
@@ -360,7 +375,8 @@ const Login: React.FC = () => {
                     onChange={(event) => setPhone(event.target.value)}
                     param="phone"
                     errors={errors}
-                  /> :
+                  />
+                ) : (
                   <EmptyInputMask
                     name_field="Telefone"
                     value={phone}
@@ -369,7 +385,7 @@ const Login: React.FC = () => {
                     param="phone"
                     errors={errors}
                   />
-                }
+                )}
                 <ButtonArea>
                   <Button click={SignIn} disabled={progressPending}>
                     {progressPending ? <Refresh /> : "Voltar"}

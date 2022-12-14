@@ -265,7 +265,7 @@ const Users: React.FC = () => {
 
   return (
     <Container>
-      <SideBar/>
+      <SideBar />
       {!formEdit && (
         <FormContent
           reloadHandler={loadHandler}

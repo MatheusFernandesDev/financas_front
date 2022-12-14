@@ -59,10 +59,10 @@ const RevenueMovement: React.FC = () => {
   ];
   // DATA
   const [data, setData] = useState([]);
-  const [categoryOption, setCategoryOption] =  useState([]);
-  const [classificationOption, setClassificationOption] =  useState([]);
-  const [bankOption, setBankOption] =  useState([]);
-  const [statusOption, setStatusOption] =  useState([]);
+  const [categoryOption, setCategoryOption] = useState([]);
+  const [classificationOption, setClassificationOption] = useState([]);
+  const [bankOption, setBankOption] = useState([]);
+  const [statusOption, setStatusOption] = useState([]);
   // CREATE
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(-1);
@@ -75,64 +75,67 @@ const RevenueMovement: React.FC = () => {
 
   function createForm(edit: boolean) {
     setCreateRevenue(!createRevenue);
-    if(!edit) {}
+    if (!edit) {
+    }
   }
 
   return (
     <Container>
-        <SideBar/>
-        {
-          <FormContent hideSave>
-              <DataTableContent
-                  title="Movimentação de Receitas"
-                  data={data}
-                  columns={columns}
-              />
-          </FormContent>
-        }
-        {createRevenue &&
-          <FormContent 
-            hideNew 
-            hideReload 
-            showReturn 
-            returnHandler={() => createForm(false)}
-          >
-            <Form title="Criar Despesa">
-              <TextInput
-                name_field="Descrição"
-                name_placeholder="ex.: Mercado, Conta de luz ..."
-                value={description}
-                onChange={event => setDescription(event.target.value)}
-              />
-              {/* <DatePicker/> */}
-              <SelectOption
-                name_field="Categoria"
-                options={categoryOption}
-                value={category}
-                onChange={event => setCategory(parseInt(event.target.value))}
-              />
-              <SelectOption
-                name_field="Classificação"
-                options={classificationOption}
-                value={classification}
-                onChange={event => setClassification(parseInt(event.target.value))}
-              />
-              <SelectOption
-                name_field="Banco"
-                options={bankOption}
-                value={bank}
-                onChange={event => setBank(parseInt(event.target.value))}
-              />
-              {/* <DoubleInput/> */}
-              <SelectOption
-                name_field="Status"
-                options={statusOption}
-                value={status}
-                onChange={event => setStatus(parseInt(event.target.value))}
-              />
-            </Form>
-          </FormContent>
-        }
+      <SideBar />
+      {
+        <FormContent hideSave>
+          <DataTableContent
+            title="Movimentação de Receitas"
+            data={data}
+            columns={columns}
+          />
+        </FormContent>
+      }
+      {createRevenue && (
+        <FormContent
+          hideNew
+          hideReload
+          showReturn
+          returnHandler={() => createForm(false)}
+        >
+          <Form title="Criar Despesa">
+            <TextInput
+              name_field="Descrição"
+              name_placeholder="ex.: Mercado, Conta de luz ..."
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
+            {/* <DatePicker/> */}
+            <SelectOption
+              name_field="Categoria"
+              options={categoryOption}
+              value={category}
+              onChange={(event) => setCategory(parseInt(event.target.value))}
+            />
+            <SelectOption
+              name_field="Classificação"
+              options={classificationOption}
+              value={classification}
+              onChange={(event) =>
+                setClassification(parseInt(event.target.value))
+              }
+            />
+            <SelectOption
+              name_field="Banco"
+              options={bankOption}
+              value={bank}
+              onChange={(event) => setBank(parseInt(event.target.value))}
+            />
+            {/* <DoubleInput/> */}
+            <SelectOption
+              name_field="Status"
+              options={statusOption}
+              value={status}
+              onChange={(event) => setStatus(parseInt(event.target.value))}
+            />
+          </Form>
+        </FormContent>
+      )}
     </Container>
   );
 };
