@@ -9,7 +9,7 @@ import MyProfile from "../pages/myprofile";
 import Users from "../pages/users";
 import ExpenseMovement from "../pages/finances/expenseMovement";
 import RevenueMovement from "../pages/finances/revenueMovement";
-import Bank from "../pages/category";
+import Bank from "../pages/bank";
 import Category from "../pages/category";
 
 export default () => {
