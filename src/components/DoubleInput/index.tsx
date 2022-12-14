@@ -3,6 +3,7 @@ import { CurrencyInputOnChangeValues } from "react-currency-input-field/dist/com
 import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface DoubleInputProps {
+    style?: any;
     name_field?: string;
     name_placeholder?: string;
     value?: string;
@@ -19,6 +20,7 @@ interface DoubleInputProps {
   }
 
 const DoubleInput: React.FC<DoubleInputProps> = ({
+    style,
     name_field,
     name_placeholder,
     value,
@@ -42,7 +44,7 @@ const DoubleInput: React.FC<DoubleInputProps> = ({
     }, [errors, param]);
 
 	return (
-		<Container>
+		<Container style={style}>
 			<Label errors={error}>{name_field}</Label>
 			<Input
         value={value}

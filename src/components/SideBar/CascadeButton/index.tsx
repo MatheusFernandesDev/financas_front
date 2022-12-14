@@ -28,8 +28,8 @@ const CascadeButton: React.FC<CascadeButtonProps> = ({
         <Icon style={{ height: "25px", width: "25px" }} />
         <Title menu={menu}>{title}</Title>
       </MainContainer>
-      <SubContainer actived={actived}>
-        <ItemsLine />
+      <SubContainer menu={menu} actived={actived}>
+        <ItemsLine menu={menu}/>
         {children}
       </SubContainer>
     </Container>

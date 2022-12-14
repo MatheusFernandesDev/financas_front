@@ -8,6 +8,7 @@ interface ErroAll {
     param: string;
 }
 interface InputProps {
+    style?: any;
     name_field?: string;
     name_placeholder?: string;
     value?: string;
@@ -18,6 +19,7 @@ interface InputProps {
 }
 
 const PasswordInput: FunctionComponent<InputProps> = ({
+    style,
     name_field, 
     name_placeholder,
     value,
@@ -47,7 +49,7 @@ const PasswordInput: FunctionComponent<InputProps> = ({
     }, [errors, param]);
 
     return (
-        <Container>
+        <Container style={style}>
             <Label errors={error}>{name_field}</Label>
             <PasswordArea>
                 {showPass 

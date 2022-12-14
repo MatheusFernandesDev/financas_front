@@ -149,7 +149,7 @@ const ExpenseMovement: React.FC = () => {
     <Container>
         <SideBar/>
         {!createExpense &&
-          <FormContent hideSave newHandler={() => createForm(false)}>
+          <FormContent hideSave newHandler={() => createForm(false)} reloadHandler={loadHandler}>
               <DataTableContent
                   title="Movimentação de Despesas"
                   data={data}

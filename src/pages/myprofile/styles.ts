@@ -12,6 +12,11 @@ export const PerfilIcon = styled(IoPersonCircleOutline)`
     width: 100px;
     height: 150px;
     background: none;
-    color: ${Utils.COLORS.PRIMARY};
+    color: ${Utils.COLORS.LIGHT_SECONDARY};
 `;
 
+export const Content = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;

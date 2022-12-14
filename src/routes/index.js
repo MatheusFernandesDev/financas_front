@@ -7,6 +7,7 @@ import NotFound from "../pages/NotFound/NotFound";
 import DashBoard from "../pages/dashBoard";
 import MyProfile from "../pages/myprofile";
 import Users from "../pages/users";
+import BalanceMovement from "../pages/finances/balanceMovement";
 import ExpenseMovement from "../pages/finances/expenseMovement";
 import RevenueMovement from "../pages/finances/revenueMovement";
 import Bank from "../pages/category";
@@ -21,6 +22,11 @@ export default () => {
         path="/dashboard"
         exact
         element={<Private Component={DashBoard} />}
+      />
+      <Route
+        path="/balanceMovement"
+        exact
+        element={<Private Component={BalanceMovement} />}
       />
       <Route
         path="/expenseMovement"

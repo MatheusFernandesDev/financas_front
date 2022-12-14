@@ -1,15 +1,17 @@
 import { useState } from "react";
-import ReactTooltip from "react-tooltip";
 
+import { doLogout } from "../../helpers/AuthHandler";
 import userImg from "../../assets/images/MYFinance3.jpg";
 
+import { FiUsers } from "react-icons/fi";
+import { AiTwotoneBank } from "react-icons/ai";
+import { FaBalanceScaleLeft } from "react-icons/fa";
+import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { MdSettings, MdAppRegistration } from "react-icons/md";
 import { RiLogoutCircleRLine, RiPlayListAddLine } from "react-icons/ri";
 import { IoNotificationsSharp, IoPersonCircleOutline } from "react-icons/io5";
-import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
-import { FiUsers } from "react-icons/fi";
-import { AiTwotoneBank } from "react-icons/ai";
 
+import CascadeButton from "./CascadeButton";
 import {
   Container,
   ButtonLink,
@@ -21,8 +23,6 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "./styles";
-import CascadeButton from "./CascadeButton";
-import { doLogout } from "../../helpers/AuthHandler";
 
 const SideBar: React.FC = () => {
   const [sidebar, setSidebar] = useState<boolean>(false);
@@ -64,7 +64,11 @@ const SideBar: React.FC = () => {
       <br />
       <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={IconStyle} />
-        <Text menu={sidebar}> {`${name} ${last_name}`}</Text>
+        <Text menu={sidebar}> {`${name} ${last_name == null ? "" : last_name}`}</Text>
+      </ButtonLink>
+      <ButtonLink href="/balanceMovement">
+        <FaBalanceScaleLeft style={IconStyle} />
+        <Text menu={sidebar}>Balanço</Text>
       </ButtonLink>
       <ButtonLink href="/expenseMovement">
         <GiPayMoney style={IconStyle} />

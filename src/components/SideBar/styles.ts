@@ -67,6 +67,7 @@ export const ButtonLink = styled.a`
   width: 100%;
   color: ${Utils.COLORS.LIGHT_PRIMARY};
   margin-left: 10px;
+  padding-right: 5px;
   margin-bottom: 15px;
   cursor: pointer;
 
@@ -81,10 +82,6 @@ export const Text = styled.span<TextProps>`
   display: ${(props) => (props.menu ? "block" : "none")};
   font-size: 16px;
 
-  @media ${device.tablet} {
-    display: none;
-  }
-
   @media ${device.mobile} {
     display: none;
   }
@@ -94,10 +91,18 @@ export const ArrowLeft = styled(BsArrowLeft)`
   height: 25px;
   width: 25px;
   color: ${Utils.COLORS.LIGHT_PRIMARY};
+  
+  @media ${device.mobile}{
+    display: none;
+  }
 `;
 
 export const ArrowRight = styled(BsArrowRight)`
   height: 25px;
   width: 25px;
   color: ${Utils.COLORS.LIGHT_PRIMARY};
+  
+  @media ${device.mobile}{
+    display: none;
+  }
 `;

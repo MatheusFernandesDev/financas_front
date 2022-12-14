@@ -7,6 +7,7 @@ interface MainProps {
 }
 
 interface SubProps {
+    menu?: boolean | false;
     actived?: boolean | false;
 }
 
@@ -30,23 +31,10 @@ export const MainContainer = styled.div<MainProps>`
     &:hover {
         color: ${Utils.COLORS.SECONDARY};
     }
-    /* height: 50px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: ${props => props.menu ? 'center' : 'flex-start'};
-    position: relative;
-    cursor: pointer;
-    color: ${Utils.COLORS.LIGHT_BLACK};
-    transition: .2s ease-in-out;
-
-    &:hover {
-        color: ${Utils.COLORS.SECONDARY};
-    } */
 `;
 
 export const SubContainer = styled.div<SubProps>`
-    padding-left: 15px;
+    padding-left: ${props => props.menu ? "15px" : "5px"};
     display: ${props => props.actived ? 'flex' : 'none'};
     flex-direction: column;
     width: 100%;
@@ -57,12 +45,13 @@ export const SubContainer = styled.div<SubProps>`
     }
 `;
 
-export const ItemsLine = styled.div`
+export const ItemsLine = styled.div<MainProps>`
 	position: absolute;
-	left: 15px;
+	left: ${props => props.menu ? "15px" : "5px"};;
 	height: 100%;
 	width: 1px;
 	background-color: #b4b4b4;
+
     @media ${device.tablet} {
         left: 5px;
     }

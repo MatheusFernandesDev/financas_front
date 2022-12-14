@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface DatePickerProps {
+    style?: any;
 	value?: Date | null;
 	setState?: any;
 	name_field?: string;
@@ -17,6 +18,7 @@ interface ErroAll {
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
+	style,
 	value,
 	setState,
 	name_field,
@@ -43,7 +45,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 	}, [errors, param]);
 
 	return (
-		<Container>
+		<Container style={style}>
 			<Label errors={error}>{name_field}</Label>
 			<Input
 				errors={error}
