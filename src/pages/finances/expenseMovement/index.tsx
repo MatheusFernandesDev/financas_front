@@ -75,9 +75,23 @@ const ExpenseMovement: React.FC = () => {
   const [status, setStatus] = useState<number>(-1);
   const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null)
   //
+  const [errors, setErrors] =  useState([]);
   const [createExpense, setCreateExpense] = useState<boolean>(false);
 
+  function clearHandler() {
+    setDescription("");
+    setCategory(-1);
+    setClassification(-1);
+    setBank(-1);
+    setValue(0);
+    setValueMask("");
+    setStatus(-1);
+    setLaunchDate(null)
+    setErrors([]);
+  }
+
   function createForm(edit: boolean) {
+    clearHandler();
     setCreateExpense(!createExpense);
     if(!edit) {}
   }

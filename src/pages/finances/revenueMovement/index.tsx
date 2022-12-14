@@ -150,7 +150,7 @@ const RevenueMovement: React.FC = () => {
     <Container>
       <SideBar />
       {!createRevenue &&
-        <FormContent hideSave newHandler={() => createForm(false)}>
+        <FormContent hideSave newHandler={() => createForm(false)} reloadHandler={loadHandler}>
           <DataTableContent
             title="Movimentação de Receitas"
             data={data}
