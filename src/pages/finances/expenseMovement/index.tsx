@@ -6,7 +6,7 @@ import api from "../../../service/api";
 import { Container } from "../../../App.styles";
 
 import Modal from "../../../components/Modal";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/Sidebar";
 import FormContent from "../../../components/FormContent";
 import DataTableContent from "../../../components/DataTableContent";
 
@@ -42,7 +42,7 @@ const ExpenseMovement: React.FC = () => {
         <SideBar/>
         <FormContent hideSave>
             <DataTableContent
-                title="Movimentação de Receitas"
+                title="Movimentação de Despesas"
                 data={data}
                 columns={columns}
             />

@@ -17,7 +17,7 @@ interface TextProps {
 
 export const Container = styled.div`
     margin-left: 10px;
-    color: ${Utils.COLORS.LIGHT_PRIMARY}
+    color: ${Utils.COLORS.LIGHT_PRIMARY};
 `;
 
 export const MainContainer = styled.div<MainProps>`
@@ -50,7 +50,6 @@ export const SubContainer = styled.div<SubProps>`
     display: ${props => props.actived ? 'flex' : 'none'};
     flex-direction: column;
     width: 100%;
-    background-color: rgba(255,255,255, .99);
     position: relative;
 
     @media ${device.tablet} {

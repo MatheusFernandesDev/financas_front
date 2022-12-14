@@ -1,13 +1,6 @@
-import React from "react";
-import { IconType } from "react-icons/lib";
+import React, { useState } from "react";
+import { Container, ItemsLine, MainContainer, SubContainer, Title } from "./styles";
 
-import { 
-    Container,
-    ItemsLine,
-    MainContainer,
-    SubContainer,
-    Title,
-} from "./styles";
 
 interface CascadeButtonProps {
     children?: React.ReactNode;
@@ -22,13 +15,15 @@ const CascadeButton: React.FC<CascadeButtonProps> = ({
     title,
     menu,
 }) => {
+    const [actived, setActived] = useState<boolean>(false);
+
     return (
         <Container>
-            <MainContainer>
+            <MainContainer onClick={() => setActived(!actived)}>
                 <Icon style={{ height: "25px", width: "25px" }}/>
                 <Title menu={menu}>{title}</Title>
             </MainContainer>
-            <SubContainer>
+            <SubContainer actived={actived}>
                 <ItemsLine/>
                 {children}
             </SubContainer>
