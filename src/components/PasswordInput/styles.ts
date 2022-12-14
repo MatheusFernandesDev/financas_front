@@ -32,7 +32,7 @@ export const Input = styled.input.attrs({
 })<ErrorProps>`
   height: 28px;
   width: 100%;
-  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid gray'};
+  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid #e5e5e5'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;
@@ -43,6 +43,9 @@ export const Input = styled.input.attrs({
   &:focus {
 		border-color: ${Utils.COLORS.SECONDARY};
 	}
+	&:disabled{
+		background-color: #ddd; 
+	}
 `;
 
 export const Password = styled.input.attrs({
@@ -50,7 +53,7 @@ export const Password = styled.input.attrs({
   })<ErrorProps>`
   height: 28px;
   width: 100%;
-  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid gray'};
+  border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid #e5e5e5'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;

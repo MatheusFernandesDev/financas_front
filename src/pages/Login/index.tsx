@@ -4,12 +4,6 @@ import { toast } from "react-toastify";
 
 import api from "../../service/api";
 import { doLogin } from "../../helpers/AuthHandler";
-import {
-  cellphoneMask,
-  cnpjMask,
-  cpfMask,
-  residentphoneMask,
-} from "../../helpers/masks";
 
 import financia_logo from "../../assets/MYFinance2.png";
 
@@ -29,6 +23,7 @@ import {
   ButtonArea,
   ErrorMessage,
 } from "./styles";
+import EmptyInputMask from "../../components/EmptyMaskInput";
 
 interface States {
   id: number;
@@ -131,13 +126,6 @@ const Login: React.FC = () => {
 
   async function createUser() {
     setProgressPending(true);
-    let newPhone;
-    if (phone_type == 1) {
-      newPhone = cellphoneMask(phone);
-    } else if (phone_type == 2) {
-      newPhone = residentphoneMask(phone);
-    }
-
     await api
       .post(`/signup`, {
         id_user_type: user_type,
@@ -147,10 +135,10 @@ const Login: React.FC = () => {
         state: state,
         password: newPassword.replace(/ /g, ""),
         confirmPassword: confirmPassword.replace(/ /g, ""),
-        cpf: cpf ? cpfMask(cpf) : null,
-        cnpj: cnpj ? cnpjMask(cnpj) : null,
+        cpf: cpf,
+        cnpj: cnpj,
         phone_type: phone_type,
-        phone: phone_type ? newPhone : phone,
+        phone: phone,
         person_type: personType,
       })
       .then(() => {
@@ -349,26 +337,26 @@ const Login: React.FC = () => {
                   param="person_type"
                   errors={errors}
                 />
-
                 {personType == 1 && (
-                  <TextInput
+                  <EmptyInputMask
                     name_field="CPF"
-                    value={cpf?.replace(/\D/g, "")}
+                    value={cpf}
+                    mask="999.999.999-99"
                     onChange={(event) => setCpf(event.target.value)}
                     param="cpf"
                     errors={errors}
                   />
                 )}
                 {personType == 2 && (
-                  <TextInput
+                  <EmptyInputMask
                     name_field="CNPJ"
-                    value={cnpj?.replace(/\D/g, "")}
+                    value={cnpj}
+                    mask="99.999.999/9999-99"
                     onChange={(event) => setCnpj(event.target.value)}
                     param="cnpj"
                     errors={errors}
                   />
                 )}
-
                 <SelectOption
                   name_field="Tipo de Telefone"
                   value={phone_type}
@@ -379,13 +367,25 @@ const Login: React.FC = () => {
                   param="phone"
                   errors={errors}
                 />
-                <TextInput
-                  name_field="Telefone"
-                  value={phone?.replace(/\D/g, "")}
-                  onChange={(event) => setPhone(event.target.value)}
-                  param="phone"
-                  errors={errors}
-                />
+                {phone_type == 1 ? (
+                  <EmptyInputMask
+                    name_field="Telefone"
+                    value={phone}
+                    mask="(99) 99999-9999"
+                    onChange={(event) => setPhone(event.target.value)}
+                    param="phone"
+                    errors={errors}
+                  />
+                ) : (
+                  <EmptyInputMask
+                    name_field="Telefone"
+                    value={phone}
+                    mask="(99) 9999-9999"
+                    onChange={(event) => setPhone(event.target.value)}
+                    param="phone"
+                    errors={errors}
+                  />
+                )}
                 <ButtonArea>
                   <Button click={SignIn} disabled={progressPending}>
                     {progressPending ? <Refresh /> : "Voltar"}
