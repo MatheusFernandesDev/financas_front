@@ -3,11 +3,12 @@ import ReactTooltip from "react-tooltip";
 
 import userImg from "../../assets/images/MYFinance3.jpg";
 
-import { MdSettings } from "react-icons/md";
-import { RiLogoutCircleRLine } from "react-icons/ri";
+import { MdSettings, MdAppRegistration } from "react-icons/md";
+import { RiLogoutCircleRLine, RiPlayListAddLine } from "react-icons/ri";
 import { IoNotificationsSharp, IoPersonCircleOutline } from "react-icons/io5";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { FiUsers } from "react-icons/fi";
+import { AiTwotoneBank } from "react-icons/ai";
 
 import {
   Container,
@@ -73,6 +74,16 @@ const SideBar: React.FC = () => {
         <GiReceiveMoney style={IconStyle} />
         <Text menu={sidebar}>Movimentação de Receita</Text>
       </ButtonLink>
+      <CascadeButton title="Registros" Icon={MdAppRegistration} menu={sidebar}>
+        <ButtonLink href="/bank" style={{ marginTop: "5px" }}>
+          <AiTwotoneBank style={subIconStyle} />
+          <Text menu={sidebar}>Bancos</Text>
+        </ButtonLink>
+        <ButtonLink href="/category" style={{ marginTop: "5px" }}>
+          <RiPlayListAddLine style={subIconStyle} />
+          <Text menu={sidebar}>Categorias</Text>
+        </ButtonLink>
+      </CascadeButton>
       <CascadeButton title="Configuração" Icon={MdSettings} menu={sidebar}>
         <ButtonLink href="/users" style={{ marginTop: "5px" }}>
           <FiUsers style={subIconStyle} />
