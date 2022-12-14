@@ -39,14 +39,14 @@ const RevenueMovement: React.FC = () => {
 
   return (
     <Container>
-        <SideBar/>
-        <FormContent hideSave>
-            <DataTableContent
-                title="Movimentação de Despesas"
-                data={data}
-                columns={columns}
-            />
-        </FormContent>
+      <SideBar />
+      <FormContent hideSave>
+        <DataTableContent
+          title="Movimentação de Despesas"
+          data={data}
+          columns={columns}
+        />
+      </FormContent>
     </Container>
   );
 };
