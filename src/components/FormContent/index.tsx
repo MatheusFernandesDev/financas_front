@@ -41,10 +41,11 @@ const FormContent: FunctionComponent<FormContentProps> = ({
         <MainContainerHeader
           edit={edit}
           newLink={newLink}
+          hideAll={hideAll}
           hideSave={hideSave || hideAll}
           hideNew={hideNew || hideAll}
           hideReload={hideReload || hideAll}
-          showReturn={showReturn || hideAll}
+          showReturn={showReturn}
           saveHandler={saveHandler}
           editHandler={editHandler}
           newHandler={newHandler}

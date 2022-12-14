@@ -12,6 +12,7 @@ interface Props {
 	newHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 	reloadHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 	returnHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+	hideAll?: boolean | false;
 	hideSave?: boolean | false;
 	hideNew?: boolean | false;
 	hideReload?: boolean | false;
@@ -23,6 +24,7 @@ interface Props {
 const Index: FunctionComponent<Props> = ({
 	edit,
 	newLink,
+	hideAll,
 	hideSave,
 	hideNew,
 	hideReload,
@@ -33,10 +35,8 @@ const Index: FunctionComponent<Props> = ({
 	reloadHandler,
 	returnHandler
 }) => {
-	const { t } = useTranslation();
-
 	return (
-		<Container>
+		<Container hideAll={hideAll}>
 			{!hideNew && (
 				<Button title="Novo" action={newHandler}>
 					<IoAddCircleOutline size={25}/>

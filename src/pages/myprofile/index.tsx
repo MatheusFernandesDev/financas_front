@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container } from "../../App.styles";
-import EmptyInputMask from "../../components/EmptyMaskInput";
+import FormContent from "../../components/FormContent";
 
 import SideBar from "../../components/Sidebar";
 
@@ -11,7 +11,7 @@ const MyProfile: React.FC = () => {
   return (
     <Container>
       <SideBar/>
-      <EmptyInputMask mask="(99) 99999-9999" alwaysShowMask/>
+      <FormContent hideAll></FormContent>
     </Container>
   );
 };

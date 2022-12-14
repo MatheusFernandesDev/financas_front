@@ -20,6 +20,10 @@ export const Container = styled.div<ContainerProps>`
   width: ${props => props.sidebar ? "200px" : "70px"};
   background-color: ${Utils.COLORS.BLACK};
   border-radius: 0 18px 18px 0;
+  
+  @media ${device.mobile}{
+    width: 70px;
+  }
 `;
 
 export const LogoArea = styled.div`
@@ -79,7 +83,7 @@ export const Text = styled.span<TextProps>`
   font-size: 16px;
 
   @media ${device.tablet}{
-    display: none;
+    font-size: 16px;
   }
 
   @media ${device.mobile}{
@@ -90,11 +94,19 @@ export const Text = styled.span<TextProps>`
 export const ArrowLeft = styled(BsArrowLeft)`
   height: 25px;
   width: 25px;
-  color: ${Utils.COLORS.LIGHT_PRIMARY}
+  color: ${Utils.COLORS.LIGHT_PRIMARY};
+  
+  @media ${device.mobile}{
+    display: none;
+  }
 `;
 
 export const ArrowRight = styled(BsArrowRight)`
   height: 25px;
   width: 25px;
-  color: ${Utils.COLORS.LIGHT_PRIMARY}
+  color: ${Utils.COLORS.LIGHT_PRIMARY};
+  
+  @media ${device.mobile}{
+    display: none;
+  }
 `;

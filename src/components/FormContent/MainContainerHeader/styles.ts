@@ -2,10 +2,14 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Utils } from "../../../config/Utils";
 
-export const Container = styled.div`
+interface ContainerProps {
+	hideAll?: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
 	height: 65px;
 	width: 100%;
-	background-color: ${Utils.COLORS.BLACK};
+	background-color: ${props => props.hideAll ? "white" : Utils.COLORS.BLACK};
 	border-radius: 10px 10px 0px 0px;
 	display: flex;
 	align-items: center;

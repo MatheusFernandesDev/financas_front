@@ -53,12 +53,7 @@ export const SubContainer = styled.div<SubProps>`
     position: relative;
 
     @media ${device.tablet} {
-        position: absolute;
-        top: 1;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        flex-direction: row;
+        padding-left: 5px;
     }
 `;
 
@@ -68,6 +63,9 @@ export const ItemsLine = styled.div`
 	height: 100%;
 	width: 1px;
 	background-color: #b4b4b4;
+    @media ${device.tablet} {
+        left: 5px;
+    }
 `;
 
 export const Title = styled.span<TextProps>`
@@ -76,4 +74,8 @@ export const Title = styled.span<TextProps>`
   display: ${props => props.menu ? 'block' : 'none'};
   font-size: ${props => props.subCascade ? '12px' : '16px'};
   user-select: none;
+  
+  @media ${device.mobile}{
+    display: none;
+  }
 `;
