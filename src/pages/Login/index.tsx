@@ -21,7 +21,14 @@ import SelectOption from "../../components/SelectOption";
 import PasswordInput from "../../components/PasswordInput";
 import CheckboxInput from "../../components/CheckboxInput";
 
-import { Container, LogoImage, Form, Card, ButtonArea, ErrorMessage } from "./styles";
+import {
+  Container,
+  LogoImage,
+  Form,
+  Card,
+  ButtonArea,
+  ErrorMessage,
+} from "./styles";
 
 interface States {
   id: number;
@@ -172,12 +179,20 @@ const Login: React.FC = () => {
         password: password.replace(/ /g, ""),
       })
       .then((response) => {
-        doLogin(response.data.token, rememberPassword);
+        console.log(response);
+        doLogin(
+          response.data.token,
+          rememberPassword,
+          response.data.name,
+          response.data.last_name
+        );
         setRemoveLoading(true);
         clearHandler();
         setLogin(true);
         setNewLogin(false);
         window.location.href = "/dashboard";
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("last_name", response.data.last_name);
         return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {
