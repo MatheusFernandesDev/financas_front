@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Container } from "../../App.styles";
+import EmptyInputMask from "../../components/EmptyMaskInput";
 
-import Header from "../../components/Header";
 import SideBar from "../../components/Sidebar";
 
 import { PerfilIcon } from "./styles";
@@ -11,7 +11,7 @@ const MyProfile: React.FC = () => {
   return (
     <Container>
       <SideBar/>
-      <PerfilIcon/>
+      <EmptyInputMask mask="(99) 99999-9999" alwaysShowMask/>
     </Container>
   );
 };

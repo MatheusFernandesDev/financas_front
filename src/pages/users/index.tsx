@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import api from "../../service/api";
-import {
-  cellphoneMask,
-  cnpjMask,
-  cpfMask,
-  residentphoneMask,
-} from "../../helpers/masks";
 
 import { Container } from "../../App.styles";
 
@@ -28,6 +22,7 @@ import { MdDelete } from "react-icons/md";
 
 import { Form, Title } from "./styles";
 import { Button } from "../login/styles";
+import EmptyInputMask from "../../components/EmptyMaskInput";
 
 const Users: React.FC = () => {
   const columns = [
@@ -181,13 +176,6 @@ const Users: React.FC = () => {
 
   async function saveHandler() {
     setProgressPending(true);
-    let newPhone;
-    if (phoneType == 1) {
-      newPhone = cellphoneMask(phone);
-    } else if (phoneType == 2) {
-      newPhone = residentphoneMask(phone);
-    }
-
     api
       .post(`/user`, {
         id_user_type: userType,
@@ -197,10 +185,10 @@ const Users: React.FC = () => {
         state: state,
         password: password.replace(/ /g, ""),
         confirmPassword: confirmPassword.replace(/ /g, ""),
-        cpf: cpf && cpfMask(cpf),
-        cnpj: cnpj && cnpjMask(cnpj),
+        cpf: cpf,
+        cnpj: cnpj,
         phone_type: phoneType,
-        phone: phoneType ? newPhone : phone,
+        phone: phone,
         person_type: personType,
       })
       .then(() => {
@@ -222,13 +210,6 @@ const Users: React.FC = () => {
   }
 
   async function editHandler() {
-    let newPhone;
-    if (phoneType == 1) {
-      newPhone = cellphoneMask(phone);
-    } else if (phoneType == 2) {
-      newPhone = residentphoneMask(phone);
-    }
-
     setProgressPending(true);
     api
       .put(`/user/${id}`, {
@@ -239,10 +220,10 @@ const Users: React.FC = () => {
         state: state,
         password: password,
         // confirmPassword: confirmPassword,
-        cpf: cpf ? cpfMask(cpf) : null,
-        cnpj: cnpj ? cnpjMask(cnpj) : null,
+        cpf: cpf,
+        cnpj: cnpj,
         phone_type: phoneType,
-        phone: phoneType ? newPhone : phone,
+        phone: phone,
         person_type: personType,
       })
       .then(() => {
@@ -378,18 +359,20 @@ const Users: React.FC = () => {
               errors={errors}
             />
             {personType == 1 && (
-              <TextInput
+              <EmptyInputMask
                 name_field="CPF"
                 value={cpf}
+                mask="999.999.999-99"
                 onChange={(event) => setCPF(event.target.value)}
                 param="cpf"
                 errors={errors}
               />
             )}
             {personType == 2 && (
-              <TextInput
+              <EmptyInputMask
                 name_field="CNPJ"
                 value={cnpj}
+                mask="99.999.999/9999-99"
                 onChange={(event) => setCNPJ(event.target.value)}
                 param="cnpj"
                 errors={errors}
@@ -403,13 +386,24 @@ const Users: React.FC = () => {
               param="phone"
               errors={errors}
             />
-            <TextInput
-              name_field="Telefone"
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-              param="phone"
-              errors={errors}
-            />
+            {phoneType == 1 ?
+              <EmptyInputMask
+                name_field="Telefone"
+                value={phone}
+                mask="(99) 99999-9999"
+                onChange={(event) => setPhone(event.target.value)}
+                param="phone"
+                errors={errors}
+              /> :
+              <EmptyInputMask
+                name_field="Telefone"
+                value={phone}
+                mask="(99) 9999-9999"
+                onChange={(event) => setPhone(event.target.value)}
+                param="phone"
+                errors={errors}
+              />
+            }
           </Form>
         </FormContent>
       )}

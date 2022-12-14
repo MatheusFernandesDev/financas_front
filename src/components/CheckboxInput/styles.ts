@@ -45,6 +45,9 @@ export const InputContainer = styled.div`
 		border-color: red;
 		transition: ease-in-out 0.15s;
 	}
+	&:disabled{
+		background-color: #ddd; 
+	}
 `;
 
 export const Switch = styled.div`

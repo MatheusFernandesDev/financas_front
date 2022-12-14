@@ -20,12 +20,15 @@ export const Select = styled.select<ErrorProps>`
   height: 28px;
   width: 100%;
   padding: 0 5px;
-  border: ${props => props.errors != "" ? "1px solid darkred" : "1px solid gray"};
+  border: ${props => props.errors != "" ? "1px solid darkred" : "1px solid #e5e5e5"};
   border-radius: 5px;
   background-color: white; 
   
   &:focus {
 		border-color: ${Utils.COLORS.SECONDARY};
+	}
+	&:disabled{
+		background-color: #ddd; 
 	}
 `;
 
