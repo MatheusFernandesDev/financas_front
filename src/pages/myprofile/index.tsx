@@ -16,6 +16,7 @@ import EmptyInputMask from "../../components/EmptyMaskInput";
 import {
   Form,
   Content,
+  PassButton,
   PerfilArea,
   NameText,
   PerfilIcon,
@@ -33,6 +34,7 @@ const MyProfile: React.FC = () => {
   //
   const [errors, setErrors] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
+  const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
   // EDIT
   const [id, setId] = useState<number>(-1)
   const [name, setName] = useState<string>("");
@@ -64,8 +66,8 @@ const MyProfile: React.FC = () => {
       last_name: lastName,
       phone: phone,
       email: email && email.toLowerCase().replace(/ /g, ""),
-      password: password,
-      confirmPassword: confirmPassword,
+      password: passwordEdit ? password : null,
+      confirmPassword: passwordEdit ? confirmPassword : null,
     })
     .then(() => {
       loadHandler();
@@ -129,25 +131,30 @@ const MyProfile: React.FC = () => {
                 <NameText noPerfil>{phone}</NameText>
               )}
             </Inputs>
-            {edit && (
+            {edit && 
               <>
-                <Inputs>
-                  <PasswordIcon />
-                  <PasswordInput
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
-                </Inputs>
-                <Inputs>
-                  <ConfirmPasswordIcon />
-                  <PasswordInput
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                  />
-                </Inputs>
+                {passwordEdit && (
+                  <>
+                    <Inputs>
+                      <PasswordIcon />
+                      <PasswordInput
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                      />
+                    </Inputs>
+                    <Inputs>
+                      <ConfirmPasswordIcon />
+                      <PasswordInput
+                        value={confirmPassword}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                      />
+                    </Inputs>
+                  </>
+                )}
+                <PassButton onClick={() => setPasswordEdit(!passwordEdit)} >Redefinir Senha</PassButton>
+                <Button className="secondary" height="35px" click={editHandler} >Salvar</Button>
               </>
-            )}
-            {edit && <Button className="secondary" height="35px" click={editHandler} >Salvar</Button>}
+            }
           </Form>
           <br/>
         </Content>

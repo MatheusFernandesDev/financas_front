@@ -54,6 +54,26 @@ export const NameText = styled.span<TextProps>`
     ${props => props.noPerfil ? "" : "font-weight: bold"};
 `;
 
+export const PassButton = styled.button`
+    width: 100%;
+    height: 35px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    color: #f9f9f9;
+    font-weight: 600;
+    background-color: ${Utils.COLORS.LIGHT_SECONDARY};
+    cursor: pointer;
+
+    :hover {
+        background-color: ${Utils.COLORS.SECONDARY};
+    }
+    :disabled {
+        cursor: default;
+        background: #ddd;
+    }
+`;
+
 export const EditIcon = styled(MdModeEditOutline)`
     height: 30px;
     width: 30px;

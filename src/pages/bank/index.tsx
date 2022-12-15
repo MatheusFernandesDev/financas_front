@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import ReactTooltip from "react-tooltip";
 import { Container } from "../../App.styles";
 import DataTableContent from "../../components/DataTableContent";
 import ButtonActions from "../../components/DataTableContent/ButtonActions";
@@ -48,8 +49,9 @@ const Bank: React.FC = () => {
       cell: (row: any) => {
         return (
           <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
-              children={<FaUserEdit size={20} color="black" />}
+              children={<FaUserEdit data-tip="Editar Banco" size={20} color="black" />}
               click={() => {
                 createForm(row, true);
               }}
@@ -57,7 +59,7 @@ const Bank: React.FC = () => {
 
             <ButtonActions
               click={() => deleteHandler(row.id)}
-              children={<MdDelete size={20} color="black" />}
+              children={<MdDelete data-tip="Apagar Banco" size={20} color="black" />}
             />
           </>
         );

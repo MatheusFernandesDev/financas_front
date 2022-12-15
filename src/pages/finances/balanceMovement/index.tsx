@@ -96,11 +96,63 @@ const BalanceMovement: React.FC = () => {
   }
 
   async function loadHandler() {
-    const { data: responseLaunch } = await api.get(`/launchs`, {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-
-    setData(responseLaunch);
+    try {
+      const { data: responseLaunch } = await api.get(`/launchs`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseCategorys } = await api.get(`/categorys`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseClassifications } = await api.get(`/classifications`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseBank } = await api.get(`/bank`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseStatus } = await api.get(`/status-launchs`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+  
+      setData(responseLaunch);
+      if(responseCategorys.length > 0) {
+        let formatCategory = responseCategorys.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setCategoryOption(formatCategory);
+      }
+      if(responseClassifications.length > 0) {
+        let formatClassification = responseClassifications.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setClassificationOption(formatClassification);
+      }
+      if(responseBank.length > 0) {
+        let formatBank = responseBank.map((element: { id: number; name_bank: string }) => {
+          return {
+            id: element.id,
+            name: element.name_bank
+          }
+        });
+        setBankOption(formatBank);
+      }
+      if(responseStatus.length > 0) {
+        let formatStatus = responseStatus.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setStatusOption(formatStatus);
+      }
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
   useEffect(() => {

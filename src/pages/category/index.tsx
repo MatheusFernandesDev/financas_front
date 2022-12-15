@@ -56,10 +56,14 @@ const Category: React.FC = () => {
   const [description, setDescription] = useState<string>("");
 
   async function loadHandler() {
-    const { data: response } = await api.get("/category", {
-      validateStatus: (status) => status == 200 || status == 204,
-    });
-    setData(response);
+    try {
+      const { data: response } = await api.get("/category", {
+        validateStatus: (status) => status == 200 || status == 204,
+      });
+      setData(response);
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
   function clearHandler() {
@@ -181,6 +185,7 @@ const Category: React.FC = () => {
         >
           <Form title={`${editando ? "Editar Categoria" : "Criar Categoria"}`}>
             <TextInput
+              grid_width="5"
               name_field="Categoria"
               value={description}
               onChange={(event) => setDescription(event.target.value)}

@@ -186,7 +186,6 @@ const Login: React.FC = () => {
           const responseLoginErrors = err?.response?.data;
           setErroVerific(true);
           setLoginErrors(responseLoginErrors);
-          return toast.error("Erro de Verificação");
         }
         if (err.response) {
           const responseErrors = err?.response?.data?.errors;
