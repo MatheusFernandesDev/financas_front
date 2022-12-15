@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "../../App.styles";
 
 import Header from "../../components/Header";
 import SideBar from "../../components/Sidebar";
+import TextInput from "../../components/TextInput";
 import FormContent from "../../components/FormContent";
 import verifyUserType from "../../helpers/verifyUserType";
+import PasswordInput from "../../components/PasswordInput";
 
 import {
   Form,
@@ -14,6 +16,7 @@ import {
   NameText,
   PerfilIcon,
   EditIcon,
+  CloseIcon,
   NameIcon,
   EmailIcon,
   TelephoneIcon,
@@ -21,11 +24,12 @@ import {
   ConfirmPasswordIcon,
   Inputs,
 } from "./styles";
-import TextInput from "../../components/TextInput";
-import PasswordInput from "../../components/PasswordInput";
+import api from "../../service/api";
 
 const MyProfile: React.FC = () => {
   //
+  const uuid  = verifyUserType();
+  console.log(uuid)
   let meuNome = localStorage.getItem("name");
   let meuSobrenome = localStorage.getItem("last_name");
 
@@ -52,6 +56,14 @@ const MyProfile: React.FC = () => {
     setEdit(!edit);
   }
 
+  async function loadHandler() {
+    await api.get(`/users/${uuid}`)
+  }
+
+  useEffect(() => {
+    loadHandler();
+  }, []);
+
   return (
     <Container>
       <SideBar />
@@ -59,11 +71,13 @@ const MyProfile: React.FC = () => {
         <Content>
           <PerfilArea>
             <PerfilIcon />
-            <NameText>{`${meuNome} ${
-              meuSobrenome == null ? "" : meuSobrenome
-            }`}</NameText>
+            {!edit &&
+              <NameText>{`${meuNome} ${
+                meuSobrenome == null ? "" : meuSobrenome
+              }`}</NameText>
+            }
           </PerfilArea>
-          <EditIcon onClick={openEdit} />
+          {!edit ? <EditIcon onClick={openEdit} /> : <CloseIcon onClick={openEdit}/>}
           <br />
           <Form>
             {edit && (

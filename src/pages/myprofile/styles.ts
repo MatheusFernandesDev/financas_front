@@ -4,6 +4,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { MdModeEditOutline, MdOutlineMail } from "react-icons/md";
 import { BsTelephone } from "react-icons/bs";
 import { RiLockPasswordLine, RiLockPasswordFill } from "react-icons/ri";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface TextProps {
     noPerfil?: boolean;
@@ -54,6 +55,18 @@ export const NameText = styled.span<TextProps>`
 `;
 
 export const EditIcon = styled(MdModeEditOutline)`
+    height: 30px;
+    width: 30px;
+    color: ${Utils.COLORS.SECONDARY};
+    cursor: pointer;
+    margin-top: 10px;
+
+    :hover {
+        color: ${Utils.COLORS.DARK_SECONDARY};
+    }
+`;
+
+export const CloseIcon = styled(AiOutlineCloseCircle)`
     height: 30px;
     width: 30px;
     color: ${Utils.COLORS.SECONDARY};
