@@ -3,6 +3,7 @@ import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface EmptyInputMaskProps {
     style?: any;
+	grid_width?: string;
 	name_field?: string;
 	name_placeholder?: string;
 	value?: string;
@@ -21,6 +22,7 @@ interface ErroAll {
 
 const EmptyInputMask: React.FC<EmptyInputMaskProps> = ({
 	style,
+	grid_width,
 	name_field,
 	name_placeholder,
 	value,
@@ -55,6 +57,7 @@ const EmptyInputMask: React.FC<EmptyInputMaskProps> = ({
 				alwaysShowMask={alwaysShowMask}
 				onFocus={() => setError("")}
 				errors={error}
+				grid_width={grid_width}
 			/>
 			<ErrorMessage>{error}</ErrorMessage>
 		</Container>

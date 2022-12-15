@@ -9,6 +9,7 @@ interface ErroAll {
 }
 interface InputProps {
     style?: any;
+	grid_width?: string;
     name_field?: string;
     name_placeholder?: string;
     value?: string;
@@ -20,6 +21,7 @@ interface InputProps {
 
 const PasswordInput: FunctionComponent<InputProps> = ({
     style,
+    grid_width,
     name_field, 
     name_placeholder,
     value,
@@ -53,8 +55,8 @@ const PasswordInput: FunctionComponent<InputProps> = ({
             <Label errors={error}>{name_field}</Label>
             <PasswordArea>
                 {showPass 
-                    ? <Input errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
-                    : <Password errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
+                    ? <Input grid_width={grid_width} errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
+                    : <Password grid_width={grid_width} errors={error} placeholder={name_placeholder} onChange={onChange} onKeyPress={onKeyPress} value={value} onFocus={() => setError("")} />
                 }
                 {showPass
                     ? 

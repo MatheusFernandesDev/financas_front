@@ -3,6 +3,7 @@ import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface DatePickerProps {
     style?: any;
+	grid_width?: string;
 	value?: Date | null;
 	setState?: any;
 	name_field?: string;
@@ -19,6 +20,7 @@ interface ErroAll {
 
 const DatePicker: React.FC<DatePickerProps> = ({
 	style,
+	grid_width,
 	value,
 	setState,
 	name_field,
@@ -55,6 +57,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 				dateFormat={dateFormat}
 				minDate={minDate}
 				maxDate={maxDate}
+				grid_width={grid_width}
 			/>
 			<ErrorMessage>{error}</ErrorMessage>
 		</Container>

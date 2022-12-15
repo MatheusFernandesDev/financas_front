@@ -9,6 +9,7 @@ registerLocale("ptbr", ptbr);
 
 interface ErrorProps {
 	errors?: String;
+	grid_width?: string;
 }
 
 export const Container = styled.div`
@@ -25,7 +26,7 @@ export const Input = styled(DatePicker).attrs({
 	locale: "ptbr",
 })<ErrorProps>`
 	height: 28px;
-	width: 100%;
+	width: ${(props) => props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};
 	border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid #e5e5e5'};
 	border-radius: 5px;
 	padding: 0 5px;

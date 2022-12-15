@@ -4,6 +4,7 @@ import { Container, Label, Input, ErrorMessage } from "./styles";
 
 interface TextyInputProps {
   style?: any;
+	grid_width?: string;
   name_field?: string;
   name_placeholder?: string;
   value?: string;
@@ -19,6 +20,7 @@ interface ErroAll {
 
 const TextInput: FunctionComponent<TextyInputProps> = ({
   style,
+  grid_width,
   name_field,
   name_placeholder,
   value,
@@ -49,6 +51,7 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
         onKeyPress={onKeyPress}
         errors={error}
         onFocus={() => setError("")}
+        grid_width={grid_width}
       />
       <ErrorMessage>{error}</ErrorMessage>
     </Container>
