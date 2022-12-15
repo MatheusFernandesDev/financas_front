@@ -3,6 +3,7 @@ import React, { useState, useEffect, FunctionComponent } from "react";
 import { Container, Label, Input, ErrorMessage } from "./styles";
 
 interface TextyInputProps {
+  style?: any;
   name_field?: string;
   name_placeholder?: string;
   value?: string;
@@ -17,6 +18,7 @@ interface ErroAll {
 }
 
 const TextInput: FunctionComponent<TextyInputProps> = ({
+  style,
   name_field,
   name_placeholder,
   value,
@@ -38,7 +40,7 @@ const TextInput: FunctionComponent<TextyInputProps> = ({
   }, [errors, param]);
 
   return (
-    <Container>
+    <Container style={style}>
       <Label errors={error}>{name_field}</Label>
       <Input
         value={value}

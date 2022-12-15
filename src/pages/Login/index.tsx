@@ -167,7 +167,6 @@ const Login: React.FC = () => {
         password: password.replace(/ /g, ""),
       })
       .then((response) => {
-        console.log(response);
         doLogin(
           response.data.token,
           rememberPassword,

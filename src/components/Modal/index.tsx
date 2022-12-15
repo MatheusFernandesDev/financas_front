@@ -5,6 +5,7 @@ import Button from "./Button";
 import { Container, Box, Msg, Close, Header, Button1, Buttons, Title } from "./styles";
 
 interface ModalProps {
+  style?: any;
   children?: React.ReactNode;
   title?: string;
   message?: string;
@@ -16,6 +17,7 @@ interface ModalProps {
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
+  style,
   title,
   hideSave,
   closeText,
@@ -26,7 +28,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   saveHandler,
 }) => {
   return (
-    <Container>
+    <Container style={style}>
       <Box>
         <Header>
           <Title>{title}</Title>

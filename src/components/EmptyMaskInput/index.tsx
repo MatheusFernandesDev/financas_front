@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface EmptyInputMaskProps {
+    style?: any;
 	name_field?: string;
 	name_placeholder?: string;
 	value?: string;
@@ -19,6 +20,7 @@ interface ErroAll {
 
 
 const EmptyInputMask: React.FC<EmptyInputMaskProps> = ({
+	style,
 	name_field,
 	name_placeholder,
 	value,
@@ -42,7 +44,7 @@ const EmptyInputMask: React.FC<EmptyInputMaskProps> = ({
 	}, [errors, param]);
 
 	return (
-		<Container>
+		<Container style={style}>
 			<Label errors={error}>{name_field}</Label>
 			<Input
 				value={value}

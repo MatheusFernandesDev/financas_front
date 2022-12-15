@@ -5,6 +5,7 @@ import Refresh from "../Refresh";
 import { ButtonContainer } from "./styles";
 
 interface ButtonProps {
+  style?: any;
   children: React.ReactNode;
   height?: string | "";
   width?: string | "";
@@ -13,6 +14,7 @@ interface ButtonProps {
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
+  style,
   children,
   height,
   width,
@@ -21,6 +23,7 @@ const Button: FunctionComponent<ButtonProps> = ({
 }) => {
   return (
     <ButtonContainer
+      style={style}
       height={height}
       width={width}
       onClick={click}

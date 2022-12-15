@@ -16,6 +16,8 @@ import DataTableContent from "../../../components/DataTableContent";
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
 import { MdDelete } from "react-icons/md";
+import DatePicker from "../../../components/DatePicker";
+import DoubleInput from "../../../components/DoubleInput";
 
 const RevenueMovement: React.FC = () => {
   const columns = [
@@ -69,7 +71,9 @@ const RevenueMovement: React.FC = () => {
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
   const [value, setValue] = useState<number>(-1);
+  const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
+  const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null)
   //
   const [createRevenue, setCreateRevenue] = useState<boolean>(false);
 
@@ -78,12 +82,75 @@ const RevenueMovement: React.FC = () => {
     if (!edit) {
     }
   }
+  
+  async function loadHandler() {
+    const { data: responseLaunch } = await api.get(`/launchs`, {
+      validateStatus: (status) => status == 200 || status === 204,
+    });
+    const { data: responseCategorys } = await api.get(`/categorys`, {
+      validateStatus: (status) => status == 200 || status === 204,
+    })
+    const { data: responseClassifications } = await api.get(`/classifications`, {
+      validateStatus: (status) => status == 200 || status === 204,
+    })
+    const { data: responseBank } = await api.get(`/bank`, {
+      validateStatus: (status) => status == 200 || status === 204,
+    })
+    const { data: responseStatus } = await api.get(`/status-launchs`, {
+      validateStatus: (status) => status == 200 || status === 204,
+    })
+
+    setData(responseLaunch);
+    if(responseCategorys.length > 0) {
+      let formatCategory = responseCategorys.map((element: { id: number; description: string }) => {
+        return {
+          id: element.id,
+          name: element.description
+        }
+      });
+      setCategoryOption(formatCategory)
+    }
+    if(responseClassifications.length > 0) {
+      let formatClassification = responseClassifications.map((element: { id: number; description: string }) => {
+        return {
+          id: element.id,
+          name: element.description
+        }
+      });
+      let filteredClassification = formatClassification.filter((element: { id: number; description: string }) => {
+        return element.id == 3 || element.id == 4;
+      })
+      setClassificationOption(filteredClassification)
+    }
+    if(responseBank.length > 0) {
+      let formatBank = responseBank.map((element: { id: number; name_bank: string }) => {
+        return {
+          id: element.id,
+          name: element.name_bank
+        }
+      });
+      setBankOption(formatBank)
+    }
+    if(responseStatus.length > 0) {
+      let formatStatus = responseStatus.map((element: { id: number; description: string }) => {
+        return {
+          id: element.id,
+          name: element.description
+        }
+      });
+      setStatusOption(formatStatus)
+    }
+  }
+
+  useEffect(() => {
+    loadHandler();
+  }, []);
 
   return (
     <Container>
       <SideBar />
-      {
-        <FormContent hideSave>
+      {!createRevenue &&
+        <FormContent hideSave newHandler={() => createForm(false)} reloadHandler={loadHandler}>
           <DataTableContent
             title="Movimentação de Receitas"
             data={data}
@@ -98,14 +165,18 @@ const RevenueMovement: React.FC = () => {
           showReturn
           returnHandler={() => createForm(false)}
         >
-          <Form title="Criar Despesa">
+          <Form title="Criar Receita">
             <TextInput
               name_field="Descrição"
               name_placeholder="ex.: Mercado, Conta de luz ..."
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
-            {/* <DatePicker/> */}
+            <DatePicker
+              name_field="Data de Lançamento"
+              value={launchDate}
+              setState={setLaunchDate}
+            />
             <SelectOption
               name_field="Categoria"
               options={categoryOption}
@@ -126,7 +197,13 @@ const RevenueMovement: React.FC = () => {
               value={bank}
               onChange={(event) => setBank(parseInt(event.target.value))}
             />
-            {/* <DoubleInput/> */}
+            <DoubleInput
+              name_field="Valor Gasto"
+              prefix="R$ "
+              value={valueMask}
+              setState={setValue}
+              setMask={setValueMask}
+            />
             <SelectOption
               name_field="Status"
               options={statusOption}

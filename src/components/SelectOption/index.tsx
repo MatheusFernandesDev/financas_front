@@ -12,6 +12,7 @@ interface ErroAll {
     param: string;
 }
 interface InputProps {
+    style?: any;
     name_field?: string;
     value?: number;
     options: Array<Option>;
@@ -22,6 +23,7 @@ interface InputProps {
 }
 
 const SelectOption: FunctionComponent<InputProps> = ({
+    style,
     name_field,
     value,
     options,
@@ -43,7 +45,7 @@ const SelectOption: FunctionComponent<InputProps> = ({
     }, [errors, param]);
 
     return (
-        <Container>
+        <Container style={style}>
           <Label errors={error}>{name_field}</Label>
           <Select errors={error} value={value} onChange={onChange} onFocus={() => setError("")}>
           {
