@@ -1,11 +1,11 @@
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "./components/Loading";
 
-import Routes from "./routes";
 import GlobalStyles from "./styles/global";
+const Routes = lazy(() => import("./routes"));
 
 const App = () => {
   return (
