@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { doLogout } from "../../helpers/AuthHandler";
 import userImg from "../../assets/images/MYFinance3.jpg";
@@ -23,12 +23,12 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "./styles";
+import api from "../../service/api";
 
 const SideBar: React.FC = () => {
   const [sidebar, setSidebar] = useState<boolean>(false);
-
-  const name = localStorage.getItem("name");
-  const last_name = localStorage.getItem("last_name");
+  const [name, setName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
 
   const IconStyle = {
     width: "25px",
@@ -49,6 +49,16 @@ const SideBar: React.FC = () => {
     window.location.href = "/dashboard";
   }
 
+  async function loadUser() {
+    const { data: response } = await api.get(`/user-profile`);
+    setName(response.name);
+    setLastName(response.last_name);
+  }
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
   return (
     <Container sidebar={sidebar}>
       <Button onClick={() => setSidebar(!sidebar)}>
@@ -64,7 +74,7 @@ const SideBar: React.FC = () => {
       <br />
       <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={IconStyle} />
-        <Text menu={sidebar}> {`${name} ${last_name == null ? "" : last_name}`}</Text>
+        <Text menu={sidebar}> {`${name} ${lastName == null ? "" : lastName}`}</Text>
       </ButtonLink>
       <ButtonLink href="/balanceMovement">
         <FaBalanceScaleLeft style={IconStyle} />

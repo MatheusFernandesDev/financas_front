@@ -4,6 +4,7 @@ import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface DoubleInputProps {
     style?: any;
+    grid_width?: string;
     name_field?: string;
     name_placeholder?: string;
     value?: string;
@@ -21,6 +22,7 @@ interface DoubleInputProps {
 
 const DoubleInput: React.FC<DoubleInputProps> = ({
     style,
+    grid_width,
     name_field,
     name_placeholder,
     value,
@@ -61,6 +63,7 @@ const DoubleInput: React.FC<DoubleInputProps> = ({
             setMask(name);
         }}
 				onFocus={() => setError("")}
+        grid_width={grid_width}
 			/>
 			<ErrorMessage>{error}</ErrorMessage>
 		</Container>

@@ -17,7 +17,7 @@ export default () => {
   return (
     <Routes>
       <Route path="*" exact element={<NotFound />} />
-      <Route path="/" exact element={<Login />} />
+      <Route path="/" exact element={<Private defaultC Component={Login} />} />
       <Route
         path="/dashboard"
         exact

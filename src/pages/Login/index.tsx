@@ -178,9 +178,6 @@ const Login: React.FC = () => {
         clearHandler();
         setLogin(true);
         setNewLogin(false);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("last_name", response.data.last_name);
-        localStorage.setItem("id_user_type", response.data.id_user_type);
         window.location.href = "/dashboard";
         return toast.success("Login realizado com sucesso!");
       })

@@ -7,6 +7,7 @@ import { SlReload } from "react-icons/sl";
 import { IoAddCircleOutline, IoReturnDownBack } from "react-icons/io5";
 
 interface Props {
+	style?: any;
 	saveHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 	editHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 	newHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const Index: FunctionComponent<Props> = ({
+	style,
 	edit,
 	newLink,
 	hideAll,
@@ -36,7 +38,7 @@ const Index: FunctionComponent<Props> = ({
 	returnHandler
 }) => {
 	return (
-		<Container hideAll={hideAll}>
+		<Container style={style} hideAll={hideAll}>
 			{!hideNew && (
 				<Button title="Novo" action={newHandler}>
 					<IoAddCircleOutline size={25}/>

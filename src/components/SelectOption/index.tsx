@@ -13,6 +13,7 @@ interface ErroAll {
 }
 interface InputProps {
     style?: any;
+    grid_width?: string;
     name_field?: string;
     value?: number;
     options: Array<Option>;
@@ -24,6 +25,7 @@ interface InputProps {
 
 const SelectOption: FunctionComponent<InputProps> = ({
     style,
+    grid_width,
     name_field,
     value,
     options,
@@ -47,7 +49,7 @@ const SelectOption: FunctionComponent<InputProps> = ({
     return (
         <Container style={style}>
           <Label errors={error}>{name_field}</Label>
-          <Select errors={error} value={value} onChange={onChange} onFocus={() => setError("")}>
+          <Select grid_width={grid_width} errors={error} value={value} onChange={onChange} onFocus={() => setError("")}>
           {
             <option
               key={-1}

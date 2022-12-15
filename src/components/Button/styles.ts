@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { Utils } from "../../config/Utils";
 
 interface Props {
     width?: string;
     height?: string;
+    class?: string;
 }
 
 export const ButtonContainer = styled.button<Props>`
@@ -11,16 +13,36 @@ export const ButtonContainer = styled.button<Props>`
   padding: 0 16px;
   border: 0;
   border-radius: 8px;
-  background: #272c30;
   color: #f9f9f9;
   font-weight: 600;
   cursor: pointer;
 
-  &:hover {
-    background: rgba(39, 44, 48, 0.9);
+  ${props => 
+    props.class == undefined &&
+    `
+      background: ${Utils.COLORS.BLACK};
+      :hover {
+        background: ${Utils.COLORS.LIGHT_BLACK};
+      }
+    ` ||
+    props.class == "primary" && 
+    `
+      background: ${Utils.COLORS.PRIMARY};
+      :hover {
+        background: ${Utils.COLORS.DARK_PRIMARY};
+      }
+    ` ||
+    props.class == "secondary" && 
+    `
+      background: ${Utils.COLORS.SECONDARY};
+      :hover {
+        background: ${Utils.COLORS.DARK_SECONDARY};
+      }
+    `
   }
-  &:disabled {
+
+  :disabled {
     cursor: default;
-    background: rgba(39, 44, 48, 0.7);
+    background: #ddd;
   }
 `;

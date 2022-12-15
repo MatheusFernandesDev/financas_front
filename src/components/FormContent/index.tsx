@@ -6,6 +6,7 @@ import { Container, MainContainer, ContentFormContainer } from "./styles";
 
 interface FormContentProps {
   style?: any;
+  height?: string;
   children?: React.ReactNode;
   saveHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   editHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -23,6 +24,7 @@ interface FormContentProps {
 
 const FormContent: FunctionComponent<FormContentProps> = ({
   style,
+  height,
   children,
   saveHandler,
   editHandler,
@@ -38,7 +40,7 @@ const FormContent: FunctionComponent<FormContentProps> = ({
   edit,
 }) => {
   return (
-    <Container style={style}>
+    <Container>
       <MainContainer>
         <MainContainerHeader
           edit={edit}
@@ -55,7 +57,7 @@ const FormContent: FunctionComponent<FormContentProps> = ({
           returnHandler={returnHandler}
         />
       </MainContainer>
-      <ContentFormContainer>{children}</ContentFormContainer>
+      <ContentFormContainer style={style} height={height}>{children}</ContentFormContainer>
     </Container>
   );
 };

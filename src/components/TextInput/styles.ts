@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Utils } from "../../config/Utils";
+import { device } from "../../styles/devices";
 
 interface ErrorProps {
   errors: string;
+  grid_width?: string;
 }
 
 export const Container = styled.div`
@@ -23,13 +25,17 @@ export const Input = styled.input.attrs({
   type: "text"
 })<ErrorProps>`
   height: 28px;
-  width: 100%;
+  width: ${(props) => props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};
   border: ${props => props.errors != "" ? '1px solid darkred' : '1px solid #e5e5e5'};
   border-radius: 5px;
   padding: 0 5px;
   background-color: white;
   margin-bottom: 5px;
   padding-left: 10px;
+  
+	@media ${device.mobile} {
+		width: 100%;
+	}
 
   &:focus {
 		border-color: ${Utils.COLORS.SECONDARY};

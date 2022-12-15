@@ -151,26 +151,30 @@ const Users: React.FC = () => {
   }
 
   async function loadHandler() {
-    const { data: responseUser } = await api.get("/users", {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-    const { data: responseStates } = await api.get("/states", {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-    const { data: responseUserType } = await api.get("/user-types", {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-
-    setUsers(responseUser);
-    setStatesOption(responseStates);
-    if (responseUserType.length > 0) {
-      const formattedUserType = responseUserType.map(
-        (el: { id: number; description: string }) => ({
-          id: el.id,
-          name: el.description,
-        })
-      );
-      setUserOption(formattedUserType);
+    try {
+      const { data: responseUser } = await api.get("/users", {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseStates } = await api.get("/states", {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseUserType } = await api.get("/user-types", {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+  
+      setUsers(responseUser);
+      setStatesOption(responseStates);
+      if (responseUserType.length > 0) {
+        const formattedUserType = responseUserType.map(
+          (el: { id: number; description: string }) => ({
+            id: el.id,
+            name: el.description,
+          })
+        );
+        setUserOption(formattedUserType);
+      }
+    } catch {
+      return toast.error("Erro ao carregar dados.");
     }
   }
 

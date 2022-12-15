@@ -3,6 +3,7 @@ import { Utils } from "../../config/Utils";
 
 interface ErrorProps {
   errors: string;
+  grid_width?: string;
 }
 
 export const Container = styled.div`
@@ -18,7 +19,7 @@ export const Label = styled.label<ErrorProps>`
 
 export const Select = styled.select<ErrorProps>`
   height: 28px;
-  width: 100%;
+  width: ${(props) => props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};
   padding: 0 5px;
   border: ${props => props.errors != "" ? "1px solid darkred" : "1px solid #e5e5e5"};
   border-radius: 5px;
