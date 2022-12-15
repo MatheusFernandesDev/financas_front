@@ -5,7 +5,13 @@ export const isLogged = () => {
   return token ? true : false;
 };
 
-export const doLogin = (token, rememberPassword, name, last_name) => {
+export const doLogin = (
+  token,
+  rememberPassword,
+  name,
+  last_name,
+  id_user_type
+) => {
   if (rememberPassword) {
     Cookies.set(
       "token",
@@ -14,14 +20,28 @@ export const doLogin = (token, rememberPassword, name, last_name) => {
       "name",
       name,
       "last_name",
-      last_name
+      last_name,
+      "id_user_type",
+      id_user_type
     );
   } else {
-    Cookies.set("token", token, "name", name, "last_name", last_name);
+    Cookies.set(
+      "token",
+      token,
+      "name",
+      name,
+      "last_name",
+      last_name,
+      "id_user_type",
+      id_user_type
+    );
   }
+
+  console.log(id_user_type);
 
   localStorage.setItem("name", name);
   localStorage.setItem("last_name", last_name);
+  localStorage.setItem("id_user_type", id_user_type);
 };
 
 export const doLogout = () => {

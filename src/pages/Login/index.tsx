@@ -171,15 +171,17 @@ const Login: React.FC = () => {
           response.data.token,
           rememberPassword,
           response.data.name,
-          response.data.last_name
+          response.data.last_name,
+          response.data.id_user_type
         );
         setRemoveLoading(true);
         clearHandler();
         setLogin(true);
         setNewLogin(false);
-        window.location.href = "/dashboard";
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("last_name", response.data.last_name);
+        localStorage.setItem("id_user_type", response.data.id_user_type);
+        window.location.href = "/dashboard";
         return toast.success("Login realizado com sucesso!");
       })
       .catch((err) => {

@@ -65,6 +65,11 @@ const Bank: React.FC = () => {
     },
   ];
 
+  const optTypesAccount = [
+    { id: 1, name: "CORRENTE" },
+    { id: 2, name: "POUPANÇA" },
+  ];
+
   const filtro = [{ name: "Nome", id: "name_bank" }];
 
   const [createBank, setCreateBank] = useState<boolean>(false);
@@ -77,7 +82,7 @@ const Bank: React.FC = () => {
   const [codBank, setCodBank] = useState<string>("");
   const [nameBank, setNameBank] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [typeAccount, setTypeAccount] = useState<string>("");
+  const [typeAccount, setTypeAccount] = useState<number>(-1);
   const [agency, setAgency] = useState<string>("");
   const [account, setAccount] = useState<string>("");
 
@@ -107,10 +112,11 @@ const Bank: React.FC = () => {
     setCodBank("");
     setNameBank("");
     setDescription("");
-    setTypeAccount("");
+    setTypeAccount(-1);
     setAgency("");
     setAccount("");
     setErrors([]);
+    setEditando(false);
   }
 
   function changeShowedState() {
@@ -123,7 +129,7 @@ const Bank: React.FC = () => {
         cod_bank: codBank,
         name_bank: nameBank,
         description: description,
-        type_account: typeAccount,
+        type_account: typeAccount == 1 ? "CORRENTE" : "POUPANÇA",
         agency: agency,
         n_account: account,
       })
@@ -150,7 +156,7 @@ const Bank: React.FC = () => {
         cod_bank: codBank,
         name_bank: nameBank,
         description: description,
-        type_account: typeAccount,
+        type_account: typeAccount == 1 ? "CORRENTE" : "POUPANÇA",
         agency: agency,
         n_account: account,
       })
@@ -216,7 +222,10 @@ const Bank: React.FC = () => {
           hideReload
           showReturn
           edit={editando}
-          returnHandler={() => createForm(null, false)}
+          returnHandler={() => {
+            createForm(null, false);
+            setModalDelete(false);
+          }}
           saveHandler={() => saveHandler()}
           editHandler={() => editHandler()}
         >
@@ -236,28 +245,23 @@ const Bank: React.FC = () => {
               errors={errors}
             />
             <TextInput
-              name_field="Description"
+              name_field="Descrição"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               param="description"
               errors={errors}
             />
-            <TextInput
+
+            <SelectOption
               name_field="Tipo de Conta"
               value={typeAccount}
-              onChange={(event) => setTypeAccount(event.target.value)}
+              onChange={(event) => setTypeAccount(parseInt(event.target.value))}
               param="type_account"
               errors={errors}
+              options={optTypesAccount}
             />
-            {/* <SelectOption
-              name_field="Tipo de Conta"
-              onChange={(event) => setTypeAccount(event.target.value)}
-              param="type_account"
-              errors={errors}
-              options={[]}
-            /> */}
             <TextInput
-              name_field="Agencia"
+              name_field="Agência"
               value={agency}
               onChange={(event) => setAgency(event.target.value)}
               param="agency"

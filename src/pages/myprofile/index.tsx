@@ -5,10 +5,11 @@ import { Container } from "../../App.styles";
 import Header from "../../components/Header";
 import SideBar from "../../components/Sidebar";
 import FormContent from "../../components/FormContent";
+import verifyUserType from "../../helpers/verifyUserType";
 
-import { 
+import {
   Form,
-  Content, 
+  Content,
   PerfilArea,
   NameText,
   PerfilIcon,
@@ -18,7 +19,7 @@ import {
   TelephoneIcon,
   PasswordIcon,
   ConfirmPasswordIcon,
-  Inputs, 
+  Inputs,
 } from "./styles";
 import TextInput from "../../components/TextInput";
 import PasswordInput from "../../components/PasswordInput";
@@ -27,6 +28,7 @@ const MyProfile: React.FC = () => {
   //
   let meuNome = localStorage.getItem("name");
   let meuSobrenome = localStorage.getItem("last_name");
+
   const [errors, setErrors] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
   // EDIT
@@ -52,48 +54,67 @@ const MyProfile: React.FC = () => {
 
   return (
     <Container>
-      <SideBar/>
+      <SideBar />
       <FormContent hideAll>
         <Content>
           <PerfilArea>
-            <PerfilIcon/>
-            <NameText>{`${meuNome} ${meuSobrenome == null ? "" : meuSobrenome}`}</NameText>
+            <PerfilIcon />
+            <NameText>{`${meuNome} ${
+              meuSobrenome == null ? "" : meuSobrenome
+            }`}</NameText>
           </PerfilArea>
           <EditIcon onClick={openEdit} />
-          <br/>
+          <br />
           <Form>
-            {edit &&
+            {edit && (
               <Inputs>
-                <NameIcon/>
-                <TextInput value={name} onChange={event => setName(event.target.value)} />
+                <NameIcon />
+                <TextInput
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
               </Inputs>
-            }
+            )}
             <Inputs>
-              <EmailIcon/>
-              {edit 
-                ? <TextInput value={email} onChange={event => setEmail(event.target.value)} />
-                : <NameText noPerfil>MEU NOME</NameText> 
-              }
+              <EmailIcon />
+              {edit ? (
+                <TextInput
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              ) : (
+                <NameText noPerfil>MEU NOME</NameText>
+              )}
             </Inputs>
             <Inputs>
-              <TelephoneIcon/>
-              {edit 
-                ? <TextInput value={phone.replace(/\D/g, "")} onChange={event => setPhone(event.target.value)} />
-                : <NameText noPerfil>MEU NOME</NameText> 
-              }
+              <TelephoneIcon />
+              {edit ? (
+                <TextInput
+                  value={phone.replace(/\D/g, "")}
+                  onChange={(event) => setPhone(event.target.value)}
+                />
+              ) : (
+                <NameText noPerfil>MEU NOME</NameText>
+              )}
             </Inputs>
-            {edit &&
+            {edit && (
               <>
                 <Inputs>
-                  <PasswordIcon/>
-                  <PasswordInput value={password} onChange={event => setPassword(event.target.value)} />
+                  <PasswordIcon />
+                  <PasswordInput
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
                 </Inputs>
                 <Inputs>
-                  <ConfirmPasswordIcon/>
-                  <PasswordInput value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} />
+                  <ConfirmPasswordIcon />
+                  <PasswordInput
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                  />
                 </Inputs>
               </>
-            }
+            )}
           </Form>
         </Content>
       </FormContent>
