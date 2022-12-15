@@ -18,8 +18,10 @@ import { ColumnTitle } from "../../../components/DataTableContent/styles";
 import { MdDelete } from "react-icons/md";
 import DoubleInput from "../../../components/DoubleInput";
 import DatePicker from "../../../components/DatePicker";
+import useQuery from "../../../helpers/useQuery";
 
 const BalanceMovement: React.FC = () => {
+  const { edit } = useQuery();
   const columns = [
     {
       name: <ColumnTitle> Descrição </ColumnTitle>,
@@ -71,6 +73,27 @@ const BalanceMovement: React.FC = () => {
   ];
   // DATA
   const [data, setData] = useState([]);
+  const [categoryOption, setCategoryOption] =  useState([]);
+  const [classificationOption, setClassificationOption] =  useState([]);
+  const [bankOption, setBankOption] =  useState([]);
+  const [statusOption, setStatusOption] =  useState([]);
+  // CREATE
+  const [description, setDescription] = useState<string>("");
+  const [category, setCategory] = useState<number>(-1);
+  const [classification, setClassification] = useState<number>(-1);
+  const [bank, setBank] = useState<number>(-1);
+  const [value, setValue] = useState<number>(0);
+  const [valueMask, setValueMask] = useState<string>("");
+  const [status, setStatus] = useState<number>(-1);
+  const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null)
+  //
+  const [editParam, setEditParam] = useState<boolean | string>(edit);
+  const [errors, setErrors] =  useState([]);
+  const [createBalance, setCreateBalance] = useState<boolean>(false);
+
+  function createForm(edit: boolean) {
+    setCreateBalance(!createBalance)
+  }
 
   async function loadHandler() {
     const { data: responseLaunch } = await api.get(`/launchs`, {
@@ -82,18 +105,76 @@ const BalanceMovement: React.FC = () => {
 
   useEffect(() => {
     loadHandler();
-  }, []);
+    if(editParam == "true") {
+      setCreateBalance(true);
+    }
+  }, [editParam]);
 
   return (
     <Container>
         <SideBar/>
-        <FormContent hideSave>
-            <DataTableContent
-                title="Balanço das Movimentações"
-                data={data}
-                columns={columns}
-            />
-        </FormContent>
+        {!createBalance &&
+          <FormContent hideSave newHandler={() => createForm(false)} >
+              <DataTableContent
+                  title="Balanço das Movimentações"
+                  data={data}
+                  columns={columns}
+              />
+          </FormContent>
+        }
+        {createBalance &&
+          <FormContent 
+            hideNew 
+            hideReload 
+            showReturn 
+            returnHandler={() => createForm(false)}
+          >
+            <Form title="Criar Despesa">
+              <TextInput
+                name_field="Descrição"
+                name_placeholder="ex.: Mercado, Conta de luz ..."
+                value={description}
+                onChange={event => setDescription(event.target.value)}
+              />
+              <DatePicker
+                name_field="Data de Lançamento"
+                value={launchDate}
+                setState={setLaunchDate}
+              />
+              <SelectOption
+                name_field="Categoria"
+                options={categoryOption}
+                value={category}
+                onChange={event => setCategory(parseInt(event.target.value))}
+              />
+              <SelectOption
+                name_field="Classificação"
+                options={classificationOption}
+                value={classification}
+                onChange={event => setClassification(parseInt(event.target.value))}
+              />
+              <SelectOption
+                name_field="Banco"
+                options={bankOption}
+                value={bank}
+                onChange={event => setBank(parseInt(event.target.value))}
+              />
+              <DoubleInput
+                name_field="Valor Gasto"
+                prefix="R$ "
+                value={valueMask}
+                setState={setValue}
+                setMask={setValueMask}
+              />
+              <SelectOption
+                name_field="Status"
+                options={statusOption}
+                value={status}
+                onChange={event => setStatus(parseInt(event.target.value))}
+              />
+            </Form>
+          </FormContent>
+        }
     </Container>
   );
 };

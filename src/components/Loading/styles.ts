@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Utils } from "../../config/Utils";
 
 interface Temp {
   RotationBack?: string;
@@ -17,16 +18,24 @@ export const Container = styled.div<Temp>`
   position: fixed;
   top: 0;
   left: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  /* row-gap: 100px; */
+  align-items: center;
+  justify-content: center;
+  /* place-items: center; */
   width: 100%;
   height: 100%;
-  background: #1a1a1a;
+  background: ${Utils.COLORS.DARK_PRIMARY};
 
   /* .loaded {
     animation: ${LoaderOut} 0.3s both;
   } */
 `;
+
+export const Logo = styled.img`
+  margin-top: -10%;
+`
 
 export const Rotation = keyframes`
 0% {rotate: 0deg;}

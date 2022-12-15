@@ -6,6 +6,7 @@ import { ButtonContainer } from "./styles";
 
 interface ButtonProps {
   style?: any;
+  className?: string;
   children: React.ReactNode;
   height?: string | "";
   width?: string | "";
@@ -15,6 +16,7 @@ interface ButtonProps {
 
 const Button: FunctionComponent<ButtonProps> = ({
   style,
+  className,
   children,
   height,
   width,
@@ -24,6 +26,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <ButtonContainer
       style={style}
+      class={className}
       height={height}
       width={width}
       onClick={click}

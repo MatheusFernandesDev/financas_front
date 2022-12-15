@@ -102,10 +102,14 @@ const Bank: React.FC = () => {
   }
 
   async function loadHandler() {
-    const { data: response } = await api.get("/bank", {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-    setData(response);
+    try {
+      const { data: response } = await api.get("/bank", {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      setData(response);
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
   function clearHandler() {

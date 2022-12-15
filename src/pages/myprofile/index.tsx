@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
+import api from "../../service/api";
 import { Container } from "../../App.styles";
 
 import Header from "../../components/Header";
+import Button from "../../components/Button";
 import SideBar from "../../components/Sidebar";
 import TextInput from "../../components/TextInput";
 import FormContent from "../../components/FormContent";
 import verifyUserType from "../../helpers/verifyUserType";
 import PasswordInput from "../../components/PasswordInput";
+import EmptyInputMask from "../../components/EmptyMaskInput";
 
 import {
   Form,
@@ -24,60 +28,73 @@ import {
   ConfirmPasswordIcon,
   Inputs,
 } from "./styles";
-import api from "../../service/api";
 
 const MyProfile: React.FC = () => {
   //
-  const uuid  = verifyUserType();
-  console.log(uuid)
-  let meuNome = localStorage.getItem("name");
-  let meuSobrenome = localStorage.getItem("last_name");
-
   const [errors, setErrors] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
   // EDIT
+  const [id, setId] = useState<number>(-1)
   const [name, setName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [phoneMask, setPhoneMask] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  function clearHandler() {
-    setName("");
-    setEmail("");
-    setPhone("");
-    setPassword("");
-    setConfirmPassword("");
-    setErrors([]);
-  }
-
-  function openEdit() {
-    clearHandler();
-    setEdit(!edit);
-  }
-
   async function loadHandler() {
-    await api.get(`/users/${uuid}`)
+    try {
+      const { data: response } = await api.get(`/user-profile`, { validateStatus: (status) => status == 200 || status === 204 });
+    
+      setId(response.id);
+      setName(response.name);
+      setLastName(response.last_name);
+      setEmail(response.email);
+      setPhone(response.phone);
+      response.phone_type == 1 ? setPhoneMask("(99) 99999-9999") : setPhoneMask("(99) 9999-9999");
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
+  function editHandler() {
+    api.put(`/user/${id}`, {
+      name: name,
+      last_name: lastName,
+      phone: phone,
+      email: email && email.toLowerCase().replace(/ /g, ""),
+      password: password,
+      confirmPassword: confirmPassword,
+    })
+    .then(() => {
+      loadHandler();
+      setEdit(false);
+      return toast.success("Perfil editado com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao editar perfil.");
+    })
+  }
+  
   useEffect(() => {
     loadHandler();
   }, []);
 
   return (
     <Container>
-      <SideBar />
+      <SideBar/>
       <FormContent hideAll>
         <Content>
           <PerfilArea>
             <PerfilIcon />
             {!edit &&
-              <NameText>{`${meuNome} ${
-                meuSobrenome == null ? "" : meuSobrenome
+              <NameText>{`${name} ${
+                lastName == null ? "" : lastName
               }`}</NameText>
             }
           </PerfilArea>
-          {!edit ? <EditIcon onClick={openEdit} /> : <CloseIcon onClick={openEdit}/>}
+          {!edit ? <EditIcon onClick={() => setEdit(!edit)} /> : <CloseIcon onClick={() => setEdit(!edit)}/>}
           <br />
           <Form>
             {edit && (
@@ -97,18 +114,19 @@ const MyProfile: React.FC = () => {
                   onChange={(event) => setEmail(event.target.value)}
                 />
               ) : (
-                <NameText noPerfil>MEU NOME</NameText>
+                <NameText noPerfil>{email}</NameText>
               )}
             </Inputs>
             <Inputs>
               <TelephoneIcon />
               {edit ? (
-                <TextInput
+                <EmptyInputMask
+                  mask={phoneMask}
                   value={phone.replace(/\D/g, "")}
                   onChange={(event) => setPhone(event.target.value)}
                 />
               ) : (
-                <NameText noPerfil>MEU NOME</NameText>
+                <NameText noPerfil>{phone}</NameText>
               )}
             </Inputs>
             {edit && (
@@ -129,7 +147,9 @@ const MyProfile: React.FC = () => {
                 </Inputs>
               </>
             )}
+            {edit && <Button className="secondary" height="35px" click={editHandler} >Salvar</Button>}
           </Form>
+          <br/>
         </Content>
       </FormContent>
     </Container>

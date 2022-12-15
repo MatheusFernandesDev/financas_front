@@ -36,12 +36,6 @@ export const doLogin = (
       id_user_type
     );
   }
-
-  console.log(id_user_type);
-
-  localStorage.setItem("name", name);
-  localStorage.setItem("last_name", last_name);
-  localStorage.setItem("id_user_type", id_user_type);
 };
 
 export const doLogout = () => {
