@@ -71,9 +71,13 @@ const RevenueMovement: React.FC = () => {
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
   const [value, setValue] = useState<number>(-1);
+  const [movement, setMovement] = useState<number>(-1);
   const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
-  const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null)
+  const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null);
+  const [launchVencimentDate, setLaunchVencimentDate] = useState<
+    Date | null | undefined
+  >(null);
   //
   const [createRevenue, setCreateRevenue] = useState<boolean>(false);
 
@@ -82,64 +86,77 @@ const RevenueMovement: React.FC = () => {
     if (!edit) {
     }
   }
-  
+
   async function loadHandler() {
-    try{
+    try {
       const { data: responseLaunch } = await api.get(`/launchs`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
-      const { data: responseCategorys } = await api.get(`/categorys`, {
+      const { data: responseCategorys } = await api.get(`/category`, {
         validateStatus: (status) => status == 200 || status === 204,
-      })
-      const { data: responseClassifications } = await api.get(`/classifications`, {
-        validateStatus: (status) => status == 200 || status === 204,
-      })
+      });
+      const { data: responseClassifications } = await api.get(
+        `/classifications`,
+        {
+          validateStatus: (status) => status == 200 || status === 204,
+        }
+      );
       const { data: responseBank } = await api.get(`/bank`, {
         validateStatus: (status) => status == 200 || status === 204,
-      })
+      });
       const { data: responseStatus } = await api.get(`/status-launchs`, {
         validateStatus: (status) => status == 200 || status === 204,
-      })
-  
+      });
+
       setData(responseLaunch);
-      if(responseCategorys.length > 0) {
-        let formatCategory = responseCategorys.map((element: { id: number; description: string }) => {
-          return {
-            id: element.id,
-            name: element.description
+      if (responseCategorys.length > 0) {
+        let formatCategory = responseCategorys.map(
+          (element: { id: number; description: string }) => {
+            return {
+              id: element.id,
+              name: element.description,
+            };
           }
-        });
-        setCategoryOption(formatCategory)
+        );
+        setCategoryOption(formatCategory);
       }
-      if(responseClassifications.length > 0) {
-        let formatClassification = responseClassifications.map((element: { id: number; description: string }) => {
-          return {
-            id: element.id,
-            name: element.description
+      if (responseClassifications.length > 0) {
+        let formatClassification = responseClassifications.map(
+          (element: { id: number; description: string }) => {
+            return {
+              id: element.id,
+              name: element.description,
+            };
           }
-        });
-        let filteredClassification = formatClassification.filter((element: { id: number; description: string }) => {
-          return element.id == 3 || element.id == 4;
-        })
-        setClassificationOption(filteredClassification)
+        );
+        let filteredClassification = formatClassification.filter(
+          (element: { id: number; description: string }) => {
+            return element.id == 3 || element.id == 4;
+          }
+        );
+        setClassificationOption(filteredClassification);
       }
-      if(responseBank.length > 0) {
-        let formatBank = responseBank.map((element: { id: number; name_bank: string }) => {
-          return {
-            id: element.id,
-            name: element.name_bank
+      if (responseBank.length > 0) {
+        let formatBank = responseBank.map(
+          (element: { id: number; name_bank: string }) => {
+            return {
+              id: element.id,
+              name: element.name_bank,
+            };
           }
-        });
-        setBankOption(formatBank)
+        );
+        setBankOption(formatBank);
       }
-      if(responseStatus.length > 0) {
-        let formatStatus = responseStatus.map((element: { id: number; description: string }) => {
-          return {
-            id: element.id,
-            name: element.description
+      if (responseStatus.length > 0) {
+        let formatStatus = responseStatus.map(
+          (element: { id: number; description: string }) => {
+            return {
+              id: element.id,
+              name: element.description,
+            };
           }
-        });
-        setStatusOption(formatStatus)
+        );
+        setStatusOption(formatStatus);
       }
     } catch {
       return toast.error("Erro ao carregar dados.");
@@ -153,15 +170,19 @@ const RevenueMovement: React.FC = () => {
   return (
     <Container>
       <SideBar />
-      {!createRevenue &&
-        <FormContent hideSave newHandler={() => createForm(false)} reloadHandler={loadHandler}>
+      {!createRevenue && (
+        <FormContent
+          hideSave
+          newHandler={() => createForm(false)}
+          reloadHandler={loadHandler}
+        >
           <DataTableContent
             title="Movimentação de Receitas"
             data={data}
             columns={columns}
           />
         </FormContent>
-      }
+      )}
       {createRevenue && (
         <FormContent
           hideNew
@@ -213,6 +234,11 @@ const RevenueMovement: React.FC = () => {
               options={statusOption}
               value={status}
               onChange={(event) => setStatus(parseInt(event.target.value))}
+            />
+            <DatePicker
+              name_field="Data de Vencimento"
+              value={launchVencimentDate}
+              setState={setLaunchVencimentDate}
             />
           </Form>
         </FormContent>
