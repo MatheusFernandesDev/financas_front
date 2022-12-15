@@ -8,6 +8,7 @@ const api = axios.create({
   timeout: 29000,
   headers: {
     authorization: `Bearer ${token}`,
+    token: token,
   },
 });
 
