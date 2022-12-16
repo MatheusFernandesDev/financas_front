@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 
 import api from "../../../service/api";
+import useQuery from "../../../helpers/useQuery";
 
 import { Container } from "../../../App.styles";
 
@@ -9,16 +11,16 @@ import Modal from "../../../components/Modal";
 import SideBar from "../../../components/Sidebar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
+import DatePicker from "../../../components/DatePicker";
+import DoubleInput from "../../../components/DoubleInput";
 import FormContent from "../../../components/FormContent";
 import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
+import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
-import { MdDelete } from "react-icons/md";
-import DoubleInput from "../../../components/DoubleInput";
-import DatePicker from "../../../components/DatePicker";
-import useQuery from "../../../helpers/useQuery";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 const BalanceMovement: React.FC = () => {
   const { edit } = useQuery();
@@ -69,6 +71,19 @@ const BalanceMovement: React.FC = () => {
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
       center: true,
+      cell: (row: any) => {
+        return (
+          <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+            <ButtonActions
+              children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
+            />
+            <ButtonActions
+              children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
+            />
+          </>
+        )
+      }
     },
   ];
   // DATA
