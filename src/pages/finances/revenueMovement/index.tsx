@@ -31,36 +31,37 @@ const RevenueMovement: React.FC = () => {
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
-      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
       center: true,
+      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
-      cell: (row: any) => row.Category ? row.Category.description : "",
       center: true,
+      cell: (row: any) => row.Category ? row.Category.description : "",
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
+      center: true,
       cell: (row: any) => {
         return (
           row.classification_id == 1 && "Despesa Fixa" ||
           row.classification_id == 2 && "Despesa Variável"
         );
       },
-      center: true,
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
-      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
       center: true,
+      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
-      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
       center: true,
+      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
+      center: true,
       cell: (row: any) => {
         return (
           row.status_launch_id == 1 && "Aberto" ||
@@ -69,7 +70,6 @@ const RevenueMovement: React.FC = () => {
           row.status_launch_id == 4 && "Atrasado"
         );
       },
-      center: true,
     },
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
@@ -79,9 +79,11 @@ const RevenueMovement: React.FC = () => {
           <>
             <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
+              click={() => createForm(row, true)}
               children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
             />
             <ButtonActions
+              click={() => openDelete(row.id)}
               children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
             />
           </>
@@ -96,6 +98,7 @@ const RevenueMovement: React.FC = () => {
   const [bankOption, setBankOption] = useState([]);
   const [statusOption, setStatusOption] = useState([]);
   // CREATE
+  const [id, setId] = useState<number>(-1);
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(-1);
   const [classification, setClassification] = useState<number>(-1);
@@ -109,17 +112,56 @@ const RevenueMovement: React.FC = () => {
     Date | null | undefined
   >(null);
   //
+  const [errors, setErrors] = useState([]);
+  const [editando, setEditando] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [createRevenue, setCreateRevenue] = useState<boolean>(false);
+ 
+  function clearHandler() {
+    setDescription("");
+    setCategory(-1);
+    setClassification(-1);
+    setBank(-1);
+    setValue(0);
+    setValueMask("");
+    setStatus(-1);
+    setLaunchDate(null);
+    setLaunchVencimentDate(null);
+    setErrors([]);
+    setEditando(false);
+  }
 
-  function createForm(edit: boolean) {
+  function changeShowedState() {
+    setDeleteModal(!deleteModal)
+  }
+
+  function createForm(row: any, edit: boolean) {
+    clearHandler();
     setCreateRevenue(!createRevenue);
-    if (!edit) {
+    if (edit) {
+      setEditando(true);
+      setId(row.id);
+      setDescription(row.description);
+      setCategory(row.category_id);
+      setClassification(row.classification_id);
+      setBank(row.bank_id);
+      setValue(row.value);
+      setValueMask(row.value);
+      setStatus(row.status_launch_id);
+      setLaunchDate(new Date(row.date_launch));
+      setLaunchVencimentDate(new Date(row.date_venciment));
     }
+  }
+
+  function openDelete(id: number) {
+    clearHandler();
+    setId(id);
+    changeShowedState();
   }
 
   async function loadHandler() {
     try {
-      const { data: responseLaunch } = await api.get(`/launchs`, {
+      const { data: responseLaunch } = await api.get(`/launchs?movement=1`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
       const { data: responseCategorys } = await api.get(`/category`, {
@@ -138,12 +180,7 @@ const RevenueMovement: React.FC = () => {
         validateStatus: (status) => status == 200 || status === 204,
       });
 
-      if(responseLaunch.length > 0) {
-        let formattedLaunch = responseLaunch.filter((elements: any) => {
-          return elements.movement === 1;
-        })
-        setData(formattedLaunch);
-      }
+      setData(responseLaunch);
       if (responseCategorys.length > 0) {
         let formatCategory = responseCategorys.map(
           (element: { id: number; description: string }) => {
@@ -198,6 +235,72 @@ const RevenueMovement: React.FC = () => {
     }
   }
 
+  async function saveHandler() {
+    api.post("/launch", {
+      description: description,
+      category: category,
+      classification: classification,
+      bank: bank,
+      value: value,
+      status: status,
+      launchDate: launchDate,
+      launchVencimentDate: launchVencimentDate,
+      movement: 1,
+    })
+    .then(() => {
+      clearHandler();
+      setCreateRevenue(false);
+      return toast.success("Despesa criada com sucesso!");
+    })
+    .catch((err) => {
+      if (err.response) {
+        const responseErrors = err?.response?.data?.errors;
+        setErrors(responseErrors);
+      }
+      return toast.error("Erro ao criar Despesa");
+    })
+    .finally(() => {
+      loadHandler();
+    });
+  }
+  
+  function editHandler() {
+    api.put(`/launch/${id}`, {
+      description,
+      category,
+      classification,
+      bank,
+      value,
+      status,
+      launchDate,
+      launchVenciment: launchVencimentDate
+    })
+    .then(() => {
+      clearHandler();
+      setCreateRevenue(false);
+      return toast.success("Despesa editada com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao editar Despesa");
+    })
+    .finally(() => {
+      loadHandler();
+    });
+  }
+
+  function removeHandler() {
+    api.delete(`/launch/${id}`)
+    .then(() => {
+      clearHandler();
+      loadHandler();
+      changeShowedState();
+      return toast.success("Despesa excluida com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao excluir despesa.");
+    })
+  }
+
   useEffect(() => {
     loadHandler();
   }, []);
@@ -208,7 +311,7 @@ const RevenueMovement: React.FC = () => {
       {!createRevenue && (
         <FormContent
           hideSave
-          newHandler={() => createForm(false)}
+          newHandler={() => createForm(null, false)}
           reloadHandler={loadHandler}
         >
           <DataTableContent
@@ -223,9 +326,12 @@ const RevenueMovement: React.FC = () => {
           hideNew
           hideReload
           showReturn
-          returnHandler={() => createForm(false)}
+          edit={editando}
+          returnHandler={() => createForm(null, false)}
+          saveHandler={saveHandler}
+          editHandler={editHandler}
         >
-          <Form title="Criar Receita">
+          <Form title={`${editando ? "Editar" : "Criar"} Receita`}>
             <TextInput
               name_field="Descrição"
               name_placeholder="ex.: Mercado, Conta de luz ..."
@@ -278,6 +384,15 @@ const RevenueMovement: React.FC = () => {
           </Form>
         </FormContent>
       )}
+      {deleteModal &&
+        <Modal
+          title="Excluir Despesa"
+          message="Dessa realmente excluir despesa ?"
+          saveText="Excluir"
+          saveHandler={removeHandler}
+          changeShowedState={changeShowedState}
+        />
+      }
     </Container>
   );
 };
