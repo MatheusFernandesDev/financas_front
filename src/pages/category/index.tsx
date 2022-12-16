@@ -61,7 +61,7 @@ const Category: React.FC = () => {
 
   async function loadHandler() {
     try {
-      const { data: response } = await api.get("/category", {
+      const { data: response } = await api.get("/categorys", {
         validateStatus: (status) => status == 200 || status == 204,
       });
       setData(response);

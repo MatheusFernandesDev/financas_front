@@ -32,42 +32,43 @@ const ExpenseMovement: React.FC = () => {
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
       center: true,
-      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
+      cell: (row: any) =>
+        row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
       center: true,
-      cell: (row: any) => row.Category ? row.Category.description : "",
+      cell: (row: any) => (row.Category ? row.Category.description : ""),
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
       center: true,
       cell: (row: any) => {
         return (
-          row.classification_id == 1 && "Despesa Fixa" ||
-          row.classification_id == 2 && "Despesa Variável"
+          (row.classification_id == 1 && "Despesa Fixa") ||
+          (row.classification_id == 2 && "Despesa Variável")
         );
       },
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
       center: true,
-      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
+      cell: (row: any) => (row.Bank ? row.Bank.name_bank : ""),
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
       center: true,
-      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
+      cell: (row: any) => (row.value ? `R$ ${row.value.toFixed(2)}` : ""),
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
       center: true,
       cell: (row: any) => {
         return (
-          row.status_launch_id == 1 && "Aberto" ||
-          row.status_launch_id == 2 && "Pendente" ||
-          row.status_launch_id == 3 && "Pago" ||
-          row.status_launch_id == 4 && "Atrasado"
+          (row.status_launch_id == 1 && "Aberto") ||
+          (row.status_launch_id == 2 && "Pendente") ||
+          (row.status_launch_id == 3 && "Pago") ||
+          (row.status_launch_id == 4 && "Atrasado")
         );
       },
     },
@@ -80,15 +81,23 @@ const ExpenseMovement: React.FC = () => {
             <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
               click={() => createForm(row, true)}
-              children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
+              children={
+                <MdModeEditOutline
+                  data-tip="Editar Despesa"
+                  size={20}
+                  color="black"
+                />
+              }
             />
             <ButtonActions
               click={() => openDelete(row.id)}
-              children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
+              children={
+                <MdDelete data-tip="Excluir Despesa" size={20} color="black" />
+              }
             />
           </>
-        )
-      }
+        );
+      },
     },
   ];
   // DATA
@@ -113,7 +122,7 @@ const ExpenseMovement: React.FC = () => {
   >(null);
   //
   const [errors, setErrors] = useState([]);
-  const [editando, setEditando] = useState<boolean>(false)
+  const [editando, setEditando] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [createExpense, setCreateExpense] = useState<boolean>(false);
 
@@ -132,7 +141,7 @@ const ExpenseMovement: React.FC = () => {
   }
 
   function changeShowedState() {
-    setDeleteModal(!deleteModal)
+    setDeleteModal(!deleteModal);
   }
 
   function createForm(row: any, edit: boolean) {
@@ -168,9 +177,11 @@ const ExpenseMovement: React.FC = () => {
         validateStatus: (status) => status == 200 || status === 204,
       });
       const { data: responseClassifications } = await api.get(
-        `/classifications`, {
+        `/classifications`,
+        {
           validateStatus: (status) => status == 200 || status === 204,
-      });
+        }
+      );
       const { data: responseBank } = await api.get(`/bank`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
@@ -264,45 +275,46 @@ const ExpenseMovement: React.FC = () => {
   }
 
   function editHandler() {
-    api.put(`/launch/${id}`, {
-      description,
-      category,
-      classification,
-      bank,
-      value,
-      status,
-      launchDate,
-      launchVenciment: launchVencimentDate,
-      movement
-    })
-    .then(() => {
-      clearHandler();
-      setCreateExpense(false);
-      return toast.success("Despesa editada com sucesso!");
-    })
-    .catch((err) => {
-      if (err.response) {
-        const responseErrors = err?.response?.data?.errors;
-        setErrors(responseErrors);
-      }
-      return toast.error("Erro ao editar Despesa");
-    })
-    .finally(() => {
-      loadHandler();
-    });
+    api
+      .put(`/launch/${id}`, {
+        description,
+        category,
+        classification,
+        bank,
+        value,
+        status,
+        launchDate,
+        launchVenciment: launchVencimentDate,
+      })
+      .then(() => {
+        clearHandler();
+        setCreateExpense(false);
+        return toast.success("Despesa editada com sucesso!");
+      })
+      .catch((err) => {
+        if (err.response) {
+          const responseErrors = err?.response?.data?.errors;
+          setErrors(responseErrors);
+        }
+        return toast.error("Erro ao editar Despesa");
+      })
+      .finally(() => {
+        loadHandler();
+      });
   }
 
   function removeHandler() {
-    api.delete(`/launch/${id}`)
-    .then(() => {
-      clearHandler();
-      loadHandler();
-      changeShowedState();
-      return toast.success("Despesa excluida com sucesso!");
-    })
-    .catch(() => {
-      return toast.error("Erro ao excluir despesa.");
-    })
+    api
+      .delete(`/launch/${id}`)
+      .then(() => {
+        clearHandler();
+        loadHandler();
+        changeShowedState();
+        return toast.success("Despesa excluida com sucesso!");
+      })
+      .catch(() => {
+        return toast.error("Erro ao excluir despesa.");
+      });
   }
 
   useEffect(() => {
@@ -390,7 +402,7 @@ const ExpenseMovement: React.FC = () => {
           </Form>
         </FormContent>
       )}
-      {deleteModal &&
+      {deleteModal && (
         <Modal
           title="Excluir Despesa"
           message="Dessa realmente excluir despesa ?"
@@ -398,7 +410,7 @@ const ExpenseMovement: React.FC = () => {
           saveHandler={removeHandler}
           changeShowedState={changeShowedState}
         />
-      }
+      )}
     </Container>
   );
 };
