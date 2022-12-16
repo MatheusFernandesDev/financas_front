@@ -22,8 +22,4 @@ export const ContentFormContainer = styled.div<ContentProps>`
   	padding: 10px;
 	background-color: white;
 	border-radius: 0px 0px 18px 18px;
-
-	@media ${device.tablet} {
-		height: 65vh;
-	}
 `;

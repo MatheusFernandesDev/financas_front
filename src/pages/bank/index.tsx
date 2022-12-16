@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
-import { FaUserEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
+
+import api from "../../service/api";
+
 import { Container } from "../../App.styles";
-import DataTableContent from "../../components/DataTableContent";
-import ButtonActions from "../../components/DataTableContent/ButtonActions";
-import { ColumnTitle } from "../../components/DataTableContent/styles";
-import EmptyInputMask from "../../components/EmptyMaskInput";
-import FormContent from "../../components/FormContent";
-import Form from "../../components/FormContent/Form";
+
 import Modal from "../../components/Modal";
-import SelectOption from "../../components/SelectOption";
 import SideBar from "../../components/Sidebar";
 import TextInput from "../../components/TextInput";
-import api from "../../service/api";
+import Form from "../../components/FormContent/Form";
+import FormContent from "../../components/FormContent";
+import SelectOption from "../../components/SelectOption";
+import EmptyInputMask from "../../components/EmptyMaskInput";
+import DataTableContent from "../../components/DataTableContent";
+import ButtonActions from "../../components/DataTableContent/ButtonActions";
+
+import { ColumnTitle } from "../../components/DataTableContent/styles";
+
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 const Bank: React.FC = () => {
   const columns = [
@@ -48,8 +53,9 @@ const Bank: React.FC = () => {
       cell: (row: any) => {
         return (
           <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
-              children={<FaUserEdit size={20} color="black" />}
+              children={<MdModeEditOutline data-tip="Editar Banco" size={20} color="black" />}
               click={() => {
                 createForm(row, true);
               }}
@@ -57,7 +63,7 @@ const Bank: React.FC = () => {
 
             <ButtonActions
               click={() => deleteHandler(row.id)}
-              children={<MdDelete size={20} color="black" />}
+              children={<MdDelete data-tip="Apagar Banco" size={20} color="black" />}
             />
           </>
         );
@@ -286,7 +292,7 @@ const Bank: React.FC = () => {
       {modalDelete && (
         <Modal
           title="Excluir Banco"
-          message="Dessa realmente excluir banco"
+          message="Dessa realmente excluir banco ?"
           saveText="Excluir"
           saveHandler={removeHandler}
           changeShowedState={changeShowedState}

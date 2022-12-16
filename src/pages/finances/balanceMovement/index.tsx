@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 
 import api from "../../../service/api";
+import useQuery from "../../../helpers/useQuery";
 
 import { Container } from "../../../App.styles";
 
@@ -9,16 +11,16 @@ import Modal from "../../../components/Modal";
 import SideBar from "../../../components/Sidebar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
+import DatePicker from "../../../components/DatePicker";
+import DoubleInput from "../../../components/DoubleInput";
 import FormContent from "../../../components/FormContent";
 import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
+import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
-import { MdDelete } from "react-icons/md";
-import DoubleInput from "../../../components/DoubleInput";
-import DatePicker from "../../../components/DatePicker";
-import useQuery from "../../../helpers/useQuery";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 const BalanceMovement: React.FC = () => {
   const { edit } = useQuery();
@@ -69,6 +71,19 @@ const BalanceMovement: React.FC = () => {
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
       center: true,
+      cell: (row: any) => {
+        return (
+          <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+            <ButtonActions
+              children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
+            />
+            <ButtonActions
+              children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
+            />
+          </>
+        )
+      }
     },
   ];
   // DATA
@@ -96,11 +111,63 @@ const BalanceMovement: React.FC = () => {
   }
 
   async function loadHandler() {
-    const { data: responseLaunch } = await api.get(`/launchs`, {
-      validateStatus: (status) => status == 200 || status === 204,
-    });
-
-    setData(responseLaunch);
+    try {
+      const { data: responseLaunch } = await api.get(`/launchs`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseCategorys } = await api.get(`/categorys`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseClassifications } = await api.get(`/classifications`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseBank } = await api.get(`/bank`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseStatus } = await api.get(`/status-launchs`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+  
+      setData(responseLaunch);
+      if(responseCategorys.length > 0) {
+        let formatCategory = responseCategorys.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setCategoryOption(formatCategory);
+      }
+      if(responseClassifications.length > 0) {
+        let formatClassification = responseClassifications.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setClassificationOption(formatClassification);
+      }
+      if(responseBank.length > 0) {
+        let formatBank = responseBank.map((element: { id: number; name_bank: string }) => {
+          return {
+            id: element.id,
+            name: element.name_bank
+          }
+        });
+        setBankOption(formatBank);
+      }
+      if(responseStatus.length > 0) {
+        let formatStatus = responseStatus.map((element: { id: number; description: string }) => {
+          return {
+            id: element.id,
+            name: element.description
+          }
+        });
+        setStatusOption(formatStatus);
+      }
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
   useEffect(() => {

@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { FaUserEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+
+import api from "../../service/api";
+
 import { Container } from "../../App.styles";
-import DataTableContent from "../../components/DataTableContent";
-import ButtonActions from "../../components/DataTableContent/ButtonActions";
-import { ColumnTitle } from "../../components/DataTableContent/styles";
-import FormContent from "../../components/FormContent";
-import Form from "../../components/FormContent/Form";
+
 import Modal from "../../components/Modal";
 import SideBar from "../../components/Sidebar";
 import TextInput from "../../components/TextInput";
-import api from "../../service/api";
+import Form from "../../components/FormContent/Form";
+import FormContent from "../../components/FormContent";
+import DataTableContent from "../../components/DataTableContent";
+import ButtonActions from "../../components/DataTableContent/ButtonActions";
+
+import { ColumnTitle } from "../../components/DataTableContent/styles";
+
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 const Category: React.FC = () => {
   const columns = [
@@ -28,7 +32,7 @@ const Category: React.FC = () => {
         return (
           <>
             <ButtonActions
-              children={<FaUserEdit size={20} color="black" />}
+              children={<MdModeEditOutline size={20} color="black" />}
               click={() => {
                 createForm(row, true);
               }}
@@ -56,10 +60,14 @@ const Category: React.FC = () => {
   const [description, setDescription] = useState<string>("");
 
   async function loadHandler() {
-    const { data: response } = await api.get("/category", {
-      validateStatus: (status) => status == 200 || status == 204,
-    });
-    setData(response);
+    try {
+      const { data: response } = await api.get("/category", {
+        validateStatus: (status) => status == 200 || status == 204,
+      });
+      setData(response);
+    } catch {
+      return toast.error("Erro ao carregar dados.");
+    }
   }
 
   function clearHandler() {
@@ -181,6 +189,7 @@ const Category: React.FC = () => {
         >
           <Form title={`${editando ? "Editar Categoria" : "Criar Categoria"}`}>
             <TextInput
+              grid_width="5"
               name_field="Categoria"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
@@ -193,7 +202,7 @@ const Category: React.FC = () => {
       {modalDelete && (
         <Modal
           title="Excluir Categoria"
-          message="Deseja realmente excluir Categoria"
+          message="Deseja realmente excluir categoria ?"
           saveText="Excluir"
           saveHandler={removeHandler}
           changeShowedState={changeShowedState}

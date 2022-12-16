@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import api from "../../../service/api";
 
@@ -9,15 +11,16 @@ import Modal from "../../../components/Modal";
 import SideBar from "../../../components/Sidebar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
+import DatePicker from "../../../components/DatePicker";
 import FormContent from "../../../components/FormContent";
+import DoubleInput from "../../../components/DoubleInput";
 import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
+import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
-import { MdDelete } from "react-icons/md";
-import DoubleInput from "../../../components/DoubleInput";
-import DatePicker from "../../../components/DatePicker";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
 const ExpenseMovement: React.FC = () => {
   const columns = [
@@ -28,37 +31,64 @@ const ExpenseMovement: React.FC = () => {
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
-      // cell: "date_launch",
       center: true,
+      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
-      selector: "category_id",
       center: true,
+      cell: (row: any) => row.Category ? row.Category.description : "",
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
-      selector: "classification_id",
       center: true,
+      cell: (row: any) => {
+        return (
+          row.classification_id == 1 && "Despesa Fixa" ||
+          row.classification_id == 2 && "Despesa Variável"
+        );
+      },
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
-      // cell: "bank_id",
       center: true,
+      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
-      //  cell: "value",
       center: true,
+      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
-      // cell: "status_launch_id",
       center: true,
+      cell: (row: any) => {
+        return (
+          row.status_launch_id == 1 && "Aberto" ||
+          row.status_launch_id == 2 && "Pendente" ||
+          row.status_launch_id == 3 && "Pago" ||
+          row.status_launch_id == 4 && "Atrasado"
+        );
+      },
     },
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
       center: true,
+      cell: (row: any) => {
+        return (
+          <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+            <ButtonActions
+              click={() => createForm(row, true)}
+              children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
+            />
+            <ButtonActions
+              click={() => openDelete(row.id)}
+              children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
+            />
+          </>
+        )
+      }
     },
   ];
   // DATA
@@ -68,12 +98,13 @@ const ExpenseMovement: React.FC = () => {
   const [bankOption, setBankOption] = useState([]);
   const [statusOption, setStatusOption] = useState([]);
   // CREATE
+  const [id, setId] = useState<number>(-1);
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(-1);
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
   const [movement, setMovement] = useState<number>(-1);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<number>(0);
   const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
   const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null);
@@ -82,45 +113,64 @@ const ExpenseMovement: React.FC = () => {
   >(null);
   //
   const [errors, setErrors] = useState([]);
+  const [editando, setEditando] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [createExpense, setCreateExpense] = useState<boolean>(false);
-  console.log(value);
-  console.log(valueMask);
-  console.log(typeof value);
 
   function clearHandler() {
     setDescription("");
     setCategory(-1);
     setClassification(-1);
     setBank(-1);
-    setValue("");
+    setValue(0);
     setValueMask("");
     setStatus(-1);
     setLaunchDate(null);
     setLaunchVencimentDate(null);
     setErrors([]);
+    setEditando(false);
   }
 
-  function createForm(edit: boolean) {
+  function changeShowedState() {
+    setDeleteModal(!deleteModal)
+  }
+
+  function createForm(row: any, edit: boolean) {
     clearHandler();
     setCreateExpense(!createExpense);
-    if (!edit) {
+    if (edit) {
+      setEditando(true);
+      setId(row.id);
+      setDescription(row.description);
+      setCategory(row.category_id);
+      setClassification(row.classification_id);
+      setBank(row.bank_id);
+      setValue(row.value);
+      setValueMask(row.value);
+      setStatus(row.status_launch_id);
+      setLaunchDate(new Date(row.date_launch));
+      setLaunchVencimentDate(new Date(row.date_venciment));
     }
+  }
+
+  function openDelete(id: number) {
+    clearHandler();
+    setId(id);
+    changeShowedState();
   }
 
   async function loadHandler() {
     try {
-      const { data: responseLaunch } = await api.get(`/launchs`, {
+      const { data: responseLaunch } = await api.get(`/launchs?movement=2`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
-      const { data: responseCategorys } = await api.get(`/category`, {
+      const { data: responseCategorys } = await api.get(`/categorys`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
       const { data: responseClassifications } = await api.get(
-        `/classifications`,
-        {
+        `/classifications`, {
           validateStatus: (status) => status == 200 || status === 204,
-        }
-      );
+      });
       const { data: responseBank } = await api.get(`/bank`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
@@ -190,7 +240,7 @@ const ExpenseMovement: React.FC = () => {
         category: category,
         classification: classification,
         bank: bank,
-        value: value && parseFloat(value),
+        value: value,
         status: status,
         launchDate: launchDate,
         launchVencimentDate: launchVencimentDate,
@@ -212,6 +262,49 @@ const ExpenseMovement: React.FC = () => {
         loadHandler();
       });
   }
+
+  function editHandler() {
+    api.put(`/launch/${id}`, {
+      description,
+      category,
+      classification,
+      bank,
+      value,
+      status,
+      launchDate,
+      launchVenciment: launchVencimentDate,
+      movement
+    })
+    .then(() => {
+      clearHandler();
+      setCreateExpense(false);
+      return toast.success("Despesa editada com sucesso!");
+    })
+    .catch((err) => {
+      if (err.response) {
+        const responseErrors = err?.response?.data?.errors;
+        setErrors(responseErrors);
+      }
+      return toast.error("Erro ao editar Despesa");
+    })
+    .finally(() => {
+      loadHandler();
+    });
+  }
+
+  function removeHandler() {
+    api.delete(`/launch/${id}`)
+    .then(() => {
+      clearHandler();
+      loadHandler();
+      changeShowedState();
+      return toast.success("Despesa excluida com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao excluir despesa.");
+    })
+  }
+
   useEffect(() => {
     loadHandler();
   }, []);
@@ -222,7 +315,7 @@ const ExpenseMovement: React.FC = () => {
       {!createExpense && (
         <FormContent
           hideSave
-          newHandler={() => createForm(false)}
+          newHandler={() => createForm(null, false)}
           reloadHandler={loadHandler}
         >
           <DataTableContent
@@ -237,10 +330,12 @@ const ExpenseMovement: React.FC = () => {
           hideNew
           hideReload
           showReturn
-          returnHandler={() => createForm(false)}
+          edit={editando}
+          returnHandler={() => createForm(null, false)}
           saveHandler={() => saveHandler()}
+          editHandler={() => editHandler()}
         >
-          <Form title="Criar Despesa">
+          <Form title={`${editando ? "Editar" : "Criar"} Despesa`}>
             <TextInput
               name_field="Descrição"
               name_placeholder="ex.: Mercado, Conta de luz ..."
@@ -295,6 +390,15 @@ const ExpenseMovement: React.FC = () => {
           </Form>
         </FormContent>
       )}
+      {deleteModal &&
+        <Modal
+          title="Excluir Despesa"
+          message="Dessa realmente excluir despesa ?"
+          saveText="Excluir"
+          saveHandler={removeHandler}
+          changeShowedState={changeShowedState}
+        />
+      }
     </Container>
   );
 };

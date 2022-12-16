@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import api from "../../../service/api";
 
@@ -9,54 +10,83 @@ import Modal from "../../../components/Modal";
 import SideBar from "../../../components/Sidebar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
+import DatePicker from "../../../components/DatePicker";
+import DoubleInput from "../../../components/DoubleInput";
 import FormContent from "../../../components/FormContent";
 import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
+import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
-import { MdDelete } from "react-icons/md";
-import DatePicker from "../../../components/DatePicker";
-import DoubleInput from "../../../components/DoubleInput";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 
 const RevenueMovement: React.FC = () => {
   const columns = [
     {
       name: <ColumnTitle> Descrição </ColumnTitle>,
-      selector: "",
+      selector: "description",
       center: true,
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
-      cell: "",
+      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
       center: true,
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
-      selector: "",
+      cell: (row: any) => row.Category ? row.Category.description : "",
       center: true,
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
-      selector: "",
+      cell: (row: any) => {
+        return (
+          row.classification_id == 1 && "Despesa Fixa" ||
+          row.classification_id == 2 && "Despesa Variável"
+        );
+      },
       center: true,
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
-      selector: "",
+      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
       center: true,
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
+      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
       center: true,
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
+      cell: (row: any) => {
+        return (
+          row.status_launch_id == 1 && "Aberto" ||
+          row.status_launch_id == 2 && "Pendente" ||
+          row.status_launch_id == 3 && "Pago" ||
+          row.status_launch_id == 4 && "Atrasado"
+        );
+      },
       center: true,
     },
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
       center: true,
+      cell: (row: any) => {
+        return (
+          <>
+            <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+            <ButtonActions
+              children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
+            />
+            <ButtonActions
+              children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
+            />
+          </>
+        )
+      }
     },
   ];
   // DATA
@@ -108,7 +138,12 @@ const RevenueMovement: React.FC = () => {
         validateStatus: (status) => status == 200 || status === 204,
       });
 
-      setData(responseLaunch);
+      if(responseLaunch.length > 0) {
+        let formattedLaunch = responseLaunch.filter((elements: any) => {
+          return elements.movement === 1;
+        })
+        setData(formattedLaunch);
+      }
       if (responseCategorys.length > 0) {
         let formatCategory = responseCategorys.map(
           (element: { id: number; description: string }) => {
