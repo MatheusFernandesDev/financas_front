@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import api from "../../../service/api";
 import useQuery from "../../../helpers/useQuery";
@@ -27,46 +28,67 @@ const BalanceMovement: React.FC = () => {
   const columns = [
     {
       name: <ColumnTitle> Descrição </ColumnTitle>,
-      selector: "",
+      selector: "description",
       center: true,
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
-      cell: "",
       center: true,
+      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Tipo de Movimento </ColumnTitle>,
-      selector: "",
       center: true,
+      cell: (row: any) => {
+        return (
+          row.movement == 1 && "Receita" ||
+          row.movement == 2 && "Despesa"
+        )
+      }
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
-      selector: "",
       center: true,
+      cell: (row: any) => row.Category ? row.Category.description : "",
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
-      selector: "",
       center: true,
+      cell: (row: any) => {
+        return (
+          row.classification_id == 1 && "Despesa Fixa" ||
+          row.classification_id == 2 && "Despesa Variável" ||
+          row.classification_id == 3 && "Receita Fixa" ||
+          row.classification_id == 4 && "Receita Variável"
+        );
+      },
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
-      selector: "",
       center: true,
+      cell: (row: any) => row.Bank ? row.Bank.name_bank : "",
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
       center: true,
+      cell: (row: any) => `R$ ${row.value ? row.value.toFixed(2) : "0,00"}`,
     },
     {
       name: <ColumnTitle> Data de Vencimento </ColumnTitle>,
-      cell: "",
       center: true,
+      cell: (row: any) =>  row.date_venciment ? moment(row.date_venciment).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
       center: true,
+      cell: (row: any) => {
+        return (
+          row.status_launch_id == 1 && "Aberto" ||
+          row.status_launch_id == 2 && "Pendente" ||
+          row.status_launch_id == 3 && "Pago" ||
+          row.status_launch_id == 4 && "Atrasado"
+        );
+      },
     },
     {
       name: <ColumnTitle> Ações </ColumnTitle>,
@@ -76,9 +98,11 @@ const BalanceMovement: React.FC = () => {
           <>
             <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
+              click={() => createForm(row, true)}
               children={<MdModeEditOutline data-tip="Editar Despesa" size={20} color="black" />}
             />
             <ButtonActions
+              click={() => openDelete(row.id)}
               children={<MdDelete data-tip="Excluir Despesa" size={20} color="black" />}
             />
           </>
@@ -93,21 +117,65 @@ const BalanceMovement: React.FC = () => {
   const [bankOption, setBankOption] =  useState([]);
   const [statusOption, setStatusOption] =  useState([]);
   // CREATE
+  const [id, setId] = useState<number>(-1);
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(-1);
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
+  const [movement, setMovement] = useState<number>(-1);
   const [value, setValue] = useState<number>(0);
   const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
   const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null)
+  const [launchVenciment, setLaunchVenciment] = useState<Date | null | undefined>(null)
   //
-  const [editParam, setEditParam] = useState<boolean | string>(edit);
   const [errors, setErrors] =  useState([]);
+  const [editando, setEditando] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [editParam, setEditParam] = useState<string>(edit);
   const [createBalance, setCreateBalance] = useState<boolean>(false);
+ 
+  function clearHandler() {
+    setDescription("");
+    setCategory(-1);
+    setClassification(-1);
+    setBank(-1);
+    setValue(0);
+    setValueMask("");
+    setStatus(-1);
+    setLaunchDate(null);
+    setLaunchVenciment(null);
+    setErrors([]);
+    setEditando(false);
+  }
 
-  function createForm(edit: boolean) {
-    setCreateBalance(!createBalance)
+  function changeShowedState() {
+    setDeleteModal(!deleteModal)
+  }
+
+  function createForm(row: any, edit: boolean) {
+    clearHandler();
+    setCreateBalance(!createBalance);
+    if (edit) {
+      setEditando(true);
+      setId(row.id);
+      setDescription(row.description);
+      setCategory(row.category_id);
+      setMovement(row.movement);
+      setClassification(row.classification_id);
+      setBank(row.bank_id);
+      setValue(row.value);
+      setValueMask(row.value);
+      setStatus(row.status_launch_id);
+      setLaunchDate(new Date(row.date_launch));
+      setLaunchVenciment(new Date(row.date_venciment));
+    }
+  }
+
+  function openDelete(id: number) {
+    clearHandler();
+    setId(id);
+    changeShowedState();
   }
 
   async function loadHandler() {
@@ -170,6 +238,70 @@ const BalanceMovement: React.FC = () => {
     }
   }
 
+  async function saveHandler() {
+    api.post("/launch", {
+      description: description,
+      category: category,
+      classification: classification,
+      bank: bank,
+      value: value,
+      status: status,
+      launchDate: launchDate,
+      launchVencimentDate: launchVenciment,
+      movement: movement,
+    })
+    .then(() => {
+      loadHandler();
+      clearHandler();
+      setCreateBalance(false);
+      return toast.success("Despesa criada com sucesso!");
+    })
+    .catch((err) => {
+      if (err.response) {
+        const responseErrors = err?.response?.data?.errors;
+        setErrors(responseErrors);
+      }
+      return toast.error("Erro ao criar Despesa");
+    });
+  }
+  
+  function editHandler() {
+    api.put(`/launch/${id}`, {
+      description,
+      category,
+      classification,
+      bank,
+      value,
+      status,
+      launchDate,
+      launchVenciment: launchVenciment
+    })
+    .then(() => {
+      clearHandler();
+      setCreateBalance(false);
+      return toast.success("Movimento editada com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao editar movimento.");
+    })
+    .finally(() => {
+      loadHandler();
+    });
+  }
+
+  function removeHandler() {
+    api.delete(`/launch/${id}`)
+    .then(() => {
+      clearHandler();
+      loadHandler();
+      changeShowedState();
+      return toast.success("Movimento excluida com sucesso!");
+    })
+    .catch(() => {
+      return toast.error("Erro ao excluir movimento.");
+    })
+  }
+
   useEffect(() => {
     loadHandler();
     if(editParam == "true") {
@@ -181,7 +313,7 @@ const BalanceMovement: React.FC = () => {
     <Container>
         <SideBar/>
         {!createBalance &&
-          <FormContent hideSave newHandler={() => createForm(false)} >
+          <FormContent hideSave newHandler={() => createForm(null, false)} >
               <DataTableContent
                   title="Balanço das Movimentações"
                   data={data}
@@ -194,7 +326,10 @@ const BalanceMovement: React.FC = () => {
             hideNew 
             hideReload 
             showReturn 
-            returnHandler={() => createForm(false)}
+            edit={editando}
+            returnHandler={() => createForm(null, false)}
+            saveHandler={saveHandler}
+            editHandler={editHandler}
           >
             <Form title="Criar Despesa">
               <TextInput
@@ -202,6 +337,15 @@ const BalanceMovement: React.FC = () => {
                 name_placeholder="ex.: Mercado, Conta de luz ..."
                 value={description}
                 onChange={event => setDescription(event.target.value)}
+              />
+              <SelectOption
+                name_field="Tipo de Lançamento"
+                options={[
+                  { id: 1, name: "Receita" },
+                  { id: 2, name: "Despesa" }
+                ]}
+                value={movement}
+                onChange={event => setMovement(parseInt(event.target.value))}
               />
               <DatePicker
                 name_field="Data de Lançamento"
@@ -241,6 +385,15 @@ const BalanceMovement: React.FC = () => {
               />
             </Form>
           </FormContent>
+        }
+        {deleteModal &&
+          <Modal
+            title="Excluir Despesa"
+            message="Dessa realmente excluir despesa ?"
+            saveText="Excluir"
+            saveHandler={removeHandler}
+            changeShowedState={changeShowedState}
+          />
         }
     </Container>
   );

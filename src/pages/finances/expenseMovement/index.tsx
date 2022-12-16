@@ -112,7 +112,6 @@ const ExpenseMovement: React.FC = () => {
   const [category, setCategory] = useState<number>(-1);
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
-  const [movement, setMovement] = useState<number>(-1);
   const [value, setValue] = useState<number>(0);
   const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
@@ -127,6 +126,7 @@ const ExpenseMovement: React.FC = () => {
   const [createExpense, setCreateExpense] = useState<boolean>(false);
 
   function clearHandler() {
+    setId(-1);
     setDescription("");
     setCategory(-1);
     setClassification(-1);
@@ -247,13 +247,13 @@ const ExpenseMovement: React.FC = () => {
   async function saveHandler() {
     await api
       .post("/launch", {
-        description: description,
-        category: category,
-        classification: classification,
-        bank: bank,
-        value: value,
-        status: status,
-        launchDate: launchDate,
+        description,
+        category,
+        classification,
+        bank,
+        value,
+        status,
+        launchDate,
         launchVencimentDate: launchVencimentDate,
         movement: 2,
       })
@@ -291,11 +291,7 @@ const ExpenseMovement: React.FC = () => {
         setCreateExpense(false);
         return toast.success("Despesa editada com sucesso!");
       })
-      .catch((err) => {
-        if (err.response) {
-          const responseErrors = err?.response?.data?.errors;
-          setErrors(responseErrors);
-        }
+      .catch(() => {
         return toast.error("Erro ao editar Despesa");
       })
       .finally(() => {
