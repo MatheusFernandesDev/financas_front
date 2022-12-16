@@ -29,12 +29,16 @@ export const ClearButton = styled.button`
 	align-items: center;
 	justify-content: center;
 	border-style: none;
-	background-color: ${Utils.COLORS.PRIMARY};
+	background-color: ${Utils.COLORS.SECONDARY};
 	border-radius: 0px 10px 10px 0px;
 	cursor: pointer;
 
 	@media ${device.mobile} {
 		width: 10%;
+	}
+
+	:hover {
+		background-color: ${Utils.COLORS.DARK_SECONDARY};
 	}
 `;
 

@@ -164,7 +164,7 @@ const RevenueMovement: React.FC = () => {
       const { data: responseLaunch } = await api.get(`/launchs?movement=1`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
-      const { data: responseCategorys } = await api.get(`/category`, {
+      const { data: responseCategorys } = await api.get(`/categorys`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
       const { data: responseClassifications } = await api.get(

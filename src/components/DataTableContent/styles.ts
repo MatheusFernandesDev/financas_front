@@ -37,9 +37,55 @@ export const ColumnTitle = styled.p`
 	font-size: 16px;
 `;
 
+export const StyledStatus = styled.button`
+  border-radius: 4px;
+  padding: 5px 10px;
+  color: white;
+  margin-left: 8px;
+  cursor: default;
+  min-width: 75px;
+  height: 28px;
+  border: 1px solid transparent;
+  background-color: ${Utils.COLORS.SECONDARY};
+  transition: 0.2s ease-out;
+
+  @media ${device.mobile} {
+    width: 50%;
+  }
+
+  &.success {
+    border: 1px solid #198754;
+    background-color: #198754;
+  }
+
+  &.alert {
+    border: 1px solid #dc3545;
+    background-color: #dc3545;
+  }
+
+  &.warn {
+    border: 1px solid #ffc108;
+    background-color: #ffc108;
+    color: #fff;
+  }
+
+  &.add {
+    border: 1px solid #145da0;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+    height: 25px;
+    background-color: #145da0;
+    color: #fff;
+  }
+`;
+
 export const Actions = styled.div`
 	display: flex;
 `;
+
 export const InputCell = styled.div`
 	display: flex;
 	align-items: center;
