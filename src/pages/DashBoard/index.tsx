@@ -21,7 +21,10 @@ const DashBoard: React.FC = () => {
 
   return (
     <Container>
-      <SideBar/>
+      {window.screen.width > 500
+        ? <SideBar/>
+        : <Header/>
+      }
       <FormContent>
         {/* <DataTableContent
           title="Balanço"

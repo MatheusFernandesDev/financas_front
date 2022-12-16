@@ -1,6 +1,6 @@
 import React, { useEffect, FunctionComponent } from "react";
 import DataTable from "react-data-table-component";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import RefreshComponent from "../Refresh";
 
@@ -172,7 +172,7 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
             },
             headRow: {
               style: {
-                backgroundColor: "transparent",
+                backgroundColor: "white",
               },
             },
             subHeader: {

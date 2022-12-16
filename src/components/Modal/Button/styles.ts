@@ -20,11 +20,13 @@ export const Button = styled.button`
 
   :disabled {
     cursor: default;
+    border: 1px solid ${Utils.COLORS.DARK_PRIMARY};
+    background-color: ${Utils.COLORS.DARK_PRIMARY};
     pointer-events: none;
   }
 
   &:hover {
-    /* border: 1px solid #005edd; */
+    border: 1px solid ${Utils.COLORS.BLACK};
     background-color: ${Utils.COLORS.BLACK};
   }
 

@@ -19,7 +19,7 @@ import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
 import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
-import { ColumnTitle } from "../../../components/DataTableContent/styles";
+import { ColumnTitle, StyledStatus } from "../../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
@@ -71,7 +71,7 @@ const BalanceMovement: React.FC = () => {
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
       center: true,
-      cell: (row: any) => `R$ ${row.value ? row.value.toFixed(2) : "0,00"}`,
+      cell: (row: any) => `R$ ${row.value ? row.value.toFixed(2).replace('.', ',') : "0,00"}`,
     },
     {
       name: <ColumnTitle> Data de Vencimento </ColumnTitle>,
@@ -83,10 +83,14 @@ const BalanceMovement: React.FC = () => {
       center: true,
       cell: (row: any) => {
         return (
-          row.status_launch_id == 1 && "Aberto" ||
-          row.status_launch_id == 2 && "Pendente" ||
-          row.status_launch_id == 3 && "Pago" ||
-          row.status_launch_id == 4 && "Atrasado"
+          row.status_launch_id == 1 && 
+          <StyledStatus> Aberto </StyledStatus> ||
+          row.status_launch_id == 2 && 
+          <StyledStatus className="warn"> Pendente </StyledStatus> ||
+          row.status_launch_id == 3 && 
+          <StyledStatus className="success"> Pago </StyledStatus> ||
+          row.status_launch_id == 4 && 
+          <StyledStatus className="alert"> Atrasado </StyledStatus>
         );
       },
     },
@@ -240,15 +244,15 @@ const BalanceMovement: React.FC = () => {
 
   async function saveHandler() {
     api.post("/launch", {
-      description: description,
-      category: category,
-      classification: classification,
-      bank: bank,
-      value: value,
-      status: status,
-      launchDate: launchDate,
-      launchVencimentDate: launchVenciment,
-      movement: movement,
+      description,
+      category_id: category,
+      classification_id: classification,
+      bank_id: bank,
+      value,
+      status_launch_id: status,
+      date_launch: launchDate,
+      date_venciment: launchVenciment,
+      movement: movement
     })
     .then(() => {
       loadHandler();
@@ -337,6 +341,8 @@ const BalanceMovement: React.FC = () => {
                 name_placeholder="ex.: Mercado, Conta de luz ..."
                 value={description}
                 onChange={event => setDescription(event.target.value)}
+                param="date_launch"
+                errors={errors}
               />
               <SelectOption
                 name_field="Tipo de Lançamento"
@@ -351,24 +357,32 @@ const BalanceMovement: React.FC = () => {
                 name_field="Data de Lançamento"
                 value={launchDate}
                 setState={setLaunchDate}
+                param="date_launch"
+                errors={errors}
               />
               <SelectOption
                 name_field="Categoria"
                 options={categoryOption}
                 value={category}
                 onChange={event => setCategory(parseInt(event.target.value))}
+                param="category_id"
+                errors={errors}
               />
               <SelectOption
                 name_field="Classificação"
                 options={classificationOption}
                 value={classification}
                 onChange={event => setClassification(parseInt(event.target.value))}
+                param="classification_id"
+                errors={errors}
               />
               <SelectOption
                 name_field="Banco"
                 options={bankOption}
                 value={bank}
                 onChange={event => setBank(parseInt(event.target.value))}
+                param="bank_id"
+                errors={errors}
               />
               <DoubleInput
                 name_field="Valor Gasto"
@@ -376,12 +390,23 @@ const BalanceMovement: React.FC = () => {
                 value={valueMask}
                 setState={setValue}
                 setMask={setValueMask}
+                param="value"
+                errors={errors}
               />
               <SelectOption
                 name_field="Status"
                 options={statusOption}
                 value={status}
                 onChange={event => setStatus(parseInt(event.target.value))}
+                param="status_launch_id"
+                errors={errors}
+              />
+              <DatePicker
+                name_field="Data de Vencimento"
+                value={launchVenciment}
+                setState={setLaunchVenciment}
+                param="date_venciment"
+                errors={errors}
               />
             </Form>
           </FormContent>

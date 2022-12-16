@@ -19,7 +19,7 @@ export const Container = styled.div`
 `;
 
 export const Label = styled.label<ErrorProps>`
-	${(props) => (props.errors ? "color: red;" : "")}
+	${(props) => (props.errors ? "color: darkred;" : "")}
 `;
 
 export const Input = styled(DatePicker).attrs({

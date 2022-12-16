@@ -64,7 +64,8 @@ li{
 	width: 5px;
 	max-width: 7px;
 	max-height: 7px;
-  background: #272C30;
+  /* background: #272C30; */
+  background: rgb(143, 68, 253);
 }
 
 /* Track */
@@ -75,17 +76,20 @@ li{
 /* Handle */
 ::-webkit-scrollbar-thumb {
 	border-radius: 5px;
-  background: rgb(119,119,119); 
+  background: rgba(143, 68, 253, 0.7); 
+  /* background: rgb(119,119,119);  */
 	max-width: 3px;
 	max-height: 3px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgb(85, 85, 85); 
+  background: rgb(143, 68, 253); 
+	/* background: rgb(85, 85, 85);  */
 }
 ::-webkit-scrollbar-thumb:active {
-	background: rgb(72,72,72); 
+	background: rgb(114, 54, 202); 
+	/* background: rgb(72,72,72);  */
 }
 `;
 

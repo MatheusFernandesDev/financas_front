@@ -8,7 +8,14 @@ interface ContentProps {
 export const Container = styled.div`
 	padding: 20px;
 	height: 95%;
-	width: 99%;
+	width: 98vw;
+
+	@media ${device.tablet} {
+		width: 92vw;
+	}
+	@media ${device.mobile} {
+		width: 85vw;
+	}
 `;
 
 export const MainContainer = styled.div`
@@ -22,4 +29,5 @@ export const ContentFormContainer = styled.div<ContentProps>`
   	padding: 10px;
 	background-color: white;
 	border-radius: 0px 0px 18px 18px;
+	overflow-y: auto;
 `;
