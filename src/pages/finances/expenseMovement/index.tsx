@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import api from "../../../service/api";
 
@@ -9,15 +10,15 @@ import Modal from "../../../components/Modal";
 import SideBar from "../../../components/Sidebar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
+import DatePicker from "../../../components/DatePicker";
 import FormContent from "../../../components/FormContent";
+import DoubleInput from "../../../components/DoubleInput";
 import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
 
 import { ColumnTitle } from "../../../components/DataTableContent/styles";
 
 import { MdDelete } from "react-icons/md";
-import DoubleInput from "../../../components/DoubleInput";
-import DatePicker from "../../../components/DatePicker";
 
 const ExpenseMovement: React.FC = () => {
   const columns = [
@@ -28,17 +29,22 @@ const ExpenseMovement: React.FC = () => {
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
-      // cell: "date_launch",
+      cell: (row: any) =>  row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
       center: true,
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
-      selector: "category_id",
+      // cell: "category_id",
       center: true,
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
-      selector: "classification_id",
+      cell: (row: any) => {
+        return (
+          row.classification_id == 1 && "Despesa Fixa" ||
+          row.classification_id == 2 && "Despesa Variável"
+        );
+      },
       center: true,
     },
     {
@@ -48,12 +54,19 @@ const ExpenseMovement: React.FC = () => {
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
-      //  cell: "value",
+      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
       center: true,
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
-      // cell: "status_launch_id",
+      cell: (row: any) => {
+        return (
+          row.status_launch_id == 1 && "Aberto" ||
+          row.status_launch_id == 2 && "Pendente" ||
+          row.status_launch_id == 3 && "Pago" ||
+          row.status_launch_id == 4 && "Atrasado"
+        );
+      },
       center: true,
     },
     {
@@ -73,7 +86,7 @@ const ExpenseMovement: React.FC = () => {
   const [classification, setClassification] = useState<number>(-1);
   const [bank, setBank] = useState<number>(-1);
   const [movement, setMovement] = useState<number>(-1);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<number>(0);
   const [valueMask, setValueMask] = useState<string>("");
   const [status, setStatus] = useState<number>(-1);
   const [launchDate, setLaunchDate] = useState<Date | null | undefined>(null);
@@ -83,16 +96,13 @@ const ExpenseMovement: React.FC = () => {
   //
   const [errors, setErrors] = useState([]);
   const [createExpense, setCreateExpense] = useState<boolean>(false);
-  console.log(value);
-  console.log(valueMask);
-  console.log(typeof value);
 
   function clearHandler() {
     setDescription("");
     setCategory(-1);
     setClassification(-1);
     setBank(-1);
-    setValue("");
+    setValue(0);
     setValueMask("");
     setStatus(-1);
     setLaunchDate(null);
@@ -190,7 +200,7 @@ const ExpenseMovement: React.FC = () => {
         category: category,
         classification: classification,
         bank: bank,
-        value: value && parseFloat(value),
+        value: value,
         status: status,
         launchDate: launchDate,
         launchVencimentDate: launchVencimentDate,
@@ -215,7 +225,6 @@ const ExpenseMovement: React.FC = () => {
   useEffect(() => {
     loadHandler();
   }, []);
-
   return (
     <Container>
       <SideBar />
