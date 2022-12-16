@@ -3,71 +3,77 @@ import { CurrencyInputOnChangeValues } from "react-currency-input-field/dist/com
 import { Input, Label, Container, ErrorMessage } from "./styles";
 
 interface DoubleInputProps {
-    style?: any;
-    grid_width?: string;
-    name_field?: string;
-    name_placeholder?: string;
-    value?: string;
-    param?: string;
-    errors?: Array<ErroAll>;
-    setState?: any;
-    setMask?: any;
-    prefix?: string;
-    suffix?: string;
-  }
-  interface ErroAll {
-    msg: string;
-    param: string;
-  }
+  style?: any;
+  grid_width?: string;
+  name_field?: string;
+  name_placeholder?: string;
+  value?: string;
+  param?: string;
+  errors?: Array<ErroAll>;
+  setState?: any;
+  setMask?: any;
+  prefix?: string;
+  suffix?: string;
+  decimalScale?: number;
+  decimalsLimit?: number;
+}
+interface ErroAll {
+  msg: string;
+  param: string;
+}
 
 const DoubleInput: React.FC<DoubleInputProps> = ({
-    style,
-    grid_width,
-    name_field,
-    name_placeholder,
-    value,
-    prefix,
-    suffix,
-    param,
-    errors,
-    setState,
-    setMask,
+  style,
+  grid_width,
+  name_field,
+  name_placeholder,
+  value,
+  prefix,
+  suffix,
+  decimalScale,
+  decimalsLimit,
+  param,
+  errors,
+  setState,
+  setMask,
 }) => {
-    const [error, setError] = useState("");
-  
-    useEffect(() => {
-      if (errors) {
-        errors.find((err) => {
-          if (err.param === param) {
-            setError(err.msg);
-          }
-        });
-      }
-    }, [errors, param]);
+  const [error, setError] = useState("");
 
-	return (
-		<Container style={style}>
-			<Label errors={error}>{name_field}</Label>
-			<Input
+  useEffect(() => {
+    if (errors) {
+      errors.find((err) => {
+        if (err.param === param) {
+          setError(err.msg);
+        }
+      });
+    }
+  }, [errors, param]);
+
+  return (
+    <Container style={style}>
+      <Label errors={error}>{name_field}</Label>
+      <Input
         value={value}
-				errors={error}
-				autoComplete="new-password"
-				decimalSeparator="," 
+        errors={error}
+        autoComplete="new-password"
+        decimalSeparator=","
         groupSeparator="."
         prefix={prefix}
         suffix={suffix}
         placeholder={name_placeholder}
+        decimalScale={2}
+        decimalsLimit={2}
         // onChange={onChange}
-				onValueChange={(value: any, name: any) => {
-            setState(value);
-            setMask(name);
+        onValueChange={(value: any, name: any) => {
+          setState(value);
+          setMask(name);
         }}
-				onFocus={() => setError("")}
+        onFocus={() => setError("")}
         grid_width={grid_width}
-			/>
-			<ErrorMessage>{error}</ErrorMessage>
-		</Container>
-	);
-}
+      />
+      <ErrorMessage>{error}</ErrorMessage>
+    </Container>
+  );
+};
 
 export default DoubleInput;
