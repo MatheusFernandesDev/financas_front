@@ -18,7 +18,10 @@ import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
 import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
-import { ColumnTitle } from "../../../components/DataTableContent/styles";
+import {
+  ColumnTitle,
+  StyledStatus,
+} from "../../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
@@ -66,10 +69,18 @@ const ExpenseMovement: React.FC = () => {
       center: true,
       cell: (row: any) => {
         return (
-          (row.status_launch_id == 1 && "Aberto") ||
-          (row.status_launch_id == 2 && "Pendente") ||
-          (row.status_launch_id == 3 && "Pago") ||
-          (row.status_launch_id == 4 && "Atrasado")
+          (row.status_launch_id == 1 && (
+            <StyledStatus> Aberto </StyledStatus>
+          )) ||
+          (row.status_launch_id == 2 && (
+            <StyledStatus className="warn"> Pendente </StyledStatus>
+          )) ||
+          (row.status_launch_id == 3 && (
+            <StyledStatus className="success"> Pago </StyledStatus>
+          )) ||
+          (row.status_launch_id == 4 && (
+            <StyledStatus className="alert"> Atrasado </StyledStatus>
+          ))
         );
       },
     },
@@ -101,6 +112,12 @@ const ExpenseMovement: React.FC = () => {
       },
     },
   ];
+
+  const filtro = [
+    { name: "Descrição", id: "description" },
+    { name: "Banco", id: "Bank.name_bank" },
+  ];
+
   // DATA
   const [data, setData] = useState([]);
   const [categoryOption, setCategoryOption] = useState([]);
@@ -331,6 +348,7 @@ const ExpenseMovement: React.FC = () => {
             title="Movimentação de Despesas"
             data={data}
             columns={columns}
+            filterColumns={filtro}
           />
         </FormContent>
       )}

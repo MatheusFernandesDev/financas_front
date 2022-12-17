@@ -17,7 +17,10 @@ import SelectOption from "../../../components/SelectOption";
 import DataTableContent from "../../../components/DataTableContent";
 import ButtonActions from "../../../components/DataTableContent/ButtonActions";
 
-import { ColumnTitle } from "../../../components/DataTableContent/styles";
+import {
+  ColumnTitle,
+  StyledStatus,
+} from "../../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
@@ -53,22 +56,31 @@ const RevenueMovement: React.FC = () => {
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
       center: true,
-      cell: (row: any) => (row.value ? `R$ ${row.value.toFixed(2)}` : ""),
+      cell: (row: any) => (row.Bank ? row.Bank.name_bank : ""),
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
       center: true,
-      cell: (row: any) => `R$ ${row.value.toFixed(2)}`,
+      cell: (row: any) =>
+        `R$ ${row.value ? row.value.toFixed(2).replace(".", ",") : "0,00"}`,
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
       center: true,
       cell: (row: any) => {
         return (
-          (row.status_launch_id == 1 && "Aberto") ||
-          (row.status_launch_id == 2 && "Pendente") ||
-          (row.status_launch_id == 3 && "Pago") ||
-          (row.status_launch_id == 4 && "Atrasado")
+          (row.status_launch_id == 1 && (
+            <StyledStatus> Aberto </StyledStatus>
+          )) ||
+          (row.status_launch_id == 2 && (
+            <StyledStatus className="warn"> Pendente </StyledStatus>
+          )) ||
+          (row.status_launch_id == 3 && (
+            <StyledStatus className="success"> Pago </StyledStatus>
+          )) ||
+          (row.status_launch_id == 4 && (
+            <StyledStatus className="alert"> Atrasado </StyledStatus>
+          ))
         );
       },
     },
@@ -99,6 +111,11 @@ const RevenueMovement: React.FC = () => {
         );
       },
     },
+  ];
+
+  const filtro = [
+    { name: "Descrição", id: "description" },
+    { name: "Banco", id: "Bank.name_bank" },
   ];
   // DATA
   const [data, setData] = useState([]);
@@ -331,6 +348,7 @@ const RevenueMovement: React.FC = () => {
             title="Movimentação de Receitas"
             data={data}
             columns={columns}
+            filterColumns={filtro}
           />
         </FormContent>
       )}
