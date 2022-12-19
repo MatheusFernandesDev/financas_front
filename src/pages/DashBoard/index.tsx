@@ -4,10 +4,14 @@ import api from "../../service/api";
 
 import { Container } from "../../App.styles";
 
+import Card from "../../components/Card";
 import Header from "../../components/Header";
 import Loading from "../../components/Loading";
 import SideBar from "../../components/Sidebar";
 import FormContent from "../../components/FormContent";
+import { Box } from "./styles";
+import Controls from "../../components/Controls";
+import { device } from "../../styles/devices";
 // import DataTableContent from "../../components/DataTableContent";
 
 // import { ColumnTitle } from "../../components/DataTableContent/styles";
@@ -18,20 +22,33 @@ import FormContent from "../../components/FormContent";
 
 
 const DashBoard: React.FC = () => {
+  // DATA
+  const [data, setData] = useState([]);
+  // FILTER
+  const [startDate, setStartDate] = useState<Date | null | undefined>(null);
+  const [endDate, setEndDate] = useState<Date | null | undefined>(null);
+
+  async function loadHandler() {
+    const { data: response } = await api.get(`/balance-month`);
+    setData(response)
+  }
+
+  useEffect(() => {
+    loadHandler();
+  }, []);
 
   return (
     <Container>
-      {window.screen.width > 500
-        ? <SideBar/>
-        : <Header/>
-      }
-      <FormContent>
-        {/* <DataTableContent
-          title="Balanço"
-          data={}
-          column={}
-        /> */}
-      </FormContent>
+      <SideBar/>
+      <Controls
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
+      {/* <Box>
+        <Card> {} </Card>
+      </Box> */}
     </Container>
   );
 };

@@ -23,7 +23,7 @@ export const Label = styled.label<ErrorProps>`
 `;
 
 export const Input = styled(DatePicker).attrs({
-	locale: "ptbr",
+	locale: "ptbr"
 })<ErrorProps>`
 	height: 28px;
 	width: ${(props) => props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};

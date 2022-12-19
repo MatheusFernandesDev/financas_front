@@ -1,6 +1,7 @@
 import React, { useEffect, FunctionComponent } from "react";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import RefreshComponent from "../Refresh";
 
@@ -19,20 +20,21 @@ interface DataTableContentProps {
   titleLineComponents?: any;
   data: any;
   filterColumns?: any;
-  tableHeight?: any;
   name?: any;
   selectableRows?: any;
   subHeaderComponents?: any;
   height?: any;
-  handleSelection?: any;
-  defaultSortField?: any;
   defaultSortAsc?: any;
+  expandableRows?: boolean;
+  expandableRowsComponent?: any;
 }
+
 function getProp(obj: any, prop: any) {
   if (typeof obj !== "object")
-    return /*return toast.error("Erro no filtro da tabela.")*/;
-  if (typeof prop !== "string")
-    return /*return toast.error("Erro no filtro da tabela.")*/;
+    return toast.error("Erro no filtro da tabela.");
+  if (typeof prop !== "string"){
+    return toast.error("Erro no filtro da tabela.");
+  }
 
   // Replace [] notation with dot notation
   prop = prop.replace(/\[["'`](.*)["'`]\]/g, ".$1");
@@ -56,14 +58,13 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
   titleLineComponents = [],
   data,
   filterColumns,
-  tableHeight,
   name,
   selectableRows,
   subHeaderComponents = [],
   height,
-  handleSelection,
-  defaultSortField,
   defaultSortAsc,
+  expandableRows,
+  expandableRowsComponent,
 }) => {
   const { t, i18n } = useTranslation();
   const [filterText, setFilterText] = React.useState("");
@@ -167,6 +168,8 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
             selectAllRowsItemText: "Todos",
           }}
           noDataComponent="Nenhum registro encontrado."
+          expandableRows={expandableRows}
+          expandableRowsComponent={expandableRowsComponent}
           customStyles={{
             table: {
               style: {
