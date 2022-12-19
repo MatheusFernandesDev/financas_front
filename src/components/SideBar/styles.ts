@@ -30,7 +30,7 @@ export const LogoArea = styled.div`
   display: flex;
   align-items: center;
   margin-left: 5px;
-  cursor: pointer;
+  cursor: default;
 `;
 
 export const LogoIcon = styled.img`

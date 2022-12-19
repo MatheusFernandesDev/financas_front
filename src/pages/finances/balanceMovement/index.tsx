@@ -142,6 +142,7 @@ const BalanceMovement: React.FC = () => {
   const [data, setData] = useState([]);
   const [categoryOption, setCategoryOption] = useState([]);
   const [classificationOption, setClassificationOption] = useState([]);
+  const [classifSave, setClassifSave] = useState([]);
   const [bankOption, setBankOption] = useState([]);
   const [statusOption, setStatusOption] = useState([]);
   // CREATE
@@ -159,10 +160,10 @@ const BalanceMovement: React.FC = () => {
     Date | null | undefined
   >(null);
   //
+  let editParam = edit;
   const [errors, setErrors] = useState([]);
   const [editando, setEditando] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [editParam, setEditParam] = useState<string>(edit);
   const [createBalance, setCreateBalance] = useState<boolean>(false);
 
   function clearHandler() {
@@ -171,12 +172,14 @@ const BalanceMovement: React.FC = () => {
     setClassification(-1);
     setBank(-1);
     setValue(0);
+    setMovement(-1);
     setValueMask("");
     setStatus(-1);
     setLaunchDate(null);
     setLaunchVenciment(null);
     setErrors([]);
     setEditando(false);
+    setClassificationOption(classifSave);
   }
 
   function changeShowedState() {
@@ -208,20 +211,41 @@ const BalanceMovement: React.FC = () => {
     changeShowedState();
   }
 
-  async function loadHandler() {
+  async function loadClassifications() {
     try {
-      const { data: responseLaunch } = await api.get(`/launchs`, {
-        validateStatus: (status) => status == 200 || status === 204,
-      });
-      const { data: responseCategorys } = await api.get(`/categorys`, {
-        validateStatus: (status) => status == 200 || status === 204,
-      });
       const { data: responseClassifications } = await api.get(
         `/classifications`,
         {
           validateStatus: (status) => status == 200 || status === 204,
         }
       );
+
+      if (responseClassifications.length > 0) {
+        let formatClassification = responseClassifications.map(
+          (element: { id: number; description: string }) => {
+            return {
+              id: element.id,
+              name: element.description,
+            };
+          }
+        );
+        setClassifSave(formatClassification);
+        setClassificationOption(formatClassification);
+      }
+    } catch {
+      return toast.error("Erro ao carregar dados")
+    }
+  }
+
+  async function loadHandler() {
+    try {
+      loadClassifications();
+      const { data: responseLaunch } = await api.get(`/launchs`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
+      const { data: responseCategorys } = await api.get(`/categorys`, {
+        validateStatus: (status) => status == 200 || status === 204,
+      });
       const { data: responseBank } = await api.get(`/bank`, {
         validateStatus: (status) => status == 200 || status === 204,
       });
@@ -240,17 +264,6 @@ const BalanceMovement: React.FC = () => {
           }
         );
         setCategoryOption(formatCategory);
-      }
-      if (responseClassifications.length > 0) {
-        let formatClassification = responseClassifications.map(
-          (element: { id: number; description: string }) => {
-            return {
-              id: element.id,
-              name: element.description,
-            };
-          }
-        );
-        setClassificationOption(formatClassification);
       }
       if (responseBank.length > 0) {
         let formatBank = responseBank.map(
@@ -290,7 +303,7 @@ const BalanceMovement: React.FC = () => {
         status_launch_id: status,
         date_launch: launchDate,
         date_venciment: launchVenciment,
-        movement: movement,
+        movement: movement
       })
       .then(() => {
         loadHandler();
@@ -353,6 +366,30 @@ const BalanceMovement: React.FC = () => {
     }
   }, [editParam]);
 
+  useEffect(() => {
+    if(movement) {
+      if(movement == -1) {
+        setClassificationOption(classifSave)
+      }
+      if(movement == 1) {
+        let filterClassification = classifSave.filter(
+          (element: { id: number; description: string }) => {
+            return element.id == 3 || element.id == 4;
+          }
+        );
+        setClassificationOption(filterClassification);
+      }
+      if(movement == 2) {
+        let filterClassification = classifSave.filter(
+          (element: { id: number; description: string }) => {
+            return element.id == 1 || element.id == 2;
+          }
+        );
+        setClassificationOption(filterClassification);
+      }
+    }
+  }, [movement]);
+
   return (
     <Container>
       <SideBar />
@@ -376,7 +413,7 @@ const BalanceMovement: React.FC = () => {
           saveHandler={saveHandler}
           editHandler={editHandler}
         >
-          <Form title="Criar Despesa">
+          <Form title="Criar Balanço">
             <TextInput
               name_field="Descrição"
               name_placeholder="ex.: Mercado, Conta de luz ..."

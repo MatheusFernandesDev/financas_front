@@ -44,6 +44,7 @@ export const StyledStatus = styled.button`
   margin-left: 8px;
   cursor: default;
   min-width: 75px;
+  width: fit-content;
   height: 28px;
   border: 1px solid transparent;
   background-color: ${Utils.COLORS.SECONDARY};
@@ -66,7 +67,10 @@ export const StyledStatus = styled.button`
   &.warn {
     border: 1px solid #ffc108;
     background-color: #ffc108;
-    color: #fff;
+
+    @media ${device.tablet} {
+      font-size: 12px;
+    }
   }
 
   &.add {

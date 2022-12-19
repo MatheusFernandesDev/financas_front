@@ -74,7 +74,10 @@ const MyProfile: React.FC = () => {
       setEdit(false);
       return toast.success("Perfil editado com sucesso!");
     })
-    .catch(() => {
+    .catch((err) => {
+      if (err?.response?.data.msg === "Senhas não coincidem!") {
+        return toast.error("Senhas não coincidem!")
+      }
       return toast.error("Erro ao editar perfil.");
     })
   }

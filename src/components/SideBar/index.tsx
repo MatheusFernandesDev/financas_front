@@ -4,7 +4,7 @@ import { doLogout } from "../../helpers/AuthHandler";
 import userImg from "../../assets/images/MYFinance3.jpg";
 
 import { FiUsers } from "react-icons/fi";
-import { AiTwotoneBank } from "react-icons/ai";
+import { AiTwotoneBank, AiFillHome } from "react-icons/ai";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { MdSettings, MdAppRegistration } from "react-icons/md";
@@ -65,13 +65,17 @@ const SideBar: React.FC = () => {
         {sidebar ? <ArrowLeft /> : <ArrowRight />}
       </Button>
       <br />
-      <LogoArea onClick={handleDashboard}>
+      <LogoArea>
         <LogoIcon src={userImg} />
         <Text style={{ fontWeight: "bold" }} menu={sidebar}>
           My Finance
         </Text>
       </LogoArea>
       <br />
+      <ButtonLink href="/dashboard">
+        <AiFillHome style={IconStyle} />
+        <Text menu={sidebar}> Início </Text>
+      </ButtonLink>
       <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={IconStyle} />
         <Text menu={sidebar}> {`${name} ${lastName == null ? "" : lastName}`}</Text>
