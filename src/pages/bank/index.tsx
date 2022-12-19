@@ -19,6 +19,8 @@ import ButtonActions from "../../components/DataTableContent/ButtonActions";
 import { ColumnTitle } from "../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import DatePicker from "../../components/DatePicker";
+import moment from "moment";
 
 const Bank: React.FC = () => {
   const columns = [
@@ -48,6 +50,12 @@ const Bank: React.FC = () => {
       center: true,
     },
     {
+      name: <ColumnTitle> Data Fatura</ColumnTitle>,
+      center: true,
+      cell: (row: any) =>
+        row.date_invoice ? moment(row.date_invoice).format("DD/MM/yyyy") : "",
+    },
+    {
       name: <ColumnTitle> Ações </ColumnTitle>,
       center: true,
       cell: (row: any) => {
@@ -55,7 +63,13 @@ const Bank: React.FC = () => {
           <>
             <ReactTooltip effect="solid" place="bottom" delayShow={500} />
             <ButtonActions
-              children={<MdModeEditOutline data-tip="Editar Banco" size={20} color="black" />}
+              children={
+                <MdModeEditOutline
+                  data-tip="Editar Banco"
+                  size={20}
+                  color="black"
+                />
+              }
               click={() => {
                 createForm(row, true);
               }}
@@ -63,7 +77,9 @@ const Bank: React.FC = () => {
 
             <ButtonActions
               click={() => deleteHandler(row.id)}
-              children={<MdDelete data-tip="Apagar Banco" size={20} color="black" />}
+              children={
+                <MdDelete data-tip="Apagar Banco" size={20} color="black" />
+              }
             />
           </>
         );
@@ -91,6 +107,7 @@ const Bank: React.FC = () => {
   const [typeAccount, setTypeAccount] = useState<number>(-1);
   const [agency, setAgency] = useState<string>("");
   const [account, setAccount] = useState<string>("");
+  const [dateInvoice, setDateInvoice] = useState<Date | null | undefined>(null);
 
   function createForm(row: any, edit: boolean) {
     clearHandler();
@@ -104,6 +121,7 @@ const Bank: React.FC = () => {
       setTypeAccount(row.type_account);
       setAgency(row.agency);
       setAccount(row.n_account);
+      setDateInvoice(row.date_invoice);
     }
   }
 
@@ -142,6 +160,7 @@ const Bank: React.FC = () => {
         type_account: typeAccount == 1 ? "CORRENTE" : "POUPANÇA",
         agency: agency,
         n_account: account,
+        date_invoice: dateInvoice,
       })
       .then(() => {
         clearHandler();
@@ -169,6 +188,7 @@ const Bank: React.FC = () => {
         type_account: typeAccount == 1 ? "CORRENTE" : "POUPANÇA",
         agency: agency,
         n_account: account,
+        date_invoice: dateInvoice,
       })
       .then(() => {
         clearHandler();
@@ -284,6 +304,13 @@ const Bank: React.FC = () => {
               mask="99999999-9"
               onChange={(event) => setAccount(event.target.value)}
               param="n_account"
+              errors={errors}
+            />
+            <DatePicker
+              name_field="Vencimento da Fatura "
+              value={dateInvoice}
+              setState={setDateInvoice}
+              param="date_invoice"
               errors={errors}
             />
           </Form>
