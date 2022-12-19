@@ -12,6 +12,8 @@ interface ModalProps {
   closeText?: string;
   saveText?: string;
   hideSave?: boolean | false;
+  hideClose?: boolean | false;
+  hideCloseButton?: boolean | false;
   disabled?: boolean | false;
   changeShowedState?: MouseEventHandler<HTMLButtonElement> | undefined;
   saveHandler?: () => void;
@@ -21,6 +23,8 @@ const Modal: FunctionComponent<ModalProps> = ({
   style,
   title,
   hideSave,
+  hideClose,
+  hideCloseButton,
   closeText,
   saveText,
   children,
@@ -34,14 +38,14 @@ const Modal: FunctionComponent<ModalProps> = ({
       <Box>
         <Header>
           <Title>{title}</Title>
-          <Button1 onClick={changeShowedState}>
+          {!hideClose && <Button1 onClick={changeShowedState}>
             <Close />
-          </Button1>
+          </Button1>}
         </Header>
         {children}
         <Msg>{message}</Msg>
         <Buttons>
-          <Button className="primary" disabled={disabled} click={changeShowedState}>{closeText || "Cancelar"}</Button>
+          {!hideClose || !hideCloseButton && <Button className="primary" disabled={disabled} click={changeShowedState}>{closeText || "Cancelar"}</Button>}
           {!hideSave && <Button className="secondary" disabled={disabled} click={saveHandler}>{saveText || "Salvar"}</Button>}
         </Buttons>
       </Box>

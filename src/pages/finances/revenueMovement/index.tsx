@@ -94,11 +94,7 @@ const RevenueMovement: React.FC = () => {
             <ButtonActions
               click={() => createForm(row, true)}
               children={
-                <MdModeEditOutline
-                  data-tip="Editar Receita"
-                  size={20}
-                  color="black"
-                />
+                <MdModeEditOutline data-tip="Editar Receita" size={20} color="black" />
               }
             />
             <ButtonActions
@@ -265,15 +261,15 @@ const RevenueMovement: React.FC = () => {
   async function saveHandler() {
     api
       .post("/launch", {
-        description: description,
-        category: category,
-        classification: classification,
-        bank: bank,
-        value: value,
-        status: status,
-        la: launchDate,
-        launchVencimentDate: launchVencimentDate,
-        movement: 1,
+        description,
+        category_id: category,
+        classification_id: classification,
+        bank_id: bank,
+        value,
+        status_launch_id: status,
+        date_launch: launchDate,
+        date_venciment: launchVencimentDate,
+        movement: 1
       })
       .then(() => {
         clearHandler();
@@ -383,6 +379,8 @@ const RevenueMovement: React.FC = () => {
               options={categoryOption}
               value={category}
               onChange={(event) => setCategory(parseInt(event.target.value))}
+              param="category_id"
+              errors={errors}
             />
             <SelectOption
               name_field="Classificação"
@@ -391,12 +389,16 @@ const RevenueMovement: React.FC = () => {
               onChange={(event) =>
                 setClassification(parseInt(event.target.value))
               }
+              param="classification_id"
+              errors={errors}
             />
             <SelectOption
               name_field="Banco"
               options={bankOption}
               value={bank}
               onChange={(event) => setBank(parseInt(event.target.value))}
+              param="bank_id"
+              errors={errors}
             />
             <DoubleInput
               name_field="Valor Gasto"
@@ -404,17 +406,23 @@ const RevenueMovement: React.FC = () => {
               value={valueMask}
               setState={setValue}
               setMask={setValueMask}
+              param="value"
+              errors={errors}
             />
             <SelectOption
               name_field="Status"
               options={statusOption}
               value={status}
               onChange={(event) => setStatus(parseInt(event.target.value))}
+              param="status_launch_id"
+              errors={errors}
             />
             <DatePicker
               name_field="Data de Vencimento"
               value={launchVencimentDate}
               setState={setLaunchVencimentDate}
+              param="date_venciment"
+              errors={errors}
             />
           </Form>
         </FormContent>

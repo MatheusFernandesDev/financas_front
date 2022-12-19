@@ -222,7 +222,7 @@ const Users: React.FC = () => {
         last_name: lastName,
         email: email && email.toLowerCase().replace(/ /g, ""),
         state: state,
-        password: password,
+        // password: password,
         // confirmPassword: confirmPassword,
         cpf: cpf,
         cnpj: cnpj,
@@ -286,12 +286,12 @@ const Users: React.FC = () => {
       )}
       {formEdit && (
         <FormContent
-          saveHandler={saveHandler}
-          editHandler={editHandler}
-          edit={editando}
           hideNew
           hideReload
           showReturn
+          edit={editando}
+          saveHandler={saveHandler}
+          editHandler={editHandler}
           returnHandler={() => {
             clearHandler();
             setFormEdit(false);

@@ -122,8 +122,13 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
 
   // useEffect(() => {
   // 	const table = document.querySelector('.rdt_Table');
-  // 	const tableContainer = table.parentElement.parentElement;
-  // 	tableContainer.style.overflowX = 'hidden';
+  // 	let tableContainer 
+  //   if(table) {
+  //     tableContainer = table.parentElement;
+  //     if(tableContainer) {
+  //       tableContainer.style.padding = '0';
+  //     }
+  //   }
   // }, []);
 
   return (
@@ -169,6 +174,18 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
                 // width: "98%",
                 backgroundColor: "transparent",
               },
+            },
+            header: { 
+              style: { 
+                paddingLeft: "0",
+                paddingRight: "0"
+              }
+            },
+            head: { 
+              style: { 
+                paddingLeft: "0",
+                paddingRight: "0"
+              }
             },
             headRow: {
               style: {
