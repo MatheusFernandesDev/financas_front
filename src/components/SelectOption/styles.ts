@@ -7,30 +7,34 @@ interface ErrorProps {
 }
 
 export const Container = styled.div`
-	display: flex;
+  display: flex;
   flex-direction: column;
-	align-items: flex-start;
+  align-items: flex-start;
 `;
 
 export const Label = styled.label<ErrorProps>`
   font-size: 15px;
-  color: ${props => props.errors != "" ? "darkred" : "black"};
+  color: ${(props) => (props.errors != "" ? "darkred" : "black")};
 `;
 
 export const Select = styled.select<ErrorProps>`
   height: 28px;
-  width: ${(props) => props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};
+  width: ${(props) =>
+    props.grid_width ? Number(props.grid_width) * 8.3 + "%" : "100%"};
   padding: 0 5px;
-  border: ${props => props.errors != "" ? "1px solid darkred" : "1px solid #e5e5e5"};
+  border: ${(props) =>
+    props.errors != "" ? "1px solid darkred" : "1px solid #e5e5e5"};
   border-radius: 5px;
-  background-color: white; 
-  
+  background-color: white;
+  display: flex;
+  align-items: center;
+
   &:focus {
-		border-color: ${Utils.COLORS.SECONDARY};
-	}
-	&:disabled{
-		background-color: #ddd; 
-	}
+    border-color: ${Utils.COLORS.SECONDARY};
+  }
+  &:disabled {
+    background-color: #ddd;
+  }
 `;
 
 export const ErrorMessage = styled.p`
