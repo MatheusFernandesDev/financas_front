@@ -43,6 +43,7 @@ const FormContent: FunctionComponent<FormContentProps> = ({
     <Container>
       <MainContainer>
         <MainContainerHeader
+          style={style}
           edit={edit}
           newLink={newLink}
           hideAll={hideAll}

@@ -16,8 +16,8 @@ import {
 
 interface ControlsProps {
   children?: React.ReactNode;
-  monthState?: number;
-  monthOnChange?: React.ChangeEventHandler<HTMLSelectElement> | undefined;
+  month?: number;
+  monthState?: any;
   startDate?: Date | null;
   setStartDate?: any;
   endDate?: Date | null;
@@ -26,8 +26,8 @@ interface ControlsProps {
 
 const Controls: React.FC<ControlsProps> = ({
   children,
+  month,
   monthState,
-  monthOnChange,
   startDate,
   setStartDate,
   endDate,
@@ -74,8 +74,8 @@ const Controls: React.FC<ControlsProps> = ({
           <SelectOption
             name_placeholder="Filtrar por mês"
             grid_width="17"
-            value={monthState}
-            onChange={monthOnChange}
+            value={month}
+            onChange={event => monthState(parseInt(event.target.value))}
             options={months}
           />
         </DateArea>
