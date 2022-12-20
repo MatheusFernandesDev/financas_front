@@ -1,9 +1,14 @@
 import styled from "styled-components";
+import { device } from "./styles/devices";
 
 export const Container = styled.div`
   margin: 0px;
   padding: 0px;
   display: flex;
+
+  @media ${device.mobile} {
+    flex-direction: column;
+  }
 `;
 export const Header = styled.div`
   margin: 0;

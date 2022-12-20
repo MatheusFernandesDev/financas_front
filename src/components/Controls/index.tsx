@@ -52,30 +52,38 @@ const Controls: React.FC<ControlsProps> = ({
   return (
     <Container>
       <Content expand={toggleExpand}>
-        <FilterArea>
-          <DateArea>
-            <Icon>
-              <Title>Início</Title>
-              <Image />
-            </Icon>
-            <DateInput value={startDate} setState={setStartDate} />
-          </DateArea>
-          <DateArea>
-            <Icon>
-              <Title>Fim</Title>
-              <Image />
-            </Icon>
-            <DateInput value={endDate} setState={setEndDate} />
-          </DateArea>
+        <DateArea>
+          <Icon>
+            <Title>Início</Title>
+            <Image/>
+          </Icon>
+          <DateInput value={startDate} setState={setStartDate} />
+        </DateArea>
+        <DateArea>
+          <Icon>
+            <Title>Fim</Title>
+            <Image/>
+          </Icon>
+          <DateInput value={endDate} setState={setEndDate} />
+        </DateArea>
+        <DateArea>
+          <Icon>
+            <Title>Mês</Title>
+            <Image/>
+          </Icon>
           <SelectOption
             name_placeholder="Filtrar por mês"
-            // grid_width="17"
+            grid_width="17"
             value={monthState}
             onChange={monthOnChange}
             options={months}
-            style={{ marginTop: "5px" }}
           />
-        </FilterArea>
+        </DateArea>
+        {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
+          <div></div>
+          <div></div>
+          <div></div>
+        {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
         {children}
         <ExpandButton onClick={() => setToggleExpand(!toggleExpand)}>
           {toggleExpand ? <Less /> : <More />}

@@ -6,8 +6,7 @@ import api from "../../service/api";
 import { Container } from "../../App.styles";
 
 import Modal from "../../components/Modal";
-import Header from "../../components/Header";
-import SideBar from "../../components/Sidebar";
+import HeaderBar from "../../components/HeaderBar";
 import TextInput from "../../components/TextInput";
 import FormContent from "../../components/FormContent";
 import SelectOption from "../../components/SelectOption";
@@ -269,7 +268,7 @@ const Users: React.FC = () => {
 
   return (
     <Container>
-      <SideBar />
+      <HeaderBar />
       {!formEdit && (
         <FormContent
           reloadHandler={loadHandler}

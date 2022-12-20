@@ -4,9 +4,8 @@ import { toast } from "react-toastify";
 import api from "../../service/api";
 import { Container } from "../../App.styles";
 
-import Header from "../../components/Header";
 import Button from "../../components/Button";
-import SideBar from "../../components/Sidebar";
+import HeaderBar from "../../components/HeaderBar";
 import TextInput from "../../components/TextInput";
 import FormContent from "../../components/FormContent";
 import verifyUserType from "../../helpers/verifyUserType";
@@ -88,7 +87,7 @@ const MyProfile: React.FC = () => {
 
   return (
     <Container>
-      <SideBar/>
+      <HeaderBar/>
       <FormContent hideAll>
         <Content>
           <PerfilArea>

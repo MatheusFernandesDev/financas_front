@@ -22,7 +22,7 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 0 18px 18px 0;
   
   @media ${device.mobile}{
-    width: 70px;
+    display: none;
   }
 `;
 

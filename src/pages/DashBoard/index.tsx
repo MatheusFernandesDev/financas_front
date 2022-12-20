@@ -5,15 +5,14 @@ import api from "../../service/api";
 import { Container, FormContainer } from "../../App.styles";
 
 import Card from "../../components/Card";
-import Header from "../../components/Header";
 import Loading from "../../components/Loading";
-import SideBar from "../../components/Sidebar";
 import FormContent from "../../components/FormContent";
 import { Box } from "./styles";
 import Controls from "../../components/Controls";
 import { device } from "../../styles/devices";
 import Button from "../../components/Button";
 import fileDownload from "js-file-download";
+import HeaderBar from "../../components/HeaderBar";
 // import DataTableContent from "../../components/DataTableContent";
 
 // import { ColumnTitle } from "../../components/DataTableContent/styles";
@@ -48,7 +47,7 @@ const DashBoard: React.FC = () => {
 
   return (
     <Container>
-      <SideBar />
+      <HeaderBar/>
       <Controls
         startDate={startDate}
         setStartDate={setStartDate}

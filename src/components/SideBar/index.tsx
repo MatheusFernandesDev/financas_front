@@ -45,10 +45,6 @@ const SideBar: React.FC = () => {
     window.location.href = "/";
   }
 
-  function handleDashboard() {
-    window.location.href = "/dashboard";
-  }
-
   async function loadUser() {
     const { data: response } = await api.get(`/user-profile`);
     setName(response.name);

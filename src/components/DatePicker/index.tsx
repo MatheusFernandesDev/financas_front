@@ -64,7 +64,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
 				grid_width={grid_width}
 				withPortal={withPortal}
 				disabled={disabled}
-				popperProps={style}
 			/>
 			<ErrorMessage>{error}</ErrorMessage>
 		</Container>

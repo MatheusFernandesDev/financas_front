@@ -39,22 +39,14 @@ export const SubContainer = styled.div<SubProps>`
     flex-direction: column;
     width: 100%;
     position: relative;
-
-    @media ${device.tablet} {
-        padding-left: 5px;
-    }
 `;
 
 export const ItemsLine = styled.div<MainProps>`
 	position: absolute;
-	left: ${props => props.menu ? "15px" : "5px"};;
+	left: ${props => props.menu ? "15px" : "5px"};
 	height: 100%;
 	width: 1px;
 	background-color: #b4b4b4;
-
-    @media ${device.tablet} {
-        left: 5px;
-    }
 `;
 
 export const Title = styled.span<TextProps>`
@@ -63,8 +55,4 @@ export const Title = styled.span<TextProps>`
   display: ${props => props.menu ? 'block' : 'none'};
   font-size: ${props => props.subCascade ? '12px' : '16px'};
   user-select: none;
-  
-  @media ${device.mobile}{
-    display: none;
-  }
 `;

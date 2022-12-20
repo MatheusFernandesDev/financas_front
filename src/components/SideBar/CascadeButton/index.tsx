@@ -10,7 +10,7 @@ import {
 interface CascadeButtonProps {
   children?: React.ReactNode;
   Icon?: any;
-  menu?: boolean;
+  menu?: boolean | false;
   title?: string;
 }
 

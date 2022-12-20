@@ -14,7 +14,8 @@ export const Container = styled.div`
 		width: 92vw;
 	}
 	@media ${device.mobile} {
-		width: 85vw;
+		padding: 10px;
+		width: 99vw;
 	}
 `;
 
@@ -25,9 +26,12 @@ export const MainContainer = styled.div`
 
 export const ContentFormContainer = styled.div<ContentProps>`
 	${props => props.height ? `height: ${props.height}` : "height: 88vh"};
-	max-height: 88vh;
   	padding: 10px;
 	background-color: white;
 	border-radius: 0px 0px 18px 18px;
 	overflow-y: auto;
+
+	@media ${device.mobile} {
+		${props => props.height ? `height: ${props.height}` : "height: 80vh"};
+	}
 `;

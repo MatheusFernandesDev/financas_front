@@ -9,7 +9,7 @@ import useQuery from "../../../helpers/useQuery";
 import { Container } from "../../../App.styles";
 
 import Modal from "../../../components/Modal";
-import SideBar from "../../../components/Sidebar";
+import HeaderBar from "../../../components/HeaderBar";
 import TextInput from "../../../components/TextInput";
 import Form from "../../../components/FormContent/Form";
 import DatePicker from "../../../components/DatePicker";
@@ -392,7 +392,7 @@ const BalanceMovement: React.FC = () => {
 
   return (
     <Container>
-      <SideBar />
+      <HeaderBar />
       {!createBalance && (
         <FormContent hideSave newHandler={() => createForm(null, false)}>
           <DataTableContent
