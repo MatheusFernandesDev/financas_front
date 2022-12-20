@@ -12,6 +12,8 @@ interface DatePickerProps {
 	errors?: Array<ErroAll>;
 	minDate?: any;
 	maxDate?: any;
+	withPortal?: boolean | false;
+	disabled?: boolean | false;
 }
 interface ErroAll {
   msg: string;
@@ -29,6 +31,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
 	errors,
 	minDate,
 	maxDate,
+	withPortal,
+	disabled,
 }) => {
 	// const [state, setState] = useState(value);
 
@@ -58,6 +62,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
 				minDate={minDate}
 				maxDate={maxDate}
 				grid_width={grid_width}
+				withPortal={withPortal}
+				disabled={disabled}
+				popperProps={style}
 			/>
 			<ErrorMessage>{error}</ErrorMessage>
 		</Container>
