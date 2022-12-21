@@ -140,15 +140,27 @@ const DashBoard: React.FC = () => {
   const [month, setMonth] = useState<number>(-1);
   const [startDate, setStartDate] = useState<Date | null | undefined>(null);
   const [endDate, setEndDate] = useState<Date | null | undefined>(null);
+  const [filtro, setFiltro] = useState<boolean>(false);
   //
 
-  async function loadHandler() {
-    try {
-      const { data: response } = await api.get(`/balance-month?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`);
-      setData(response);
-    } catch {
-      return toast.error("Erro ao carregar dados");
+  function changeFilter() {
+    setFiltro(!filtro);
+    if(!filtro) {
+      setMonth(-1);
     }
+    if(filtro) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  }
+
+  async function loadHandler() {
+    // try {
+    //   const { data: response } = await api.get(`/balance-month?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`);
+    //   setData(response);
+    // } catch {
+    //   return toast.error("Erro ao carregar dados");
+    // }
   }
 
   async function download() {
@@ -179,13 +191,16 @@ const DashBoard: React.FC = () => {
           setEndDate={setEndDate}
           month={month}
           monthState={setMonth}
+          monthFilter
+          filterFunction={changeFilter}
+          filtro={filtro}
         />
-        <FormContent style={{width: "97.5%"}} height="94%">
-          <DataTableContent
+        <FormContent newFirst style={{width: "97.5%"}} height="94%">
+          {/* <DataTableContent
             data={data}
             columns={columns}
             filterColumns={filters}
-          />
+          /> */}
           {/* <Button className="secondary" height="35px" click={download}>
             DOWNLOAD
           </Button> */}

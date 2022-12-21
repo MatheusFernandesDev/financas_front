@@ -39,10 +39,12 @@ export const LogoIcon = styled.img`
   border-radius: 50%;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<ContainerProps>`
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 `;
 
 export const LogoutButton = styled.button`

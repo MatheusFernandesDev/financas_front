@@ -57,7 +57,7 @@ const SideBar: React.FC = () => {
 
   return (
     <Container sidebar={sidebar}>
-      <Button onClick={() => setSidebar(!sidebar)}>
+      <Button sidebar={sidebar} onClick={() => setSidebar(!sidebar)}>
         {sidebar ? <ArrowLeft /> : <ArrowRight />}
       </Button>
       <br />

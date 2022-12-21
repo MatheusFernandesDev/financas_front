@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { BiSave } from "react-icons/bi";
 import { SlReload } from "react-icons/sl";
 import { IoAddCircleOutline, IoReturnDownBack } from "react-icons/io5";
+import { ReactTooltipStyled } from "./Button/styles";
 
 interface Props {
 	style?: any;
@@ -20,6 +21,12 @@ interface Props {
 	showReturn?: boolean | false;
 	newLink?: string;
 	edit?: boolean | false;
+	// CLASSES
+	newFirst?: boolean | false;
+	reloadFirst?: boolean | false;
+	editFirst?: boolean | false;
+	saveFirst?: boolean | false;
+	returnFirst?: boolean | false;
 }
 
 const Index: FunctionComponent<Props> = ({
@@ -35,33 +42,40 @@ const Index: FunctionComponent<Props> = ({
 	editHandler,
 	newHandler,
 	reloadHandler,
-	returnHandler
+	returnHandler,
+	// CLASSES
+	newFirst,
+	reloadFirst,
+	editFirst,
+	saveFirst,
+	returnFirst,
 }) => {
 	return (
 		<Container style={style} hideAll={hideAll}>
+			<ReactTooltipStyled/>
 			{!hideNew && (
-				<Button title="Novo" action={newHandler}>
+				<Button title="Novo" newFirst={newFirst} action={newHandler}>
 					<IoAddCircleOutline size={25}/>
 				</Button>
 			)}
 			{newLink && (
 				<Linkfy href={newLink}>
-					<Button title="Novo">
+					<Button title="Novo" newFirst={newFirst}>
 						<IoAddCircleOutline size={25}/>
 					</Button>
 				</Linkfy>
 			)}
 			{!hideReload && (
-				<Button title="Recarregar" action={reloadHandler}>
+				<Button title="Recarregar" reloadFirst={reloadFirst} action={reloadHandler}>
 					<SlReload size={22}/>
 				</Button>
 			)}
 			{!hideSave ?
 				edit ?
-					<Button title="Editar" action={editHandler}>
+					<Button title="Editar" editFirst={editFirst} action={editHandler}>
 						<BiSave size={25}/>
 					</Button> :
-					<Button title="Salvar" action={saveHandler}>
+					<Button title="Salvar" saveFirst={saveFirst} action={saveHandler}>
 						<BiSave size={25}/>
 					</Button> :
 					<></>		
@@ -72,7 +86,7 @@ const Index: FunctionComponent<Props> = ({
 				</Button>
 			)} */}
 			{showReturn && (
-				<Button title="Voltar" action={returnHandler}>
+				<Button title="Voltar" returnFirst={returnFirst} action={returnHandler}>
 					<IoReturnDownBack size={25}/>
 				</Button>
 			)}
