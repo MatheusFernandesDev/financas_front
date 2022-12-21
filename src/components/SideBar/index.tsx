@@ -60,8 +60,10 @@ const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
   }, []);
 
   useEffect(() => {
-    setBarraLateral(sidebar);
-  }, [sidebar])
+    if (sidebar) {
+      setBarraLateral(sidebar);
+    }
+  }, [sidebar]);
 
   return (
     <Container sidebar={sidebar}>
@@ -82,7 +84,10 @@ const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
       </ButtonLink>
       <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={IconStyle} />
-        <Text menu={sidebar}> {`${name} ${lastName == null ? "" : lastName}`}</Text>
+        <Text menu={sidebar}>
+          {" "}
+          {`${name} ${lastName == null ? "" : lastName}`}
+        </Text>
       </ButtonLink>
       <ButtonLink href="/balanceMovement">
         <FaBalanceScaleLeft style={IconStyle} />
