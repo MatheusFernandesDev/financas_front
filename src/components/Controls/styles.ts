@@ -18,7 +18,7 @@ export const Content = styled.div<ContentProps>`
   align-items: ${(props) => (props.expand ? "start" : "center")};
   position: relative;
   height: ${(props) => (props.expand ? "150px" : "60px")};
-  width: ${(props) => (props.sidebar ? "82vw" : "92vw")};
+  width: ${(props) => (props.sidebar ? "85vw" : "92vw")};
   margin: 20px 0px 0px 0px;
   padding: 10px;
   border-radius: 10px;
@@ -26,13 +26,13 @@ export const Content = styled.div<ContentProps>`
   /* flex-wrap: wrap; */
 
   @media ${device.desktop} {
-    width: 90vw;
+    width: ${(props) => (props.sidebar ? "75vw" : "90vw")};
   }
   @media ${device.tablet} {
-    width: 82vw;
+    width: ${(props) => (props.sidebar ? "65vw" : "82vw")};
     height: ${(props) => (props.expand ? "340px" : "60px")};
     overflow-y: hidden;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
   @media ${device.mobile} {
     /* flex-wrap: wrap; */
@@ -40,7 +40,6 @@ export const Content = styled.div<ContentProps>`
     left: 3px;
     //
     justify-content: center;
-    grid-template-columns: 1fr;
 	  margin: 5px 5px 75px 5px;
     width: 96vw;
     height: ${(props) => (props.expand ? "350px" : "60px")};

@@ -186,7 +186,6 @@ const DashBoard: React.FC = () => {
   return (
     <Container>
       <HeaderBar setBarraLateral={setSidebar} />
-
       <DashboardHeaderContent>
         <Controls
           startDate={startDate}

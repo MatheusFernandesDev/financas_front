@@ -28,6 +28,8 @@ import {
   ConfirmPasswordIcon,
   Inputs,
 } from "./styles";
+import ReactTooltip from "react-tooltip";
+import DashboardHeaderContent from "../../components/DashboardHeaderContent";
 
 const MyProfile: React.FC = () => {
   //
@@ -88,79 +90,90 @@ const MyProfile: React.FC = () => {
   return (
     <Container>
       <HeaderBar/>
-      <FormContent hideAll>
-        <Content>
-          <PerfilArea>
-            <PerfilIcon />
-            {!edit &&
-              <NameText>{`${name} ${
-                lastName == null ? "" : lastName
-              }`}</NameText>
-            }
-          </PerfilArea>
-          {!edit ? <EditIcon onClick={() => setEdit(!edit)} /> : <CloseIcon onClick={() => setEdit(!edit)}/>}
-          <br />
-          <Form>
-            {edit && (
-              <Inputs>
-                <NameIcon />
-                <TextInput
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                />
-              </Inputs>
-            )}
-            <Inputs>
-              <EmailIcon />
-              {edit ? (
-                <TextInput
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              ) : (
-                <NameText noPerfil>{email}</NameText>
-              )}
-            </Inputs>
-            <Inputs>
-              <TelephoneIcon />
-              {edit ? (
-                <EmptyInputMask
-                  mask={phoneMask}
-                  value={phone.replace(/\D/g, "")}
-                  onChange={(event) => setPhone(event.target.value)}
-                />
-              ) : (
-                <NameText noPerfil>{phone}</NameText>
-              )}
-            </Inputs>
-            {edit && 
+      <DashboardHeaderContent>
+        <FormContent hideAll>
+          <Content>
+            <PerfilArea>
+              <PerfilIcon />
+              {!edit &&
+                <NameText>{`${name} ${
+                  lastName == null ? "" : lastName
+                }`}</NameText>
+              }
+            </PerfilArea>
+            {!edit ? 
               <>
-                {passwordEdit && (
-                  <>
-                    <Inputs>
-                      <PasswordIcon />
-                      <PasswordInput
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                      />
-                    </Inputs>
-                    <Inputs>
-                      <ConfirmPasswordIcon />
-                      <PasswordInput
-                        value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
-                      />
-                    </Inputs>
-                  </>
-                )}
-                <PassButton onClick={() => setPasswordEdit(!passwordEdit)} >Redefinir Senha</PassButton>
-                <Button className="secondary" height="35px" click={editHandler} >Salvar</Button>
-              </>
+                <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+                <EditIcon data-tip="Editar perfil" onClick={() => setEdit(!edit)} /> 
+              </> :
+              <>
+                <ReactTooltip effect="solid" place="bottom" delayShow={500} />
+                <CloseIcon data-tip="Editar perfil" onClick={() => setEdit(!edit)}/>
+              </> 
             }
-          </Form>
-          <br/>
-        </Content>
-      </FormContent>
+            <br />
+            <Form>
+              {edit && (
+                <Inputs>
+                  <NameIcon />
+                  <TextInput
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                </Inputs>
+              )}
+              <Inputs>
+                <EmailIcon />
+                {edit ? (
+                  <TextInput
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                ) : (
+                  <NameText noPerfil>{email}</NameText>
+                )}
+              </Inputs>
+              <Inputs>
+                <TelephoneIcon />
+                {edit ? (
+                  <EmptyInputMask
+                    mask={phoneMask}
+                    value={phone.replace(/\D/g, "")}
+                    onChange={(event) => setPhone(event.target.value)}
+                  />
+                ) : (
+                  <NameText noPerfil>{phone}</NameText>
+                )}
+              </Inputs>
+              {edit && 
+                <>
+                  {passwordEdit && (
+                    <>
+                      <Inputs>
+                        <PasswordIcon />
+                        <PasswordInput
+                          value={password}
+                          onChange={(event) => setPassword(event.target.value)}
+                        />
+                      </Inputs>
+                      <Inputs>
+                        <ConfirmPasswordIcon />
+                        <PasswordInput
+                          value={confirmPassword}
+                          onChange={(event) => setConfirmPassword(event.target.value)}
+                        />
+                      </Inputs>
+                    </>
+                  )}
+                  <PassButton onClick={() => setPasswordEdit(!passwordEdit)} >Redefinir Senha</PassButton>
+                  <Button className="secondary" height="35px" click={editHandler} >Salvar</Button>
+                </>
+              }
+            </Form>
+            <br/>
+          </Content>
+        </FormContent>
+      </DashboardHeaderContent>
     </Container>
   );
 };
