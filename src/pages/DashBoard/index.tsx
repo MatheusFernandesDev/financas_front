@@ -141,6 +141,7 @@ const DashBoard: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null | undefined>(null);
   const [endDate, setEndDate] = useState<Date | null | undefined>(null);
   const [filtro, setFiltro] = useState<boolean>(false);
+  const [sidebar, setSidebar] = useState<boolean>(false);
   //
 
   function changeFilter() {
@@ -182,7 +183,7 @@ const DashBoard: React.FC = () => {
 
   return (
     <Container>
-      <HeaderBar/>
+      <HeaderBar setBarraLateral={setSidebar}/>
       <div style={{display: "flex", flexDirection: "column"}}>
         <Controls
           startDate={startDate}

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
+import api from "../../service/api";
 import { doLogout } from "../../helpers/AuthHandler";
 import userImg from "../../assets/images/MYFinance3.jpg";
 
 import { FiUsers } from "react-icons/fi";
-import { AiTwotoneBank, AiFillHome } from "react-icons/ai";
 import { FaBalanceScaleLeft } from "react-icons/fa";
+import { AiTwotoneBank, AiFillHome } from "react-icons/ai";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { MdSettings, MdAppRegistration } from "react-icons/md";
 import { RiLogoutCircleRLine, RiPlayListAddLine } from "react-icons/ri";
@@ -23,9 +24,12 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "./styles";
-import api from "../../service/api";
 
-const SideBar: React.FC = () => {
+interface SideBarProps {
+  setBarraLateral?: any;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
   const [sidebar, setSidebar] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -54,6 +58,10 @@ const SideBar: React.FC = () => {
   useEffect(() => {
     loadUser();
   }, []);
+
+  useEffect(() => {
+    setBarraLateral(sidebar);
+  }, [sidebar])
 
   return (
     <Container sidebar={sidebar}>
