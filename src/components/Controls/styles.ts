@@ -7,29 +7,30 @@ import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 interface ContentProps {
   expand?: boolean | false;
+  sidebar?: boolean | false;
 }
 
 export const Content = styled.div<ContentProps>`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-	gap: 15px;
-	/* display: flex; */
-	align-items: ${(props) => (props.expand ? "start" : "center")};
-	position: relative;
+  gap: 15px;
+  /* display: flex; */
+  align-items: ${(props) => (props.expand ? "start" : "center")};
+  position: relative;
   height: ${(props) => (props.expand ? "150px" : "60px")};
-	width: 90vw;
-	margin: 20px 0px 0px 20px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: ${Utils.COLORS.DARK_SECONDARY};
-    /* flex-wrap: wrap; */
+  width: ${(props) => (props.sidebar ? "82vw" : "92vw")};
+  margin: 20px 0px 0px 0px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: ${Utils.COLORS.DARK_SECONDARY};
+  /* flex-wrap: wrap; */
 
   @media ${device.desktop} {
     width: 90vw;
   }
   @media ${device.tablet} {
     width: 82vw;
-	  height: ${(props) => (props.expand ? "340px" : "60px")};
+    height: ${(props) => (props.expand ? "340px" : "60px")};
     overflow-y: hidden;
     grid-template-columns: 1fr 1fr;
   }
@@ -93,10 +94,10 @@ export const FilterArea = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   width: 100%;
   column-gap: 15px;
-  
+
   @media ${device.tablet} {
-	/* flex-wrap: wrap; */
-	grid-template-columns: 1fr 1fr;
+    /* flex-wrap: wrap; */
+    grid-template-columns: 1fr 1fr;
     row-gap: 15px;
   }
 `;

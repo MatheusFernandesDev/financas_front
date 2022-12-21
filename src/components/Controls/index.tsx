@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { Container } from "../../App.styles";
 import SelectOption from "../SelectOption";
@@ -26,6 +27,7 @@ interface ControlsProps {
   monthFilter?: boolean | false;
   filterFunction?: any;
   filtro?: boolean | false;
+  sidebar?: boolean | false;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -39,6 +41,7 @@ const Controls: React.FC<ControlsProps> = ({
   monthFilter,
   filterFunction,
   filtro,
+  sidebar,
 }) => {
   const [toggleExpand, setToggleExpand] = useState<boolean>(false);
   const months = [
@@ -56,48 +59,53 @@ const Controls: React.FC<ControlsProps> = ({
     { id: 11, name: "Dezembro" },
   ];
 
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const firstDayDate = moment(firstDay).format();
+
   return (
     <Container>
-      <Content expand={toggleExpand}>
-        {!filtro ?
-          (<>
+      <Content expand={toggleExpand} sidebar={sidebar}>
+        {!filtro ? (
+          <>
             <DateArea>
               <Icon>
                 <Title>Início</Title>
-                <Image/>
+                <Image />
               </Icon>
               <DateInput value={startDate} setState={setStartDate} />
             </DateArea>
             <DateArea>
               <Icon>
                 <Title>Fim</Title>
-                <Image/>
+                <Image />
               </Icon>
               <DateInput value={endDate} setState={setEndDate} />
             </DateArea>
-          </>) :
-          (<DateArea>
+          </>
+        ) : (
+          <DateArea>
             <Icon>
               <Title>Mês</Title>
-              <Image/>
+              <Image />
             </Icon>
             <SelectOption
               name_placeholder="Selecione um mês"
               grid_width="17"
               value={month}
-              onChange={event => monthState(parseInt(event.target.value))}
+              onChange={(event) => monthState(parseInt(event.target.value))}
               options={months}
             />
-          </DateArea>)
-        }
-        {monthFilter &&
+          </DateArea>
+        )}
+        {monthFilter && (
           <Button onClick={filterFunction}>
             Filtrar por {filtro ? "período" : "mês"}
           </Button>
-        }
+        )}
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
-          <div></div>
-          <div></div>
+        <div></div>
+        <div></div>
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
         {children}
         <ExpandButton onClick={() => setToggleExpand(!toggleExpand)}>

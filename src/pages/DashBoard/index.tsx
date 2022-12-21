@@ -15,10 +15,15 @@ import HeaderBar from "../../components/HeaderBar";
 import FormContent from "../../components/FormContent";
 import DataTableContent from "../../components/DataTableContent";
 
-import ButtonActions from "../../components/DataTableContent/ButtonActions"
-import { ColumnTitle, StyledStatus } from "../../components/DataTableContent/styles";
+import ButtonActions from "../../components/DataTableContent/ButtonActions";
+import {
+  ColumnTitle,
+  StyledStatus,
+} from "../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { ContainerArea } from "./styles";
+import DashboardHeaderContent from "../../components/DashboardHeaderContent";
 // import { FaUserEdit } from "react-icons/fa";
 
 // import { Box } from "./styles";
@@ -27,75 +32,58 @@ const DashBoard: React.FC = () => {
   const columns = [
     {
       name: <ColumnTitle> Descrição </ColumnTitle>,
-      selector: "description",
+      selector: "descricao",
       center: true,
     },
     {
       name: <ColumnTitle> Data de Lançamento </ColumnTitle>,
+      selector: "data_inicial",
       center: true,
-      cell: (row: any) =>
-        row.date_launch ? moment(row.date_launch).format("DD/MM/yyyy") : "",
     },
     {
       name: <ColumnTitle> Tipo de Movimento </ColumnTitle>,
+      selector: "movimentacao",
       center: true,
-      cell: (row: any) => {
-        return (
-          (row.movement == 1 && "Receita") || (row.movement == 2 && "Despesa")
-        );
-      },
     },
     {
       name: <ColumnTitle> Categoria </ColumnTitle>,
+      selector: "categoria",
       center: true,
-      cell: (row: any) => (row.Category ? row.Category.description : ""),
     },
     {
       name: <ColumnTitle> Classificação </ColumnTitle>,
+      selector: "classificacao",
       center: true,
-      cell: (row: any) => {
-        return (
-          (row.classification_id == 1 && "Despesa Fixa") ||
-          (row.classification_id == 2 && "Despesa Variável") ||
-          (row.classification_id == 3 && "Receita Fixa") ||
-          (row.classification_id == 4 && "Receita Variável")
-        );
-      },
     },
     {
       name: <ColumnTitle> Banco </ColumnTitle>,
+      selector: "banco",
       center: true,
-      cell: (row: any) => (row.Bank ? row.Bank.name_bank : ""),
     },
     {
       name: <ColumnTitle> Valor </ColumnTitle>,
       center: true,
       cell: (row: any) =>
-        `R$ ${row.value ? row.value.toFixed(2).replace(".", ",") : "0,00"}`,
+        `R$ ${row.valor ? row.valor.toFixed(2).replace(".", ",") : "0,00"}`,
     },
     {
       name: <ColumnTitle> Data de Vencimento </ColumnTitle>,
+      selector: "data_vencimento",
       center: true,
-      cell: (row: any) =>
-        row.date_venciment
-          ? moment(row.date_venciment).format("DD/MM/yyyy")
-          : "",
     },
     {
       name: <ColumnTitle> Status </ColumnTitle>,
       center: true,
       cell: (row: any) => {
         return (
-          (row.status_launch_id == 1 && (
-            <StyledStatus> Aberto </StyledStatus>
-          )) ||
-          (row.status_launch_id == 2 && (
+          (row.status == 1 && <StyledStatus> Aberto </StyledStatus>) ||
+          (row.status == 2 && (
             <StyledStatus className="warn"> Pendente </StyledStatus>
           )) ||
-          (row.status_launch_id == 3 && (
+          (row.status == 3 && (
             <StyledStatus className="success"> Pago </StyledStatus>
           )) ||
-          (row.status_launch_id == 4 && (
+          (row.status == 4 && (
             <StyledStatus className="alert"> Atrasado </StyledStatus>
           ))
         );
@@ -131,8 +119,8 @@ const DashBoard: React.FC = () => {
   ];
 
   const filters = [
-    { name: "Descrição", id: "description" },
-    { name: "Banco", id: "Bank.name_bank" },
+    { name: "Descrição", id: "descricao" },
+    { name: "Banco", id: "banco" },
   ];
   // DATA
   const [data, setData] = useState([]);
@@ -146,28 +134,32 @@ const DashBoard: React.FC = () => {
 
   function changeFilter() {
     setFiltro(!filtro);
-    if(!filtro) {
+    if (!filtro) {
       setMonth(-1);
     }
-    if(filtro) {
+    if (filtro) {
       setStartDate(null);
       setEndDate(null);
     }
   }
 
   async function loadHandler() {
-    // try {
-    //   const { data: response } = await api.get(`/balance-month?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`);
-    //   setData(response);
-    // } catch {
-    //   return toast.error("Erro ao carregar dados");
-    // }
+    try {
+      const { data: response } = await api.get(
+        `/balance-month?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`
+      );
+      setData(response.data);
+    } catch {
+      return toast.error("Erro ao carregar dados");
+    }
   }
 
   async function download() {
     try {
-      const { data: response } = await api.get("/download", { responseType: "blob" });
-      
+      const { data: response } = await api.get("/download", {
+        responseType: "blob",
+      });
+
       let dataAtual = moment(new Date()).format("DDMMyyyyHHmm");
       fileDownload(response, `Relatório de Lançamento - ${dataAtual}.pdf`);
 
@@ -181,10 +173,21 @@ const DashBoard: React.FC = () => {
     loadHandler();
   }, [month, startDate, endDate]);
 
+  useEffect(() => {
+    if (!filtro) {
+      setMonth(-1);
+    }
+    if (filtro) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  }, [filtro]);
+
   return (
     <Container>
-      <HeaderBar setBarraLateral={setSidebar}/>
-      <div style={{display: "flex", flexDirection: "column"}}>
+      <HeaderBar setBarraLateral={setSidebar} />
+
+      <DashboardHeaderContent>
         <Controls
           startDate={startDate}
           setStartDate={setStartDate}
@@ -195,18 +198,19 @@ const DashBoard: React.FC = () => {
           monthFilter
           filterFunction={changeFilter}
           filtro={filtro}
+          sidebar={sidebar}
         />
-        <FormContent newFirst style={{width: "97.5%"}} height="94%">
-          {/* <DataTableContent
+        <FormContent newFirst>
+          <DataTableContent
             data={data}
             columns={columns}
             filterColumns={filters}
-          /> */}
+          />
           {/* <Button className="secondary" height="35px" click={download}>
             DOWNLOAD
           </Button> */}
         </FormContent>
-      </div>
+      </DashboardHeaderContent>
 
       {/* <Box>
         <Card> {} </Card>
