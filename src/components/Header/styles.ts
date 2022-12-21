@@ -7,7 +7,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { HiBars3 } from "react-icons/hi2";
 
 interface ContainerProps {
-    showIcons?: boolean | false;
+  showIcons?: boolean | false;
 }
 interface TextProps {
   menu?: boolean | false;
@@ -15,23 +15,23 @@ interface TextProps {
 
 // MAIN
 export const Container = styled.div<ContainerProps>`
-    display: none;
-    @media ${device.mobile} {
-        display: flex;
-        flex-direction: column;
-        /* justify-content: center; */
-        //
-        height: ${props => props.showIcons ? "50%" : "60px"};
-        width: 96%;
-        //
-        position: absolute;
-        z-index: 2;
-        //
-        margin: 5px 1.5%;
-        padding: 15px;
-        border-radius: 10px;
-        background-color: ${Utils.COLORS.BLACK};
-    }
+  display: none;
+  @media ${device.mobile} {
+      display: flex;
+      flex-direction: column;
+      /* justify-content: center; */
+      //
+      height: ${props => props.showIcons ? "100%" : "60px"};
+      width: ${props => props.showIcons ? "100%" : "96%"};
+      //
+      position: absolute;
+      z-index: 2;
+      //
+      margin: ${props => props.showIcons ? "0" : "5px 1.5%"};
+      padding: 15px;
+      border-radius: ${props => props.showIcons ? "0" : "10px"};
+      background-color: ${Utils.COLORS.BLACK};
+  }
 `;
 export const Always = styled.div`
     display: flex;

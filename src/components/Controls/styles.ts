@@ -39,6 +39,7 @@ export const Content = styled.div<ContentProps>`
     left: 3px;
     //
     justify-content: center;
+    grid-template-columns: 1fr;
 	  margin: 5px 5px 75px 5px;
     width: 96vw;
     height: ${(props) => (props.expand ? "350px" : "60px")};
@@ -78,11 +79,12 @@ export const Button = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  color: ${Utils.COLORS.PRIMARY};
-  background-color: ${Utils.COLORS.BLACK};
+  color: ${Utils.COLORS.DARK_SECONDARY};
+  background-color: ${Utils.COLORS.PRIMARY};
   
   :hover {
-    background-color: ${Utils.COLORS.LIGHT_BLACK};
+    color: ${Utils.COLORS.PRIMARY};
+    background-color: ${Utils.COLORS.LIGHT_PRIMARY};
   }
 `;
 export const FilterArea = styled.div`
