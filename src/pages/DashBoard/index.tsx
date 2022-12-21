@@ -23,6 +23,7 @@ import {
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { ContainerArea } from "./styles";
+import DashboardHeaderContent from "../../components/DashboardHeaderContent";
 // import { FaUserEdit } from "react-icons/fa";
 
 // import { Box } from "./styles";
@@ -185,7 +186,8 @@ const DashBoard: React.FC = () => {
   return (
     <Container>
       <HeaderBar setBarraLateral={setSidebar} />
-      <ContainerArea>
+
+      <DashboardHeaderContent>
         <Controls
           startDate={startDate}
           setStartDate={setStartDate}
@@ -207,7 +209,7 @@ const DashBoard: React.FC = () => {
             DOWNLOAD
           </Button> */}
         </FormContent>
-      </ContainerArea>
+      </DashboardHeaderContent>
 
       {/* <Box>
         <Card> {} </Card>
