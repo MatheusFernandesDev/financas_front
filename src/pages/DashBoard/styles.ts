@@ -11,4 +11,5 @@ export const Box = styled.div`
 export const ContainerArea = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;

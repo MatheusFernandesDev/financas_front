@@ -17,7 +17,7 @@ export const Content = styled.div<ContentProps>`
   align-items: ${(props) => (props.expand ? "start" : "center")};
   position: relative;
   height: ${(props) => (props.expand ? "150px" : "60px")};
-  width: 90vw;
+  width: 97%;
   margin: 20px 0px 0px 20px;
   padding: 10px;
   border-radius: 10px;
