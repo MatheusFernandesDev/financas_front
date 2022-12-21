@@ -20,6 +20,12 @@ interface FormContentProps {
   hideAll?: boolean | false;
   newLink?: string;
   edit?: boolean | false;
+	// CLASSES
+	newFirst?: boolean | false;
+	reloadFirst?: boolean | false;
+	editFirst?: boolean | false;
+	saveFirst?: boolean | false;
+	returnFirst?: boolean | false;
 }
 
 const FormContent: FunctionComponent<FormContentProps> = ({
@@ -38,6 +44,12 @@ const FormContent: FunctionComponent<FormContentProps> = ({
   newLink,
   hideAll,
   edit,
+	// CLASSES
+	newFirst,
+	reloadFirst,
+	editFirst,
+	saveFirst,
+	returnFirst,
 }) => {
   return (
     <Container>
@@ -56,9 +68,15 @@ const FormContent: FunctionComponent<FormContentProps> = ({
           newHandler={newHandler}
           reloadHandler={reloadHandler}
           returnHandler={returnHandler}
+          // CLASSES
+          newFirst={newFirst}
+          reloadFirst={reloadFirst}
+          editFirst={editFirst}
+          saveFirst={saveFirst}
+          returnFirst={returnFirst}
         />
+        <ContentFormContainer style={style} height={height}>{children}</ContentFormContainer>
       </MainContainer>
-      <ContentFormContainer style={style} height={height}>{children}</ContentFormContainer>
     </Container>
   );
 };

@@ -22,6 +22,7 @@ import {
 } from "../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { ContainerArea } from "./styles";
 // import { FaUserEdit } from "react-icons/fa";
 
 // import { Box } from "./styles";
@@ -124,11 +125,21 @@ const DashBoard: React.FC = () => {
   const [data, setData] = useState([]);
   // FILTER
   const [month, setMonth] = useState<number>(-1);
-  const [startDate, setStartDate] = useState<Date | null | undefined>(
-    new Date()
-  );
-  const [endDate, setEndDate] = useState<Date | null | undefined>(new Date());
+  const [startDate, setStartDate] = useState<Date | null | undefined>(null);
+  const [endDate, setEndDate] = useState<Date | null | undefined>(null);
+  const [filtro, setFiltro] = useState<boolean>(false);
   //
+
+  function changeFilter() {
+    setFiltro(!filtro);
+    if (!filtro) {
+      setMonth(-1);
+    }
+    if (filtro) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  }
 
   async function loadHandler() {
     try {
@@ -160,10 +171,20 @@ const DashBoard: React.FC = () => {
     loadHandler();
   }, [month, startDate, endDate]);
 
+  useEffect(() => {
+    if (!filtro) {
+      setMonth(-1);
+    }
+    if (filtro) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  }, [filtro]);
+
   return (
     <Container>
       <HeaderBar />
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <ContainerArea>
         <Controls
           startDate={startDate}
           setStartDate={setStartDate}
@@ -171,8 +192,11 @@ const DashBoard: React.FC = () => {
           setEndDate={setEndDate}
           month={month}
           monthState={setMonth}
+          monthFilter
+          filterFunction={changeFilter}
+          filtro={filtro}
         />
-        <FormContent style={{ width: "97.5%" }} height="94%">
+        <FormContent newFirst>
           <DataTableContent
             data={data}
             columns={columns}
@@ -182,7 +206,7 @@ const DashBoard: React.FC = () => {
             DOWNLOAD
           </Button> */}
         </FormContent>
-      </div>
+      </ContainerArea>
 
       {/* <Box>
         <Card> {} </Card>

@@ -20,8 +20,13 @@ export const Container = styled.div<ContainerProps>`
         display: flex;
         flex-direction: column;
         /* justify-content: center; */
+        //
         height: ${props => props.showIcons ? "50%" : "60px"};
         width: 96%;
+        //
+        position: absolute;
+        z-index: 2;
+        //
         margin: 5px 1.5%;
         padding: 15px;
         border-radius: 10px;
@@ -36,11 +41,6 @@ export const Always = styled.div`
 `;
 
 // EXPAND
-export const LogoImage = styled.img`
-	height: 40px;
-    border-radius: 50%;
-    margin-top: -5px;
-`;
 export const IconsArea = styled.div`
     display: flex; 
     flex-direction: column;
@@ -83,6 +83,11 @@ export const Text = styled.span<TextProps>`
 `;
 
 // ICONS
+export const LogoImage = styled.img`
+height: 40px;
+  border-radius: 50%;
+  margin-top: -5px;
+`;
 export const Bars = styled(HiBars3)`
     color: ${Utils.COLORS.DARK_PRIMARY};
     width: 25px;
@@ -90,7 +95,7 @@ export const Bars = styled(HiBars3)`
     cursor: pointer;
 
     :hover {
-        color: ${Utils.COLORS.SECONDARY};
+        color: ${Utils.COLORS.PRIMARY};
     }
 `;
 export const ConfigIcon = styled(BsGear)`

@@ -13,6 +13,7 @@ import {
   Title,
   DateInput,
   FilterArea,
+  Button,
 } from "./styles";
 
 interface ControlsProps {
@@ -23,7 +24,9 @@ interface ControlsProps {
   setStartDate?: any;
   endDate?: Date | null;
   setEndDate?: any;
-  firstDayDate?: Date | null;
+  monthFilter?: boolean | false;
+  filterFunction?: any;
+  filtro?: boolean | false;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -34,13 +37,16 @@ const Controls: React.FC<ControlsProps> = ({
   setStartDate,
   endDate,
   setEndDate,
+  monthFilter,
+  filterFunction,
+  filtro,
 }) => {
   const [toggleExpand, setToggleExpand] = useState<boolean>(false);
   const months = [
     { id: 0, name: "Janeiro" },
     { id: 1, name: "Fevereiro" },
     { id: 2, name: "Março" },
-    { id: 3, name: "Abriu" },
+    { id: 3, name: "Abril" },
     { id: 4, name: "Maio" },
     { id: 5, name: "Junho" },
     { id: 6, name: "Julho" },
@@ -58,35 +64,44 @@ const Controls: React.FC<ControlsProps> = ({
   return (
     <Container>
       <Content expand={toggleExpand}>
-        <DateArea>
-          <Icon>
-            <Title>Início</Title>
-            <Image />
-          </Icon>
-          <DateInput value={startDate} setState={setStartDate} />
-        </DateArea>
-        <DateArea>
-          <Icon>
-            <Title>Fim</Title>
-            <Image />
-          </Icon>
-          <DateInput value={endDate} setState={setEndDate} />
-        </DateArea>
-        <DateArea>
-          <Icon>
-            <Title>Mês</Title>
-            <Image />
-          </Icon>
-          <SelectOption
-            name_placeholder="Filtrar por mês"
-            grid_width="17"
-            value={month}
-            onChange={(event) => monthState(parseInt(event.target.value))}
-            options={months}
-          />
-        </DateArea>
+        {!filtro ? (
+          <>
+            <DateArea>
+              <Icon>
+                <Title>Início</Title>
+                <Image />
+              </Icon>
+              <DateInput value={startDate} setState={setStartDate} />
+            </DateArea>
+            <DateArea>
+              <Icon>
+                <Title>Fim</Title>
+                <Image />
+              </Icon>
+              <DateInput value={endDate} setState={setEndDate} />
+            </DateArea>
+          </>
+        ) : (
+          <DateArea>
+            <Icon>
+              <Title>Mês</Title>
+              <Image />
+            </Icon>
+            <SelectOption
+              name_placeholder="Selecione um mês"
+              grid_width="17"
+              value={month}
+              onChange={(event) => monthState(parseInt(event.target.value))}
+              options={months}
+            />
+          </DateArea>
+        )}
+        {monthFilter && (
+          <Button onClick={filterFunction}>
+            Filtrar por {filtro ? "período" : "mês"}
+          </Button>
+        )}
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
-        <div></div>
         <div></div>
         <div></div>
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}

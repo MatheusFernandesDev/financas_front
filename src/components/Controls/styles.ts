@@ -12,35 +12,34 @@ interface ContentProps {
 export const Content = styled.div<ContentProps>`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-	gap: 15px;
-	/* display: flex; */
-	align-items: ${(props) => (props.expand ? "start" : "center")};
-	position: relative;
-	height: 60px;
-	width: 90vw;
-	margin: 20px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: ${Utils.COLORS.DARK_SECONDARY};
-    /* flex-wrap: wrap; */
+  gap: 15px;
+  /* display: flex; */
+  align-items: ${(props) => (props.expand ? "start" : "center")};
+  position: relative;
+  height: ${(props) => (props.expand ? "150px" : "60px")};
+  width: 90vw;
+  margin: 20px 0px 0px 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: ${Utils.COLORS.DARK_SECONDARY};
+  /* flex-wrap: wrap; */
 
   @media ${device.desktop} {
-    width: 93vw;
+    width: 90vw;
   }
   @media ${device.tablet} {
-    width: 90vw;
-	  height: ${(props) => (props.expand ? "340px" : "60px")};
+    width: 82vw;
+    height: ${(props) => (props.expand ? "340px" : "60px")};
     overflow-y: hidden;
     grid-template-columns: 1fr 1fr;
   }
-  @media (max-width: 850px) {
-    width: 85vw;
-    grid-template-columns: 1fr;
-  }
   @media ${device.mobile} {
     /* flex-wrap: wrap; */
+    top: 70px;
+    left: 3px;
+    //
     justify-content: center;
-	  margin: 5px;
+    margin: 5px 5px 75px 5px;
     width: 96vw;
     height: ${(props) => (props.expand ? "350px" : "60px")};
   }
@@ -74,16 +73,28 @@ export const Less = styled(MdExpandLess)`
 `;
 
 // PERIOD BUTTON
+export const Button = styled.button`
+  height: 31px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: ${Utils.COLORS.PRIMARY};
+  background-color: ${Utils.COLORS.BLACK};
+
+  :hover {
+    background-color: ${Utils.COLORS.LIGHT_BLACK};
+  }
+`;
 export const FilterArea = styled.div`
   /* display: flex; */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   width: 100%;
   column-gap: 15px;
-  
+
   @media ${device.tablet} {
-	/* flex-wrap: wrap; */
-	grid-template-columns: 1fr 1fr;
+    /* flex-wrap: wrap; */
+    grid-template-columns: 1fr 1fr;
     row-gap: 15px;
   }
 `;
