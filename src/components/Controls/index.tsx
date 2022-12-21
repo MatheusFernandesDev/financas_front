@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { Container } from "../../App.styles";
 import SelectOption from "../SelectOption";
@@ -22,6 +23,7 @@ interface ControlsProps {
   setStartDate?: any;
   endDate?: Date | null;
   setEndDate?: any;
+  firstDayDate?: Date | null;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -49,40 +51,44 @@ const Controls: React.FC<ControlsProps> = ({
     { id: 11, name: "Dezembro" },
   ];
 
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const firstDayDate = moment(firstDay).format();
+
   return (
     <Container>
       <Content expand={toggleExpand}>
         <DateArea>
           <Icon>
             <Title>Início</Title>
-            <Image/>
+            <Image />
           </Icon>
           <DateInput value={startDate} setState={setStartDate} />
         </DateArea>
         <DateArea>
           <Icon>
             <Title>Fim</Title>
-            <Image/>
+            <Image />
           </Icon>
           <DateInput value={endDate} setState={setEndDate} />
         </DateArea>
         <DateArea>
           <Icon>
             <Title>Mês</Title>
-            <Image/>
+            <Image />
           </Icon>
           <SelectOption
             name_placeholder="Filtrar por mês"
             grid_width="17"
             value={month}
-            onChange={event => monthState(parseInt(event.target.value))}
+            onChange={(event) => monthState(parseInt(event.target.value))}
             options={months}
           />
         </DateArea>
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
-          <div></div>
-          <div></div>
-          <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
         {/* AJUSTE PARA DIMINUIR TAMANHO DOS FILTROS */}
         {children}
         <ExpandButton onClick={() => setToggleExpand(!toggleExpand)}>
