@@ -59,15 +59,15 @@ const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
     loadUser();
   }, []);
 
-  useEffect(() => {
-    if (sidebar) {
-      setBarraLateral(sidebar);
-    }
-  }, [sidebar]);
-
   return (
     <Container sidebar={sidebar}>
-      <Button sidebar={sidebar} onClick={() => setSidebar(!sidebar)}>
+      <Button
+        sidebar={sidebar}
+        onClick={() => {
+          setSidebar(!sidebar);
+          setBarraLateral(!sidebar);
+        }}
+      >
         {sidebar ? <ArrowLeft /> : <ArrowRight />}
       </Button>
       <br />

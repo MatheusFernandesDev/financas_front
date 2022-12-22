@@ -16,7 +16,7 @@ export const doLogin = (
     Cookies.set(
       "token",
       token,
-      { expires: 1 },
+      { expires: (Date.now() / 1000).toFixed(0) },
       "name",
       name,
       "last_name",
