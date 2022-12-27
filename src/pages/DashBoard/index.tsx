@@ -156,9 +156,12 @@ const DashBoard: React.FC = () => {
 
   async function download() {
     try {
-      const { data: response } = await api.get("/download", {
-        responseType: "blob",
-      });
+      const { data: response } = await api.get(
+        `/download?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`,
+        {
+          responseType: "blob",
+        }
+      );
 
       let dataAtual = moment(new Date()).format("DDMMyyyyHHmm");
       fileDownload(response, `Relatório de Lançamento - ${dataAtual}.pdf`);
@@ -186,7 +189,6 @@ const DashBoard: React.FC = () => {
   return (
     <Container>
       <HeaderBar setBarraLateral={setSidebar} />
-
       <DashboardHeaderContent>
         <Controls
           startDate={startDate}
@@ -201,14 +203,14 @@ const DashBoard: React.FC = () => {
           sidebar={sidebar}
         />
         <FormContent newFirst>
+          <Button className="secondary" height="35px" click={download}>
+            DOWNLOAD
+          </Button>
           <DataTableContent
             data={data}
             columns={columns}
             filterColumns={filters}
           />
-          {/* <Button className="secondary" height="35px" click={download}>
-            DOWNLOAD
-          </Button> */}
         </FormContent>
       </DashboardHeaderContent>
 

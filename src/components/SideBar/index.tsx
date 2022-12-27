@@ -85,7 +85,6 @@ const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
       <ButtonLink href="/myprofile">
         <IoPersonCircleOutline style={IconStyle} />
         <Text menu={sidebar}>
-          {" "}
           {`${name} ${lastName == null ? "" : lastName}`}
         </Text>
       </ButtonLink>

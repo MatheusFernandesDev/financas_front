@@ -27,9 +27,9 @@ export const Container = styled.div`
 export const LogoImage = styled.img`
   width: 60%;
   margin-bottom: -25px;
-	@media ${device.tablet} {
+  @media ${device.tablet} {
     width: 25%;
-	}
+  }
 `;
 
 export const Linkfy = styled.a`
