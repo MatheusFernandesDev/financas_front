@@ -156,7 +156,7 @@ const DashBoard: React.FC = () => {
 
   async function download() {
     try {
-      const { data: response } = await api.get("/download", {
+      const { data: response } = await api.get(`/download?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`, {
         responseType: "blob",
       });
 
@@ -199,21 +199,20 @@ const DashBoard: React.FC = () => {
           filtro={filtro}
           sidebar={sidebar}
         />
-        <FormContent newFirst>
+        <Card
+          
+        ></Card>
+        {/* <FormContent newFirst reloadHandler={loadHandler}>
           <DataTableContent
             data={data}
             columns={columns}
             filterColumns={filters}
           />
-          {/* <Button className="secondary" height="35px" click={download}>
+          <Button className="secondary" height="35px" click={download}>
             DOWNLOAD
-          </Button> */}
-        </FormContent>
+          </Button>
+        </FormContent> */}
       </DashboardHeaderContent>
-
-      {/* <Box>
-        <Card> {} </Card>
-      </Box> */}
     </Container>
   );
 };

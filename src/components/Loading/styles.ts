@@ -26,7 +26,7 @@ export const Container = styled.div<Temp>`
   /* place-items: center; */
   width: 100%;
   height: 100%;
-  background: ${Utils.COLORS.DARK_PRIMARY};
+  background: white;
 
   /* .loaded {
     animation: ${LoaderOut} 0.3s both;
@@ -56,7 +56,7 @@ export const Loader = styled.span<Temp>`
   display: inline-block;
   position: relative;
   border: 3px solid;
-  border-color: #f9f9f9 #f9f9f9 transparent transparent;
+  border-color: ${Utils.COLORS.DARK_SECONDARY} ${Utils.COLORS.DARK_SECONDARY} transparent transparent;
   scale: 1.5;
   animation: ${Rotation} 1.5s linear infinite;
 
@@ -68,7 +68,7 @@ export const Loader = styled.span<Temp>`
     top: 4px;
     bottom: 0;
     border: 3px solid;
-    border-color: transparent transparent #8f44fd #8f44fd;
+    border-color: transparent transparent ${Utils.COLORS.BLACK} ${Utils.COLORS.BLACK};
     width: 30px;
     height: 30px;
     border-radius: 50%;

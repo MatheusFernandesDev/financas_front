@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Refresh from "../Refresh";
 import { Container, MoreData, Title } from "./styles";
-import ModalTable from "../ModalTable";
+import ModalTable from "./ModalTable";
 
 interface CardProps {
 	title?: string;

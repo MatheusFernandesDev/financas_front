@@ -14,7 +14,6 @@ export default async function usePermission(to){
 
 	useEffect(() => {
 		return getPermission();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return perm;
 }

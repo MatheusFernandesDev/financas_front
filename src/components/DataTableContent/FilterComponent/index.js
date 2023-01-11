@@ -18,7 +18,6 @@ const Index = ({
 }) => {
 	useEffect(() => {
 		setFilterColumn(filterColumns && filterColumns[0].id);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const [placeholder, setPlaceholder] = useState("");
