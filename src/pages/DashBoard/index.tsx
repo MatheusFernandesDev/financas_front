@@ -202,10 +202,19 @@ const DashBoard: React.FC = () => {
           filtro={filtro}
           sidebar={sidebar}
         />
-        <FormContent newFirst>
-          <Button className="secondary" height="35px" click={download}>
-            DOWNLOAD
-          </Button>
+        <FormContent newFirst hideSave>
+          {/* <div
+            style={{
+              width: "250px",
+              height: "250px",
+              marginTop: "20px",
+              color: "white",
+              backgroundColor: "green",
+            }}
+          >
+            Saldo
+          </div> */}
+
           <DataTableContent
             data={data}
             columns={columns}

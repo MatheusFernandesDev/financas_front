@@ -7,7 +7,7 @@ import userImg from "../../assets/images/MYFinance3.jpg";
 import { FiUsers } from "react-icons/fi";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 import { AiTwotoneBank, AiFillHome } from "react-icons/ai";
-import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
+import { GiPayMoney, GiReceiveMoney, GiStairsGoal } from "react-icons/gi";
 import { MdSettings, MdAppRegistration } from "react-icons/md";
 import { RiLogoutCircleRLine, RiPlayListAddLine } from "react-icons/ri";
 import { IoNotificationsSharp, IoPersonCircleOutline } from "react-icons/io5";
@@ -108,6 +108,10 @@ const SideBar: React.FC<SideBarProps> = ({ setBarraLateral }) => {
         <ButtonLink href="/category" style={{ marginTop: "5px" }}>
           <RiPlayListAddLine style={subIconStyle} />
           <Text menu={sidebar}>Categorias</Text>
+        </ButtonLink>
+        <ButtonLink href="/goals" style={{ marginTop: "5px" }}>
+          <GiStairsGoal style={subIconStyle} />
+          <Text menu={sidebar}>Metas</Text>
         </ButtonLink>
       </CascadeButton>
       <CascadeButton title="Configuração" Icon={MdSettings} menu={sidebar}>

@@ -233,7 +233,7 @@ const BalanceMovement: React.FC = () => {
         setClassificationOption(formatClassification);
       }
     } catch {
-      return toast.error("Erro ao carregar dados")
+      return toast.error("Erro ao carregar dados");
     }
   }
 
@@ -303,7 +303,7 @@ const BalanceMovement: React.FC = () => {
         status_launch_id: status,
         date_launch: launchDate,
         date_venciment: launchVenciment,
-        movement: movement
+        movement: movement,
       })
       .then(() => {
         loadHandler();
@@ -367,11 +367,11 @@ const BalanceMovement: React.FC = () => {
   }, [editParam]);
 
   useEffect(() => {
-    if(movement) {
-      if(movement == -1) {
-        setClassificationOption(classifSave)
+    if (movement) {
+      if (movement == -1) {
+        setClassificationOption(classifSave);
       }
-      if(movement == 1) {
+      if (movement == 1) {
         let filterClassification = classifSave.filter(
           (element: { id: number; description: string }) => {
             return element.id == 3 || element.id == 4;
@@ -379,7 +379,7 @@ const BalanceMovement: React.FC = () => {
         );
         setClassificationOption(filterClassification);
       }
-      if(movement == 2) {
+      if (movement == 2) {
         let filterClassification = classifSave.filter(
           (element: { id: number; description: string }) => {
             return element.id == 1 || element.id == 2;
@@ -413,7 +413,7 @@ const BalanceMovement: React.FC = () => {
           saveHandler={saveHandler}
           editHandler={editHandler}
         >
-          <Form title="Criar Balanço">
+          <Form title="Criar Lançamento">
             <TextInput
               name_field="Descrição"
               name_placeholder="ex.: Mercado, Conta de luz ..."

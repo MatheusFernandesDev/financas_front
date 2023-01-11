@@ -12,6 +12,7 @@ import ExpenseMovement from "../pages/finances/expenseMovement";
 import RevenueMovement from "../pages/finances/revenueMovement";
 import Bank from "../pages/bank";
 import Category from "../pages/category";
+import Goals from "../pages/goals";
 
 export default () => {
   return (
@@ -45,6 +46,7 @@ export default () => {
       />
       <Route path="/users" exact element={<Private Component={Users} />} />
       <Route path="/bank" exact element={<Private Component={Bank} />} />
+      <Route path="/goals" exact element={<Private Component={Goals} />} />
       <Route
         path="/category"
         exact
