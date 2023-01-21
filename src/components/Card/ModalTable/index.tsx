@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import {Container, Box, Msg, Close, Header, Buttons, Title} from './styles'
 import Button from './Button'
-import DataTable from '../DataTableContent';
+import DataTable from '../../DataTableContent';
 
 interface ModalTableProps {
-	size?: string;
-	title?: string;
+	size?: string | 'md';
+	title?: string | 'Título';
 	changeShowedState?: React.MouseEventHandler<SVGElement> | undefined;
 	columns?: any;
 	data?: any;
@@ -25,11 +25,7 @@ const ModalTable: React.FC<ModalTableProps> = ({
 	defaultSortAsc,
 	expandableRows,
 	expandableRowsComponent
-}) => {
-	
-	size = size || 'md'
-	title = title || 'Título'
-	
+}) => {	
 	useEffect(() => {
 		function listener (event: any) {
 			if (event.key === "Escape") {

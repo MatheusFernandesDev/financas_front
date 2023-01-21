@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {device} from '../../../styles/devices'
+import { device } from '../../../../styles/devices'
 
 export const Button = styled.button`
 	border-radius: 8px;

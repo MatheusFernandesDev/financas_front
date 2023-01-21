@@ -7,7 +7,7 @@ const FooterComponent: React.FC = () => {
     <Footer>
       {/* <MdComputer /> */}
       💻 Desenvolvido por&nbsp;
-      <Link href="http://www.com.br/" target="_blank">
+      <Link href="https://www.linkedin.com/in/matheus-fernandes--devfull/" target="_blank">
         Matheus Fernandes 
         {/* NOME DA EMPRESA (NO CASO SERIA O NOSSO) */}
       </Link>

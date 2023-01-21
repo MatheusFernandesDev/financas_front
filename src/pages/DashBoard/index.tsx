@@ -22,8 +22,10 @@ import {
 } from "../../components/DataTableContent/styles";
 
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
-import { ContainerArea } from "./styles";
+
 import DashboardHeaderContent from "../../components/DashboardHeaderContent";
+import ModalTable from "../../components/Card/ModalTable";
+import { CardArea } from "./styles";
 // import { FaUserEdit } from "react-icons/fa";
 
 // import { Box } from "./styles";
@@ -124,6 +126,9 @@ const DashBoard: React.FC = () => {
   ];
   // DATA
   const [data, setData] = useState([]);
+  const [receita, setReceita] = useState<any>(0);
+  const [despesa, setDespesa] = useState<any>(0);
+  const [saldo, setSaldo] = useState<any>(0);
   // FILTER
   const [month, setMonth] = useState<number>(-1);
   const [startDate, setStartDate] = useState<Date | null | undefined>(null);
@@ -149,6 +154,9 @@ const DashBoard: React.FC = () => {
         `/balance-month?month=${month}&dateStart=${startDate}&dateEnd=${endDate}`
       );
       setData(response.data);
+      setDespesa(response.despesa);
+      setReceita(response.receita);
+      setSaldo(response.saldo);
     } catch {
       return toast.error("Erro ao carregar dados");
     }
@@ -186,6 +194,19 @@ const DashBoard: React.FC = () => {
     }
   }, [filtro]);
 
+  const formatReceita = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(receita);
+  const formatDespesa = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(despesa);
+  const formatSaldo = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(saldo);
+
   return (
     <Container>
       <HeaderBar setBarraLateral={setSidebar} />
@@ -202,30 +223,38 @@ const DashBoard: React.FC = () => {
           filtro={filtro}
           sidebar={sidebar}
         />
-        <FormContent newFirst hideSave>
-          {/* <div
-            style={{
-              width: "250px",
-              height: "250px",
-              marginTop: "20px",
-              color: "white",
-              backgroundColor: "green",
-            }}
-          >
-            Saldo
-          </div> */}
+        <CardArea>
+          <Card
+            hideButton
+            height={12}
+            title="Valor a Receber"
+            children={formatReceita}
+          ></Card>
+          <Card
+            hideButton
+            height={12}
+            title="Valor a Pagar"
+            children={formatDespesa}
+          ></Card>
+          <Card
+            hideButton
+            height={12}
+            title="Saldo"
+            children={formatSaldo}
+          ></Card>
+        </CardArea>
 
+        {/* <FormContent newFirst reloadHandler={loadHandler}>
           <DataTableContent
             data={data}
             columns={columns}
             filterColumns={filters}
           />
-        </FormContent>
+          <Button className="secondary" height="35px" click={download}>
+            DOWNLOAD
+          </Button>
+        </FormContent> */}
       </DashboardHeaderContent>
-
-      {/* <Box>
-        <Card> {} </Card>
-      </Box> */}
     </Container>
   );
 };

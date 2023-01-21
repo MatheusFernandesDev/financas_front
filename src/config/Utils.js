@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 export const Utils = {
 	COLORS: {
 		PRIMARY: "rgb(249, 249, 249)",

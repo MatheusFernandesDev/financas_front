@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import { toast } from 'react-toastify';
-import DataTableContent from '../../DataTableContent';
+import GraphChart from '../../GraphChart';
+import Refresh from '../../Refresh';
+import {Container} from './styles';
 
-const Index = ({
-	data,
-	loadHandler,
-	columns,
-	title,
-	refreshPageHandler,
-	filterColumn,
-	filterPlaceholder,
-	defaultSortField,
-	defaultSortAsc,
-	replacements
-}) => {
-	if (title && typeof title === "function") {
-		title = title(data);
-	}
+const Index = ({data, loadHandler, chartOptions, refreshPageHandler, replacements, filter}) => {
 	function giveDataToReplacements(replacements, data) {
 		try {
 			const keys = Object.keys(replacements);
@@ -34,38 +23,39 @@ const Index = ({
 			return {};
 		}
 	}
-	
+
 	const [chartData, setChartData] = useState([]);
 	const [progressPending, setPD] = useState(true);
-	
+
 	useEffect(() => {
 		async function getChartData(replacementsWithData) {
-			if (loadHandler) {
+			if(loadHandler) {
 				setPD(true);
 				refreshPageHandler();
-				const response = await loadHandler(replacementsWithData);
-				setChartData(response);
+				const response = await loadHandler(replacementsWithData, filter);
 				setPD(false);
+				setChartData(response);
 			}
 		}
 		const replacementsWithData = giveDataToReplacements(replacements, data);
-		getChartData(replacementsWithData);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		getChartData(replacementsWithData)
 	}, []);
 
+
 	return (
-		<DataTableContent
-			title={title}
-			progressPending={progressPending}
-			columns={columns}
-			data={chartData}
-			filterColumns={filterColumn}
-			filterPlaceholder={filterPlaceholder}
-			height={'5vh'}
-			defaultSortField={defaultSortField}
-			defaultSortAsc={defaultSortAsc}
-		/>
+		<Container>
+				{
+					progressPending ? 
+						<Refresh/> :
+						<GraphChart>
+								<Bar
+								data={chartData && chartData.formatted}
+								options={chartOptions}
+								/>
+						</GraphChart>
+				}
+			</Container>
 	);
-};
+}
 
 export default Index;

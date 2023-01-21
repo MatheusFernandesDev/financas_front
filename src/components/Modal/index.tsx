@@ -54,4 +54,3 @@ const Modal: FunctionComponent<ModalProps> = ({
 };
 
 export default Modal;
-// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
 import { toast } from 'react-toastify';
-import GraphChart from '../../GraphChart';
-import Refresh from '../../Refresh';
-import {Container} from './styles';
+import DataTableContent from '../../DataTableContent';
 
-const Index = ({data, loadHandler, chartOptions, refreshPageHandler, replacements, filter}) => {
-
+const Index = ({
+	data,
+	loadHandler,
+	columns,
+	title,
+	refreshPageHandler,
+	filterColumn,
+	filterPlaceholder,
+	defaultSortField,
+	defaultSortAsc,
+	replacements
+}) => {
+	if (title && typeof title === "function") {
+		title = title(data);
+	}
 	function giveDataToReplacements(replacements, data) {
 		try {
 			const keys = Object.keys(replacements);
@@ -24,40 +34,37 @@ const Index = ({data, loadHandler, chartOptions, refreshPageHandler, replacement
 			return {};
 		}
 	}
-
+	
 	const [chartData, setChartData] = useState([]);
 	const [progressPending, setPD] = useState(true);
-
+	
 	useEffect(() => {
 		async function getChartData(replacementsWithData) {
-			if(loadHandler) {
+			if (loadHandler) {
 				setPD(true);
 				refreshPageHandler();
-				const response = await loadHandler(replacementsWithData, filter);
-				setPD(false);
+				const response = await loadHandler(replacementsWithData);
 				setChartData(response);
+				setPD(false);
 			}
 		}
 		const replacementsWithData = giveDataToReplacements(replacements, data);
-		getChartData(replacementsWithData)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		getChartData(replacementsWithData);
 	}, []);
 
-
 	return (
-		<Container>
-				{
-					progressPending ? 
-						<Refresh/> :
-						<GraphChart>
-								<Bar
-								data={chartData && chartData.formatted}
-								options={chartOptions}
-								/>
-						</GraphChart>
-				}
-			</Container>
+		<DataTableContent
+			title={title}
+			progressPending={progressPending}
+			columns={columns}
+			data={chartData}
+			filterColumns={filterColumn}
+			filterPlaceholder={filterPlaceholder}
+			height={'5vh'}
+			defaultSortField={defaultSortField}
+			defaultSortAsc={defaultSortAsc}
+		/>
 	);
-}
+};
 
 export default Index;

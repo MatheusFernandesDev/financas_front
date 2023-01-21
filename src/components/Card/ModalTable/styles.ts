@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {MdClose} from 'react-icons/md';
-import {device} from '../../styles/devices';
+import { MdClose } from 'react-icons/md';
+import {device} from '../../../styles/devices';
 
 interface BoxProps {
 	size?: string;

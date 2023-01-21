@@ -27,6 +27,7 @@ interface DataTableContentProps {
   defaultSortAsc?: any;
   expandableRows?: boolean;
   expandableRowsComponent?: any;
+  progressPending?: boolean | false;
 }
 
 function getProp(obj: any, prop: any) {
@@ -43,7 +44,6 @@ function getProp(obj: any, prop: any) {
     .split(".")
     .reduce(function (prev: { [x: string]: any }, curr: string | number) {
       return prev ? prev[curr] : undefined;
-      // eslint-disable-next-line no-restricted-globals
     }, obj || self);
 }
 
@@ -65,6 +65,7 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
   defaultSortAsc,
   expandableRows,
   expandableRowsComponent,
+  progressPending,
 }) => {
   const { t, i18n } = useTranslation();
   const [filterText, setFilterText] = React.useState("");
@@ -143,6 +144,7 @@ const DataTableContent: FunctionComponent<DataTableContentProps> = ({
           // name={name}
           // defaultSortField={defaultSortField}
           defaultSortAsc={defaultSortAsc}
+          progressPending={progressPending}
           progressComponent={<RefreshComponent />}
           columns={columns}
           data={filteredItems}

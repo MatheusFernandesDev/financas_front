@@ -13,3 +13,11 @@ export const ContainerArea = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
+export const CardArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 96%;
+  column-gap: 20px;
+  margin-top: 20px;
+`;
