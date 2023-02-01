@@ -26,6 +26,9 @@ import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import DashboardHeaderContent from "../../components/DashboardHeaderContent";
 import ModalTable from "../../components/Card/ModalTable";
 import { CardArea } from "./styles";
+import CardFinance from "../../components/CardFinance";
+import ButtonComponent from "../../components/Card/ModalTable/Button";
+import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 // import { FaUserEdit } from "react-icons/fa";
 
 // import { Box } from "./styles";
@@ -207,6 +210,11 @@ const DashBoard: React.FC = () => {
     currency: "BRL",
   }).format(saldo);
 
+  const IconStyle = {
+    width: "40px",
+    height: "30px",
+  };
+
   return (
     <Container>
       <HeaderBar setBarraLateral={setSidebar} />
@@ -224,24 +232,27 @@ const DashBoard: React.FC = () => {
           sidebar={sidebar}
         />
         <CardArea>
-          <Card
-            hideButton
-            height={12}
+          <CardFinance
             title="Valor a Receber"
-            children={formatReceita}
-          ></Card>
-          <Card
-            hideButton
-            height={12}
+            value={formatReceita}
+            color={"balance"}
+            icon={<GiReceiveMoney style={IconStyle} />}
+            porcent={"100"}
+          ></CardFinance>
+          <CardFinance
             title="Valor a Pagar"
-            children={formatDespesa}
-          ></Card>
-          <Card
-            hideButton
-            height={12}
+            value={formatDespesa}
+            color={"expense"}
+            icon={<GiPayMoney style={IconStyle} />}
+            porcent={"100"}
+          ></CardFinance>
+          <CardFinance
             title="Saldo"
-            children={formatSaldo}
-          ></Card>
+            color={"revenue"}
+            value={formatSaldo}
+            icon={<GiTakeMyMoney style={IconStyle} />}
+            porcent={"100"}
+          ></CardFinance>
         </CardArea>
 
         {/* <FormContent newFirst reloadHandler={loadHandler}>
