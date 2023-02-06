@@ -8,6 +8,7 @@ import SelectOption from "../../components/SelectOption";
 
 interface ContainerProps {
   size?: string;
+  column?: boolean;
   height?: number;
 }
 
@@ -20,20 +21,19 @@ interface SelectProps {
 
 export const Container = styled.div<ContainerProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${props => props.column ? "column" : "row"};
   flex-grow: 1;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   width: ${(props) => {
-    switch (props.size) {
-      case "full":
-        return "100%";
-      case "lg":
-        return "69%";
-      case "sm":
-        return "29%";
-      default:
-        return "49%";
+    if(props.size == "full") {
+      return "100%";
+    } else if(props.size == "lg") {
+      return "69%";
+    } else if(props.size == "sm") {
+      return "29%";
+    } else {
+      return "49%";
     }
   }};
   position: relative;

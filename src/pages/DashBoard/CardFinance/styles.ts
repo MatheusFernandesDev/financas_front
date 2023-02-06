@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device } from "../../styles/devices";
+import { device } from "../../../styles/devices";
 
 interface CircleProps {
   color?: string;
@@ -7,49 +7,34 @@ interface CircleProps {
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit,minmax(483px,1fr));
   gap: 1.6rem;
-
   background: #fff;
+  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
   padding: 1.8rem;
   border-radius: 2rem;
   margin-top: 1rem;
-  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
   transition: all 300ms ease;
-
-  & :hover {
-    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
-  }
 
   @media ${device.tablet} {
     grid-template-columns: 1fr;
     gap: 0;
-  }
-  @media ${device.mobile} {
-    grid-template-columns: 1fr;
-    gap: 0;
+    width: 100%;
   }
 `;
 
-export const Title = styled.h3`
-  margin: 1rem 0 0.6rem;
-  font-size: 1rem;
+export const Title = styled.div`
+  margin: 10px 0 6px;
+  font-weight: bold;
+  font-size: 15px;
 `;
+
 export const Value = styled.h1`
   font-weight: 800;
-  font-size: 1.8rem;
+  font-size: 18px;
 `;
 
-export const Insights = styled.div``;
-
-export const Sales = styled.div`
-  svg {
-    circle {
-      /* stroke-dasharray: 200;
-      stroke-dashoffset: -35; */
-    }
-  }
-`;
+export const Sales = styled.div``;
 
 export const Icons = styled.span<CircleProps>`
   background: ${(props) => {
@@ -73,7 +58,8 @@ export const Icons = styled.span<CircleProps>`
 export const Middle = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  column-gap: 20px;
 `;
 
 export const Svg = styled.svg`
@@ -95,16 +81,20 @@ export const Circle = styled.circle<CircleProps>`
         return "#8f44fd";
     }
   }};
-  stroke-width: 14;
+  stroke-width: 10;
   stroke-linecap: round;
   transform: translate(5px, 5px);
+
+  
+  /* stroke-dasharray: 200;
+  stroke-dashoffset: -35; */
 `;
 export const Left = styled.div``;
 
 export const Progress = styled.div`
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: 90px;
+  height: 86px;
   border-radius: 50%;
 `;
 export const Number = styled.div`
@@ -118,7 +108,7 @@ export const Number = styled.div`
   align-items: center;
 `;
 export const TextMuted = styled.small`
-  margin-top: 1.6rem;
+  margin-top: 16px;
   display: block;
   color: #7d8da1;
 `;

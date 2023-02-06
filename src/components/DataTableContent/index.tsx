@@ -44,7 +44,7 @@ function getProp(obj: any, prop: any) {
     .split(".")
     .reduce(function (prev: { [x: string]: any }, curr: string | number) {
       return prev ? prev[curr] : undefined;
-    }, obj || self);
+    }, obj); // || self
 }
 
 const DataTableContent: FunctionComponent<DataTableContentProps> = ({

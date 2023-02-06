@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../styles/devices";
 
 export const Box = styled.div`
   display: flex;
@@ -20,4 +21,5 @@ export const CardArea = styled.div`
   width: 96%;
   column-gap: 20px;
   margin-top: 20px;
+  flex-wrap: wrap;
 `;

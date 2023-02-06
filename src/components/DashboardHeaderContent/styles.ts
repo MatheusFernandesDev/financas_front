@@ -5,15 +5,12 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  width: 100vw;
-  height: 100vh;
-  /* background-color: #f0f0ee; */
-  padding-top: 0px;
-  /* overflow-y: hidden; */
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* row-gap: 10px; */
-  overflow-y: ${({ noScroll }) => (noScroll ? "hidden" : "auto")};
+	width: 100vw;
+	height: 100vh;
+	padding-top: 0px;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: ${({ noScroll }) => (noScroll ? "hidden" : "auto")};
 `;

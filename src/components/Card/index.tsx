@@ -48,12 +48,12 @@ const Card: React.FC<CardProps> = ({
   return (
     <Container height={height} size={size}>
       {title && <Title> {title} </Title>}
-      {!hideButton && (
+      {!hideButton && 
         <MoreData priorityButton={priorityButton} onClick={changeShowedState} />
-      )}
+      }
       {loading && <Refresh />}
       {children}
-      {modalTable && (
+      {modalTable && 
         <ModalTable
           size={modalSize || "md"}
           title={modalTitle}
@@ -65,7 +65,7 @@ const Card: React.FC<CardProps> = ({
           expandableRows={modalExpandableRows}
           expandableRowsComponent={modalExpandableRowsComponent}
         />
-      )}
+      }
     </Container>
   );
 };

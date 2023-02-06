@@ -6,7 +6,6 @@ import { MdAttachMoney } from "react-icons/md";
 import {
   Container,
   Icons,
-  Insights,
   Left,
   Middle,
   Number,

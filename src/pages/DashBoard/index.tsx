@@ -26,7 +26,7 @@ import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import DashboardHeaderContent from "../../components/DashboardHeaderContent";
 import ModalTable from "../../components/Card/ModalTable";
 import { CardArea } from "./styles";
-import CardFinance from "../../components/CardFinance";
+import CardFinance from "./CardFinance";
 import ButtonComponent from "../../components/Card/ModalTable/Button";
 import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 // import { FaUserEdit } from "react-icons/fa";
@@ -235,23 +235,23 @@ const DashBoard: React.FC = () => {
           <CardFinance
             title="Valor a Receber"
             value={formatReceita}
-            color={"balance"}
+            color="balance"
             icon={<GiReceiveMoney style={IconStyle} />}
-            porcent={"100"}
+            porcent="100"
           ></CardFinance>
           <CardFinance
             title="Valor a Pagar"
             value={formatDespesa}
-            color={"expense"}
+            color="expense"
             icon={<GiPayMoney style={IconStyle} />}
-            porcent={"100"}
+            porcent="100"
           ></CardFinance>
           <CardFinance
             title="Saldo"
-            color={"revenue"}
+            color="revenue"
             value={formatSaldo}
             icon={<GiTakeMyMoney style={IconStyle} />}
-            porcent={"100"}
+            porcent="100"
           ></CardFinance>
         </CardArea>
 

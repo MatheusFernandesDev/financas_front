@@ -26,19 +26,19 @@ const ModalTable: React.FC<ModalTableProps> = ({
 	expandableRows,
 	expandableRowsComponent
 }) => {	
-	useEffect(() => {
-		function listener (event: any) {
-			if (event.key === "Escape") {
-				changeShowedState;
-			}
-		}
+	// useEffect(() => {
+	// 	function listener (event: any) {
+	// 		if (event.key === "Escape") {
+	// 			changeShowedState(;
+	// 		}
+	// 	}
 
-		document.addEventListener('keydown', listener);
+	// 	document.addEventListener('keydown', listener);
 
-		return () => {
-			document.removeEventListener('keydown', listener);
-		};
-	}, [changeShowedState]);
+	// 	return () => {
+	// 		document.removeEventListener('keydown', listener);
+	// 	};
+	// }, [changeShowedState]);
 	
 	return (
 		<Container>
